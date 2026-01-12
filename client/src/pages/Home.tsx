@@ -18,45 +18,45 @@ export default function Home() {
     {
       title: 'NUESTRA INSPECCIÓN SIEMPRE ES GRATIS',
       description: 'Ponemos a bailar tu camión sin costo alguno, escaneamos tus llantas y visualmente inspeccionamos más de 100 puntos de seguridad.',
-      image: '/images/home_truck-dancing.png',
+      image: '/images/thetrucksavers-banner-3.webp',
       cta: 'Solicitar Inspección'
     },
     {
       title: 'AHORRO EN DIESEL',
       description: 'Deja de desperdiciar dinero en combustible, obtén más rendimiento en el camino y empieza a ahorrar dinero.',
-      image: '/images/go-green-apu-ahorro-diesel-rh7ye0bu0h7pbke5ut56uz578nuh9b2u8knt30bl68.jpg',
+      image: '/images/go-green-apu-ahorro-diesel.jpg',
       cta: 'Conocer Más'
     }
   ];
 
   const services = [
     {
-      icon: '/images/home_iconos-tts8.png',
+      icon: '/images/thetrucksavers-icons-1.webp',
       title: 'Inspección "La Bailada"',
       description: 'Simulador de camino para detectar problemas en suspensión, dirección y componentes críticos.'
     },
     {
-      icon: '/images/home_iconos-tts4.png',
+      icon: '/images/thetrucksavers-icons-2.webp',
       title: 'Alineación',
       description: 'Alineación de precisión para camiones y trailers con equipos de última generación.'
     },
     {
-      icon: '/images/home_iconos-tts2.png',
+      icon: '/images/thetrucksavers-icons-3.webp',
       title: 'Suspensión y Dirección',
       description: 'Reparación y mantenimiento de sistemas de suspensión y dirección hidráulica.'
     },
     {
-      icon: '/images/home_iconos-tts9.png',
+      icon: '/images/thetrucksavers-icons-1.webp',
       title: 'Cambio de Aceite',
       description: 'Mantenimiento rutinario con productos de calidad para motores diésel.'
     },
     {
-      icon: '/images/home_suspension-icono.png',
+      icon: '/images/thetrucksavers-icons-2.webp',
       title: 'Frenos',
       description: 'Taller especializado en reparación y mantenimiento de sistemas de frenos.'
     },
     {
-      icon: '/images/home_direccion-icono.png',
+      icon: '/images/thetrucksavers-icons-3.webp',
       title: 'Dirección Hidráulica',
       description: 'Reparación de sistemas de dirección hidráulica para camiones.'
     }
