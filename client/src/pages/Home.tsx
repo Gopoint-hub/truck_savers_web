@@ -22,9 +22,9 @@ export default function Home() {
       cta: 'Solicitar Inspección'
     },
     {
-      title: 'AHORRO EN DIESEL',
-      description: 'Deja de desperdiciar dinero en combustible, obtén más rendimiento en el camino y empieza a ahorrar dinero.',
-      image: '/images/go-green-apu-ahorro-diesel.jpg',
+      title: 'BIENVENIDO A THE TRUCK SAVERS',
+      description: 'Tu taller de confianza para el mantenimiento y reparación de camiones diésel en Houston.',
+      image: '/images/hero-home-webp.webp',
       cta: 'Conocer Más'
     }
   ];
