@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 /**
  * Design Philosophy: Industrial Modern + Minimalismo Corporativo
@@ -104,10 +102,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Header />
-
-      <main className="flex-1">
+    <div className="min-h-screen bg-white">
         {/* Hero Section - Carousel */}
         <section id="home" className="relative h-96 md:h-[500px] overflow-hidden bg-gray-900">
           {slides.map((slide, idx) => (
@@ -305,9 +300,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main>
-
-      <Footer />
     </div>
   );
 }
