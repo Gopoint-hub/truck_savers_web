@@ -5,12 +5,26 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import Contacto from "./pages/Contacto";
+import Blog from "./pages/blog/Blog";
+import CambioAceite from "./pages/services/CambioAceite";
+import Suspensiones from "./pages/services/Suspensiones";
+import Neumaticos from "./pages/services/Neumaticos";
+import Alineacion from "./pages/services/Alineacion";
+import InspeccionBailada from "./pages/services/InspeccionBailada";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/contacto" component={Contacto} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/servicios/cambio-aceite" component={CambioAceite} />
+      <Route path="/servicios/suspensiones" component={Suspensiones} />
+      <Route path="/servicios/neumaticos" component={Neumaticos} />
+      <Route path="/servicios/alineacion" component={Alineacion} />
+      <Route path="/servicios/inspeccion-bailada" component={InspeccionBailada} />
+      <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
