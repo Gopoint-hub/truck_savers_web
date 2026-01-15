@@ -29,7 +29,7 @@ const blogPosts: BlogPost[] = [
       "Guía completa sobre el significado de las luces de advertencia en tu camión. Aprende a identificar problemas antes de que se conviertan en costosas reparaciones.",
     date: "30 de diciembre, 2025",
     category: "Mantenimiento",
-    image: "/images/significado-luces-tablero.jpg",
+    image: "/images/significado-luces-tablero-camion-2.jpg",
     slug: "significado-luces-tablero",
   },
   {
@@ -39,7 +39,7 @@ const blogPosts: BlogPost[] = [
       "El sistema de enfriamiento es crucial para la salud de tu motor. Aprende cómo mantenerlo en óptimas condiciones y evitar sobrecalentamientos.",
     date: "30 de diciembre, 2025",
     category: "Mantenimiento",
-    image: "/images/sistema-enfriamiento.jpg",
+    image: "/images/mecanico-mantenimiento-sistema-enfriamiento-camiones-diesel.jpg",
     slug: "sistema-enfriamiento",
   },
   {
@@ -49,7 +49,7 @@ const blogPosts: BlogPost[] = [
       "Conoce los puntos clave que debes revisar diariamente en tu camión para evitar multas del DOT y mantener la seguridad en carretera.",
     date: "30 de diciembre, 2025",
     category: "Seguridad",
-    image: "/images/inspeccion-carga.jpg",
+    image: "/images/mecanico-inspeccion-carga-diario-guia-trokero.jpg",
     slug: "inspeccion-carga",
   },
 ];
