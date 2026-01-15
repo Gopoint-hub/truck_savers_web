@@ -32,7 +32,7 @@ const cities = [
     name: 'Monterrey',
     state: 'N.L.',
     country: 'México',
-    address: 'Libramiento Noreste KM 33.5–Num 30, Nueva Castilla, 66052',
+    address: 'Libramiento Noreste KM 33.5, Interior 30, Nueva Castilla, 66052',
     phone: '52 81 3541 4652',
     whatsapp: '528135414652',
   },

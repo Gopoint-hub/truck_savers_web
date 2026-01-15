@@ -73,7 +73,7 @@ export default function MonterreyHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Dirección</p>
-                <p className="text-gray-600 text-sm">Libramiento Noreste KM 33.5, Nueva Castilla, Escobedo</p>
+                <p className="text-gray-600 text-sm">Libramiento Noreste KM 33.5, Interior 30, Nueva Castilla, Escobedo</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -91,7 +91,7 @@ export default function MonterreyHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Horario</p>
-                <p className="text-gray-600">Lunes a Viernes: 8am - 6pm</p>
+                <p className="text-gray-600">Lunes a Domingo: 7am - 7pm</p>
               </div>
             </div>
           </div>

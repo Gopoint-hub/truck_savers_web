@@ -54,7 +54,7 @@ export default function MonterreyContact() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Dirección</h3>
-                    <p className="text-gray-600">Libramiento Noreste KM 33.5–Num 30</p>
+                    <p className="text-gray-600">Libramiento Noreste KM 33.5, Interior 30</p>
                     <p className="text-gray-600">Nueva Castilla</p>
                     <p className="text-gray-600">66052, Ciudad General Escobedo, N.L.</p>
                     <p className="text-gray-600">México</p>
@@ -104,9 +104,7 @@ export default function MonterreyContact() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Horario de Atención</h3>
                     <div className="text-gray-600 space-y-1">
-                      <p><span className="font-medium">Lunes a Viernes:</span> 8:00 AM - 6:00 PM</p>
-                      <p><span className="font-medium">Sábado:</span> 8:00 AM - 2:00 PM</p>
-                      <p><span className="font-medium">Domingo:</span> Cerrado</p>
+                      <p><span className="font-medium">Lunes a Domingo:</span> 7:00 AM - 7:00 PM</p>
                     </div>
                   </div>
                 </div>
