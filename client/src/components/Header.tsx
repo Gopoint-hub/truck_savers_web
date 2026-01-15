@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Menu, X, ChevronDown, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
  * - No global contact link (contact is per city)
  * - Locations dropdown for city selection
  * - Resources link for blog/podcasts
+ * - Fixed dropdown behavior for Safari compatibility
  */
 
 const cities = [
@@ -20,9 +21,40 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLocationsOpen, setIsLocationsOpen] = useState(false);
   const [location] = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Detect current city from URL
   const currentCity = cities.find(city => location.startsWith(`/${city.slug}`));
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsLocationsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close dropdown when route changes
+  useEffect(() => {
+    setIsLocationsOpen(false);
+    setIsMenuOpen(false);
+  }, [location]);
+
+  const handleLocationClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsLocationsOpen(!isLocationsOpen);
+  };
+
+  const handleCityClick = () => {
+    setIsLocationsOpen(false);
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -56,15 +88,17 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Locations Dropdown */}
+            {/* Locations Dropdown - Click based for Safari compatibility */}
             <div 
               className="relative"
-              onMouseEnter={() => setIsLocationsOpen(true)}
-              onMouseLeave={() => setIsLocationsOpen(false)}
+              ref={dropdownRef}
             >
-              <button className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ${
-                currentCity ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
-              }`}>
+              <button 
+                onClick={handleLocationClick}
+                className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentCity ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+                }`}
+              >
                 <MapPin className="w-4 h-4" />
                 Ubicaciones
                 <ChevronDown className={`w-4 h-4 transition-transform ${isLocationsOpen ? 'rotate-180' : ''}`} />
@@ -74,16 +108,22 @@ export default function Header() {
                 <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
                   {cities.map((city) => (
                     <Link key={city.slug} href={`/${city.slug}`}>
-                      <div className={`px-4 py-3 hover:bg-gray-50 cursor-pointer ${
-                        location.startsWith(`/${city.slug}`) ? 'bg-[#368A45]/5 text-[#368A45]' : 'text-gray-700'
-                      }`}>
+                      <div 
+                        onClick={handleCityClick}
+                        className={`px-4 py-3 hover:bg-gray-50 cursor-pointer ${
+                          location.startsWith(`/${city.slug}`) ? 'bg-[#368A45]/5 text-[#368A45]' : 'text-gray-700'
+                        }`}
+                      >
                         <span className="font-medium">{city.name}</span>
                       </div>
                     </Link>
                   ))}
                   <div className="border-t border-gray-100 mt-2 pt-2 px-4">
                     <Link href="/">
-                      <span className="text-sm text-[#368A45] hover:underline cursor-pointer">
+                      <span 
+                        onClick={handleCityClick}
+                        className="text-sm text-[#368A45] hover:underline cursor-pointer"
+                      >
                         Ver todas las ubicaciones →
                       </span>
                     </Link>
