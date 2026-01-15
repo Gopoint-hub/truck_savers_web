@@ -1,170 +1,196 @@
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'wouter';
+import { Menu, X, ChevronDown, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'wouter';
+
+/**
+ * Header Component - SEO Local Architecture
+ * - No global contact link (contact is per city)
+ * - Locations dropdown for city selection
+ * - Resources link for blog/podcasts
+ */
+
+const cities = [
+  { slug: 'houston', name: 'Houston, TX', featured: true },
+  { slug: 'dallas', name: 'Dallas, TX', featured: false },
+  { slug: 'monterrey', name: 'Monterrey, NL', featured: false },
+];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isLocationsOpen, setIsLocationsOpen] = useState(false);
+  const [location] = useLocation();
 
-  const services = [
-    { label: 'Inspección La Bailada', href: '/servicios/inspeccion-bailada' },
-    { label: 'Suspensiones', href: '/servicios/suspensiones' },
-    { label: 'Alineación', href: '/servicios/alineacion' },
-    { label: 'Cambio de Aceite', href: '/servicios/cambio-aceite' },
-    { label: 'Reparación de Neumáticos', href: '/servicios/neumaticos' },
-  ];
+  // Detect current city from URL
+  const currentCity = cities.find(city => location.startsWith(`/${city.slug}`));
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="container">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/">
-            <a className="flex items-center gap-2 cursor-pointer">
+            <div className="flex items-center gap-3 cursor-pointer">
               <img 
-                src="/images/home_logo.png" 
+                src="/images/thetrucksavers-logo.png" 
                 alt="The Truck Savers" 
-                className="h-10 w-auto"
+                className="h-10 md:h-12"
               />
-              <span className="font-bold text-lg text-gray-900 hidden sm:inline">
+              <span className="font-bold text-gray-900 text-lg hidden sm:block">
                 The Truck Savers
               </span>
-            </a>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-1">
             <Link href="/">
-              <a className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors">
+              <span className={`px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                location === '/' ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+              }`}>
                 Inicio
-              </a>
+              </span>
             </Link>
 
-            {/* Services Dropdown */}
-            <div className="relative group">
-              <button className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors">
-                Servicios
-              </button>
-              <div className="absolute left-0 mt-0 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                {services.map((service) => (
-                  <Link key={service.href} href={service.href}>
-                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 first:rounded-t-lg last:rounded-b-lg">
-                      {service.label}
-                    </a>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <Link href="/blog">
-              <a className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors">
-                Blog
-              </a>
-            </Link>
-
-            <Link href="/contacto">
-              <a className="text-sm font-medium text-gray-700 hover:text-green-600 transition-colors">
-                Contacto
-              </a>
-            </Link>
-          </nav>
-
-          {/* CTA Button + Mobile Menu Toggle */}
-          <div className="flex items-center gap-4">
-            <Link href="/contacto">
-              <a>
-                <Button 
-                  className="hidden sm:inline-flex bg-green-600 hover:bg-green-700 text-white"
-                  size="sm"
-                >
-                  Contactar
-                </Button>
-              </a>
-            </Link>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
+            {/* Locations Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsLocationsOpen(true)}
+              onMouseLeave={() => setIsLocationsOpen(false)}
             >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 space-y-3">
-            <Link href="/">
-              <a 
-                className="block text-sm font-medium text-gray-700 hover:text-green-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Inicio
-              </a>
-            </Link>
-
-            {/* Mobile Services Dropdown */}
-            <div>
-              <button 
-                onClick={() => setIsServicesOpen(!isServicesOpen)}
-                className="w-full text-left text-sm font-medium text-gray-700 hover:text-green-600 transition-colors py-2"
-              >
-                Servicios
+              <button className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                currentCity ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+              }`}>
+                <MapPin className="w-4 h-4" />
+                Ubicaciones
+                <ChevronDown className={`w-4 h-4 transition-transform ${isLocationsOpen ? 'rotate-180' : ''}`} />
               </button>
-              {isServicesOpen && (
-                <div className="pl-4 space-y-2 mt-2">
-                  {services.map((service) => (
-                    <Link key={service.href} href={service.href}>
-                      <a 
-                        className="block text-sm text-gray-600 hover:text-green-600 transition-colors py-1"
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setIsServicesOpen(false);
-                        }}
-                      >
-                        {service.label}
-                      </a>
+
+              {isLocationsOpen && (
+                <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                  {cities.map((city) => (
+                    <Link key={city.slug} href={`/${city.slug}`}>
+                      <div className={`px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center justify-between ${
+                        location.startsWith(`/${city.slug}`) ? 'bg-[#368A45]/5 text-[#368A45]' : 'text-gray-700'
+                      }`}>
+                        <span className="font-medium">{city.name}</span>
+                        {city.featured && (
+                          <span className="text-xs bg-[#368A45] text-white px-2 py-0.5 rounded-full">
+                            Principal
+                          </span>
+                        )}
+                      </div>
                     </Link>
                   ))}
+                  <div className="border-t border-gray-100 mt-2 pt-2 px-4">
+                    <Link href="/">
+                      <span className="text-sm text-[#368A45] hover:underline cursor-pointer">
+                        Ver todas las ubicaciones →
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
 
-            <Link href="/blog">
-              <a 
-                className="block text-sm font-medium text-gray-700 hover:text-green-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Blog
-              </a>
+            <Link href="/resources">
+              <span className={`px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                location.startsWith('/resources') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+              }`}>
+                Recursos
+              </span>
             </Link>
 
-            <Link href="/contacto">
-              <a 
-                className="block text-sm font-medium text-gray-700 hover:text-green-600 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contacto
-              </a>
-            </Link>
-
-            <Link href="/contacto">
-              <a onClick={() => setIsMenuOpen(false)}>
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white mt-4"
-                >
-                  Contactar
-                </Button>
-              </a>
-            </Link>
+            <a 
+              href="https://store.thetrucksavers.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-lg font-medium text-gray-700 hover:text-[#368A45] hover:bg-gray-50 transition-colors"
+            >
+              Tienda
+            </a>
           </nav>
+
+          {/* CTA Button - Shows current city contact or Houston */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link href={currentCity ? `/${currentCity.slug}/contact` : '/houston/contact'}>
+              <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-white">
+                {currentCity ? `Contactar ${currentCity.name.split(',')[0]}` : 'Contactar'}
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="lg:hidden p-2 text-gray-700"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-gray-200">
+            <nav className="flex flex-col gap-1">
+              <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                <span className={`block px-4 py-3 rounded-lg font-medium ${
+                  location === '/' ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
+                }`}>
+                  Inicio
+                </span>
+              </Link>
+
+              {/* Mobile Locations */}
+              <div className="px-4 py-2">
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                  Ubicaciones
+                </p>
+                {cities.map((city) => (
+                  <Link key={city.slug} href={`/${city.slug}`} onClick={() => setIsMenuOpen(false)}>
+                    <span className={`block px-4 py-2 rounded-lg ${
+                      location.startsWith(`/${city.slug}`) ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
+                    }`}>
+                      {city.name}
+                      {city.featured && (
+                        <span className="ml-2 text-xs bg-[#368A45] text-white px-2 py-0.5 rounded-full">
+                          Principal
+                        </span>
+                      )}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              <Link href="/resources" onClick={() => setIsMenuOpen(false)}>
+                <span className={`block px-4 py-3 rounded-lg font-medium ${
+                  location.startsWith('/resources') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
+                }`}>
+                  Recursos
+                </span>
+              </Link>
+
+              <a 
+                href="https://store.thetrucksavers.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block px-4 py-3 rounded-lg font-medium text-gray-700"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Tienda
+              </a>
+
+              {/* Mobile Contact CTA */}
+              <div className="px-4 pt-4 mt-2 border-t border-gray-200">
+                <Link href={currentCity ? `/${currentCity.slug}/contact` : '/houston/contact'} onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white">
+                    {currentCity ? `Contactar ${currentCity.name.split(',')[0]}` : 'Contactar Houston'}
+                  </Button>
+                </Link>
+              </div>
+            </nav>
+          </div>
         )}
       </div>
     </header>

@@ -4,18 +4,37 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import Contacto from "./pages/Contacto";
-import Blog from "./pages/blog/Blog";
-import CambioAceite from "./pages/services/CambioAceite";
-import Suspensiones from "./pages/services/Suspensiones";
-import Neumaticos from "./pages/services/Neumaticos";
-import Alineacion from "./pages/services/Alineacion";
-import InspeccionBailada from "./pages/services/InspeccionBailada";
 import { useEffect } from "react";
 
+// Layout Components
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+// Pages
+import Home from "./pages/Home";
+
+// Houston Pages
+import HoustonHub from "./pages/houston/index";
+import HoustonContact from "./pages/houston/Contact";
+import InspeccionBailada from "./pages/services/InspeccionBailada";
+import Suspensiones from "./pages/services/Suspensiones";
+import Alineacion from "./pages/services/Alineacion";
+import CambioAceite from "./pages/services/CambioAceite";
+import Neumaticos from "./pages/services/Neumaticos";
+
+// Dallas Pages
+import DallasHub from "./pages/dallas/index";
+import DallasContact from "./pages/dallas/Contact";
+
+// Monterrey Pages
+import MonterreyHub from "./pages/monterrey/index";
+import MonterreyContact from "./pages/monterrey/Contact";
+
+// Resources Pages
+import ResourcesHub from "./pages/resources/index";
+import Blog from "./pages/blog/Blog";
+
+// Scroll to top on route change
 function ScrollToTop() {
   const [location] = useLocation();
   
@@ -26,46 +45,97 @@ function ScrollToTop() {
   return null;
 }
 
-function Router() {
-  return (
-    <>
-      <ScrollToTop />
-      <Header />
-      <main>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/contacto" component={Contacto} />
-          <Route path="/blog" component={Blog} />
-          <Route path="/servicios/cambio-aceite" component={CambioAceite} />
-          <Route path="/servicios/suspensiones" component={Suspensiones} />
-          <Route path="/servicios/neumaticos" component={Neumaticos} />
-          <Route path="/servicios/alineacion" component={Alineacion} />
-          <Route path="/servicios/inspeccion-bailada" component={InspeccionBailada} />
-          <Route path="/404" component={NotFound} />
-          {/* Final fallback route */}
-          <Route component={NotFound} />
-        </Switch>
-      </main>
-      <Footer />
-    </>
-  );
+// Redirect component for 301 redirects
+function Redirect({ to }: { to: string }) {
+  const [, setLocation] = useLocation();
+  
+  useEffect(() => {
+    setLocation(to);
+  }, [to, setLocation]);
+  
+  return null;
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
+function Router() {
+  return (
+    <Switch>
+      {/* Home */}
+      <Route path="/" component={Home} />
+      
+      {/* Houston City Hub */}
+      <Route path="/houston" component={HoustonHub} />
+      <Route path="/houston/contact" component={HoustonContact} />
+      <Route path="/houston/inspeccion-la-bailada" component={InspeccionBailada} />
+      <Route path="/houston/suspensiones" component={Suspensiones} />
+      <Route path="/houston/alineacion-de-camiones" component={Alineacion} />
+      <Route path="/houston/cambio-de-aceite" component={CambioAceite} />
+      <Route path="/houston/reparacion-de-neumaticos" component={Neumaticos} />
+      
+      {/* Dallas City Hub */}
+      <Route path="/dallas" component={DallasHub} />
+      <Route path="/dallas/contact" component={DallasContact} />
+      
+      {/* Monterrey City Hub */}
+      <Route path="/monterrey" component={MonterreyHub} />
+      <Route path="/monterrey/contact" component={MonterreyContact} />
+      
+      {/* Resources */}
+      <Route path="/resources" component={ResourcesHub} />
+      <Route path="/resources/blog" component={Blog} />
+      
+      {/* Legacy Redirects (301) */}
+      <Route path="/contacto">
+        <Redirect to="/houston/contact" />
+      </Route>
+      <Route path="/nuestros-servicios">
+        <Redirect to="/houston" />
+      </Route>
+      <Route path="/servicio/inspeccion-fisico-mecanica-transporte-de-carga">
+        <Redirect to="/houston/inspeccion-la-bailada" />
+      </Route>
+      <Route path="/servicio/taller-de-suspensiones">
+        <Redirect to="/houston/suspensiones" />
+      </Route>
+      <Route path="/servicio/alineacion-de-camiones">
+        <Redirect to="/houston/alineacion-de-camiones" />
+      </Route>
+      <Route path="/servicio/cambio-de-aceite-para-camion">
+        <Redirect to="/houston/cambio-de-aceite" />
+      </Route>
+      <Route path="/servicio/reparaciones-de-neumaticos">
+        <Redirect to="/houston/reparacion-de-neumaticos" />
+      </Route>
+      <Route path="/blog">
+        <Redirect to="/resources/blog" />
+      </Route>
+      <Route path="/ubicaciones">
+        <Redirect to="/" />
+      </Route>
+      
+      {/* Old service routes - redirect to Houston */}
+      <Route path="/servicios/:slug">
+        {(params) => <Redirect to={`/houston/${params.slug}`} />}
+      </Route>
+      
+      {/* 404 */}
+      <Route path="/404" component={NotFound} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
 
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <ScrollToTop />
+          <Header />
+          <main>
+            <Router />
+          </main>
+          <Footer />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

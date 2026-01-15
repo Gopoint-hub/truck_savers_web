@@ -1,0 +1,175 @@
+import { Link } from 'wouter';
+import { Phone, MapPin, Clock, ChevronRight, Wrench, MessageCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+/**
+ * Monterrey City Hub - SEO Local Architecture
+ * URL: /monterrey/
+ * Canonical: https://thetrucksavers.com/monterrey/
+ */
+
+const monterreyServices = [
+  { slug: 'inspeccion-la-bailada', title: 'Inspección "La Bailada"', description: 'Simulador de camino para detectar problemas en suspensión, dirección y componentes críticos.' },
+  { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones', description: 'Alineación de precisión para camiones y trailers con equipos de última generación.' },
+  { slug: 'suspensiones', title: 'Taller de Suspensiones', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores.' },
+  { slug: 'frenos', title: 'Taller de Frenos', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos para camiones.' },
+  { slug: 'direccion-hidraulica', title: 'Dirección Hidráulica', description: 'Reparación de sistemas de dirección hidráulica para camiones.' },
+  { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
+];
+
+export default function MonterreyHub() {
+  const whatsappNumber = "528112345678"; // Actualizar con número de Monterrey
+  const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Monterrey");
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative bg-gray-900 text-white py-16 md:py-24">
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-40"
+          style={{ backgroundImage: "url('/images/thetrucksavers-banner-3.webp')" }}
+        />
+        <div className="container relative z-10">
+          <div className="max-w-3xl">
+            <span className="inline-block bg-[#368A45] text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+              Monterrey, NL
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Taller Mecánico de Camiones en Monterrey
+            </h1>
+            <p className="text-xl text-gray-300 mb-8">
+              The Truck Savers llega a Monterrey con más de 21 años de experiencia en reparación y mantenimiento de camiones diésel.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button size="lg" className="bg-[#368A45] hover:bg-[#2D6E39] text-white w-full sm:w-auto">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Agendar por WhatsApp
+                </Button>
+              </a>
+              <Link href="/monterrey/contact">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto">
+                  <Phone className="w-5 h-5 mr-2" />
+                  Contactar Monterrey
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Location Info */}
+      <section className="bg-gray-50 py-8 border-b">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center">
+                <MapPin className="w-6 h-6 text-[#368A45]" />
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">Dirección</p>
+                <p className="text-gray-600">Monterrey, Nuevo León, México</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center">
+                <Phone className="w-6 h-6 text-[#368A45]" />
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">Teléfono</p>
+                <Link href="/monterrey/contact" className="text-[#368A45] hover:underline">Ver contacto</Link>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center">
+                <Clock className="w-6 h-6 text-[#368A45]" />
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">Horario</p>
+                <p className="text-gray-600">Lunes a Viernes: 8am - 6pm</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-16">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Nuestros Servicios en Monterrey
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Ofrecemos todos los servicios de mantenimiento y reparación para tu camión y tráiler.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {monterreyServices.map((service) => (
+              <div key={service.slug} className="group bg-white border border-gray-200 rounded-lg p-6 hover:border-[#368A45] hover:shadow-lg transition-all">
+                <div className="flex items-start justify-between">
+                  <div className="w-12 h-12 bg-[#368A45]/10 rounded-lg flex items-center justify-center mb-4">
+                    <Wrench className="w-6 h-6 text-[#368A45]" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#368A45] transition-colors" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#368A45] transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-[#368A45] py-16">
+        <div className="container text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            ¿Listo para tu Inspección Gratis?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Agenda tu inspección "La Bailada" hoy mismo. Nuestro equipo te atenderá rápidamente.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/monterrey/contact">
+              <Button size="lg" className="bg-white text-[#368A45] hover:bg-gray-100 w-full sm:w-auto">
+                Ir a Contacto Monterrey
+              </Button>
+            </Link>
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#368A45] w-full sm:w-auto">
+                <MessageCircle className="w-5 h-5 mr-2" />
+                WhatsApp Directo
+              </Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Breadcrumb */}
+      <section className="py-8 bg-gray-50">
+        <div className="container">
+          <nav className="text-sm text-gray-600">
+            <Link href="/" className="hover:text-[#368A45]">Inicio</Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 font-medium">Monterrey</span>
+          </nav>
+        </div>
+      </section>
+    </div>
+  );
+}
