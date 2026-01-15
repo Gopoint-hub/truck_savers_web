@@ -4,7 +4,7 @@ export default function Suspensiones() {
   const serviceData = {
     title: "Taller de Suspensiones para Camiones y Trailers",
     subtitle: "Reparación especializada con 1 año de garantía",
-    heroImage: "/images/thetrucksavers-banner-3.webp",
+    heroImage: "/images/thetrucksavers-4.webp",
     description:
       "Nuestro taller de suspensiones es especializado en la reparación y mantenimiento de sistemas de suspensión para camiones y trailers. Con más de 20 años de experiencia, nuestros mecánicos certificados diagnostican y reparan problemas en suspensión delantera, trasera, amortiguadores y componentes relacionados. Ofrecemos garantía de 1 año en todos nuestros trabajos realizados en Estados Unidos.",
     features: [

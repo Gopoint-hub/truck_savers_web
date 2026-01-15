@@ -4,7 +4,7 @@ export default function Alineacion() {
   const serviceData = {
     title: "Servicio de Alineación para Camiones",
     subtitle: "Alineación de precisión con equipos de última generación",
-    heroImage: "/images/thetrucksavers-banner-3.webp",
+    heroImage: "/images/thetrucksavers-7.webp",
     description:
       "Ofrecemos servicios profesionales de alineación para camiones y trailers. Una alineación correcta es esencial para la seguridad, el rendimiento y la economía de combustible de tu vehículo. Utilizamos equipos de última generación para garantizar una alineación precisa que cumple con los estándares de la industria.",
     features: [

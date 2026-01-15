@@ -4,7 +4,7 @@ export default function Neumaticos() {
   const serviceData = {
     title: "Reparaciones de Neumáticos de Camión y Trailer",
     subtitle: "Servicio especializado en rectificación y reparación de llantas",
-    heroImage: "/images/thetrucksavers-banner-3.webp",
+    heroImage: "/images/amarillo-camion-decorativo.webp",
     description:
       "En The Truck Savers ofrecemos servicios completos de reparación y rectificación de neumáticos para camiones y trailers. Si tu camión ha sido inspeccionado por un DOT y detectaron desgaste irregular, te ofrecemos soluciones profesionales. Nuestro equipo utiliza equipos de última generación para asegurar que tus llantas estén en óptimas condiciones.",
     features: [

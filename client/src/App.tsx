@@ -34,6 +34,15 @@ import MonterreyContact from "./pages/monterrey/Contact";
 import ResourcesHub from "./pages/resources/index";
 import Blog from "./pages/blog/Blog";
 
+// Blog Articles
+import GoGreenApuArticle from "./pages/blog/GoGreenApu";
+import LucesTableroArticle from "./pages/blog/LucesTablero";
+import SistemaEnfriamientoArticle from "./pages/blog/SistemaEnfriamiento";
+import InspeccionCargaArticle from "./pages/blog/InspeccionCarga";
+import DiferencialTransmisionArticle from "./pages/blog/DiferencialTransmision";
+import SuspensionTrocaArticle from "./pages/blog/SuspensionTroca";
+import TorqueWrapArticle from "./pages/blog/TorqueWrap";
+
 // Store Pages
 import StoreHub from "./pages/store/index";
 
@@ -85,6 +94,15 @@ function Router() {
       {/* Resources */}
       <Route path="/resources" component={ResourcesHub} />
       <Route path="/resources/blog" component={Blog} />
+      
+      {/* Blog Articles */}
+      <Route path="/blog/go-green-apu-ahorro-diesel" component={GoGreenApuArticle} />
+      <Route path="/blog/significado-luces-tablero" component={LucesTableroArticle} />
+      <Route path="/blog/sistema-enfriamiento" component={SistemaEnfriamientoArticle} />
+      <Route path="/blog/inspeccion-carga-diaria" component={InspeccionCargaArticle} />
+      <Route path="/blog/diferencial-transmision" component={DiferencialTransmisionArticle} />
+      <Route path="/blog/suspension-troca" component={SuspensionTrocaArticle} />
+      <Route path="/blog/torque-wrap" component={TorqueWrapArticle} />
       
       {/* Store */}
       <Route path="/store" component={StoreHub} />

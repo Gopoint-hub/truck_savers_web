@@ -15,8 +15,13 @@ export default function MonterreyContact() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gray-900 text-white py-12 md:py-16">
-        <div className="container">
+      <section className="relative bg-gray-900 text-white py-12 md:py-16">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: "url('/images/reto-truck-savers-servicios-camiones.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gray-900/70" />
+        <div className="container relative z-10">
           <nav className="text-sm text-gray-400 mb-6">
             <Link href="/" className="hover:text-white">Inicio</Link>
             <span className="mx-2">/</span>

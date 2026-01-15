@@ -4,7 +4,7 @@ export default function CambioAceite() {
   const serviceData = {
     title: "Cambio de Aceite para Camión",
     subtitle: "Mantenimiento rutinario con productos de calidad premium",
-    heroImage: "/images/thetrucksavers-banner-3.webp",
+    heroImage: "/images/llave.webp",
     description:
       "En The Truck Savers, entendemos que el cambio de aceite es uno de los mantenimientos más importantes para tu camión diésel. Utilizamos productos de calidad premium y seguimos los estándares más rigurosos de la industria. Nuestro equipo de mecánicos expertos garantiza que tu motor reciba el cuidado que merece, asegurando un rendimiento óptimo y una vida útil prolongada.",
     features: [

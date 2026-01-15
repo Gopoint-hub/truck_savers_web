@@ -50,7 +50,37 @@ const blogPosts: BlogPost[] = [
     date: "30 de diciembre, 2025",
     category: "Seguridad",
     image: "/images/mecanico-inspeccion-carga-diario-guia-trokero.jpg",
-    slug: "inspeccion-carga",
+    slug: "inspeccion-carga-diaria",
+  },
+  {
+    id: "5",
+    title: "Diferencial o transmisión: ¡No te confundas!",
+    excerpt:
+      "Aprende a identificar la diferencia entre problemas del diferencial y la transmisión. Conoce los síntomas y cuándo llevar tu camión al taller.",
+    date: "15 de enero, 2026",
+    category: "Mecánica",
+    image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
+    slug: "diferencial-transmision",
+  },
+  {
+    id: "6",
+    title: "Suspensión de tu troca: El secreto pa' un ride suave",
+    excerpt:
+      "Todo lo que necesitas saber sobre la suspensión de tu camión. Aprende a identificar problemas y mantener tu ride cómodo y seguro.",
+    date: "15 de enero, 2026",
+    category: "Mantenimiento",
+    image: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
+    slug: "suspension-troca",
+  },
+  {
+    id: "7",
+    title: "No dejes que el torque te haga wrap",
+    excerpt:
+      "Entiende qué es el torque, cómo afecta tu camión y qué hacer para evitar daños costosos en el tren motriz.",
+    date: "15 de enero, 2026",
+    category: "Mecánica",
+    image: "/images/no-dejes-que-el-torque-te-haga-wrap.jpg",
+    slug: "torque-wrap",
   },
 ];
 

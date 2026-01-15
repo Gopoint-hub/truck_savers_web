@@ -33,8 +33,13 @@ export default function StoreHub() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gray-900 text-white py-16 md:py-24">
-        <div className="container">
+      <section className="relative bg-gray-900 text-white py-16 md:py-24">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: "url('/images/salvamorenas-botellas.webp')" }}
+        />
+        <div className="absolute inset-0 bg-gray-900/70" />
+        <div className="container relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <div className="w-16 h-16 bg-[#368A45]/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-8 h-8 text-[#368A45]" />
