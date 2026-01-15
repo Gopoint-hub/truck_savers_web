@@ -48,7 +48,7 @@ export default function Home() {
       <section className="relative bg-gray-900 text-white py-20 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/80" />
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+          className="absolute inset-0 bg-cover bg-top opacity-30"
           style={{ backgroundImage: "url('/images/thetrucksavers-banner-3.webp')" }}
         />
         <div className="container relative z-10 text-center">

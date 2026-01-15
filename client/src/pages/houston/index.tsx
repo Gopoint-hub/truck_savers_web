@@ -34,7 +34,7 @@ export default function HoustonHub() {
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-40"
+          className="absolute inset-0 bg-cover bg-top opacity-40"
           style={{ backgroundImage: "url('/images/thetrucksavers-banner-3.webp')" }}
         />
         <div className="container relative z-10">

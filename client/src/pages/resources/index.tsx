@@ -69,7 +69,7 @@ export default function ResourcesHub() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-20">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+          className="absolute inset-0 bg-cover bg-top opacity-30"
           style={{ backgroundImage: "url('/images/fondo-preefooter-webp.webp')" }}
         />
         <div className="absolute inset-0 bg-gray-900/70" />
