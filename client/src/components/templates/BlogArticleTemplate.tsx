@@ -108,7 +108,7 @@ export default function BlogArticleTemplate({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Main Content */}
             <article className="lg:col-span-8">
-              <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#368A45] prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700">
+              <div className="blog-content">
                 {content}
               </div>
 
