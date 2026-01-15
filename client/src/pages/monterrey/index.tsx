@@ -18,7 +18,7 @@ const monterreyServices = [
 ];
 
 export default function MonterreyHub() {
-  const whatsappNumber = "528112345678"; // Actualizar con número de Monterrey
+  const whatsappNumber = "528135414652";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Monterrey");
 
   return (
@@ -33,13 +33,13 @@ export default function MonterreyHub() {
         <div className="container relative z-10">
           <div className="max-w-3xl">
             <span className="inline-block bg-[#368A45] text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
-              Monterrey, NL
+              Monterrey, N.L.
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Taller Mecánico de Camiones en Monterrey
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              The Truck Savers llega a Monterrey con más de 21 años de experiencia en reparación y mantenimiento de camiones diésel.
+              Más de 21 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -52,12 +52,12 @@ export default function MonterreyHub() {
                   Agendar por WhatsApp
                 </Button>
               </a>
-              <Link href="/monterrey/contact">
+              <a href="tel:+528135414652">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto">
                   <Phone className="w-5 h-5 mr-2" />
-                  Contactar Monterrey
+                  Llamar: +52 81 3541 4652
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function MonterreyHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Dirección</p>
-                <p className="text-gray-600">Monterrey, Nuevo León, México</p>
+                <p className="text-gray-600 text-sm">Libramiento Noreste KM 33.5, Nueva Castilla, Escobedo</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ export default function MonterreyHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Teléfono</p>
-                <Link href="/monterrey/contact" className="text-[#368A45] hover:underline">Ver contacto</Link>
+                <a href="tel:+528135414652" className="text-[#368A45] hover:underline">+52 81 3541 4652</a>
               </div>
             </div>
             <div className="flex items-center gap-4">

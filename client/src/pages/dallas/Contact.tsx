@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { Phone, MapPin, Clock, Mail, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, Clock, Mail, MessageCircle, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
  */
 
 export default function DallasContact() {
-  const whatsappNumber = "17134555566"; // Actualizar con número de Dallas
+  const whatsappNumber = "17134555566";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (
@@ -54,8 +54,17 @@ export default function DallasContact() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Dirección</h3>
-                    <p className="text-gray-600">Dallas, TX</p>
-                    <p className="text-gray-500 text-sm mt-1">Dirección próximamente</p>
+                    <p className="text-gray-600">4739 Lucky Ln</p>
+                    <p className="text-gray-600">Dallas, TX 75247</p>
+                    <p className="text-gray-600">EE.UU.</p>
+                    <a 
+                      href="https://maps.google.com/?q=4739+Lucky+Ln+Dallas+TX+75247"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#368A45] hover:underline text-sm mt-2 inline-block"
+                    >
+                      Ver en Google Maps →
+                    </a>
                   </div>
                 </div>
 
@@ -69,7 +78,7 @@ export default function DallasContact() {
                     <a href="tel:+17134555566" className="text-xl text-[#368A45] font-semibold hover:underline">
                       713-455-5566
                     </a>
-                    <p className="text-gray-500 text-sm mt-1">Línea central - Pregunte por Dallas</p>
+                    <p className="text-gray-500 text-sm mt-1">Llamadas y mensajes de texto</p>
                   </div>
                 </div>
 
@@ -118,22 +127,38 @@ export default function DallasContact() {
                 <a href="tel:+17134555566" className="block">
                   <Button size="lg" variant="outline" className="w-full border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white">
                     <Phone className="w-5 h-5 mr-2" />
-                    Llamar Ahora
+                    Llamar Ahora: 713-455-5566
                   </Button>
                 </a>
               </div>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Map */}
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-8">
                 Ubicación
               </h2>
-              <div className="bg-gray-100 rounded-lg overflow-hidden h-[400px] flex items-center justify-center">
-                <div className="text-center p-8">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 font-medium">Ubicación próximamente</p>
-                  <p className="text-gray-500 text-sm mt-2">Estamos preparando nuestra nueva sucursal en Dallas</p>
+              <div className="bg-gray-100 rounded-lg overflow-hidden h-[400px]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3354.5!2d-96.87!3d32.82!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s4739%20Lucky%20Ln%2C%20Dallas%2C%20TX%2075247!5e0!3m2!1sen!2sus!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="The Truck Savers Dallas Location"
+                />
+              </div>
+
+              {/* Parking Info */}
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg flex items-start gap-3">
+                <Car className="w-5 h-5 text-[#368A45] mt-0.5" />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Estacionamiento Disponible</h4>
+                  <p className="text-gray-600 text-sm">
+                    Contamos con estacionamiento para más de 50 vehículos, incluyendo camiones y trailers de todos los tamaños.
+                  </p>
                 </div>
               </div>
             </div>

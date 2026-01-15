@@ -11,9 +11,9 @@ import { Button } from '@/components/ui/button';
  */
 
 const cities = [
-  { slug: 'houston', name: 'Houston, TX', featured: true },
-  { slug: 'dallas', name: 'Dallas, TX', featured: false },
-  { slug: 'monterrey', name: 'Monterrey, NL', featured: false },
+  { slug: 'houston', name: 'Houston, TX' },
+  { slug: 'dallas', name: 'Dallas, TX' },
+  { slug: 'monterrey', name: 'Monterrey, N.L.' },
 ];
 
 export default function Header() {
@@ -32,9 +32,13 @@ export default function Header() {
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer">
               <img 
-                src="/images/thetrucksavers-logo.png" 
+                src="/images/home_logo.png" 
                 alt="The Truck Savers" 
                 className="h-10 md:h-12"
+                onError={(e) => {
+                  // Fallback si la imagen no carga
+                  (e.target as HTMLImageElement).src = '/images/thetrucksavers-icons-1.webp';
+                }}
               />
               <span className="font-bold text-gray-900 text-lg hidden sm:block">
                 The Truck Savers
@@ -70,15 +74,10 @@ export default function Header() {
                 <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
                   {cities.map((city) => (
                     <Link key={city.slug} href={`/${city.slug}`}>
-                      <div className={`px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center justify-between ${
+                      <div className={`px-4 py-3 hover:bg-gray-50 cursor-pointer ${
                         location.startsWith(`/${city.slug}`) ? 'bg-[#368A45]/5 text-[#368A45]' : 'text-gray-700'
                       }`}>
                         <span className="font-medium">{city.name}</span>
-                        {city.featured && (
-                          <span className="text-xs bg-[#368A45] text-white px-2 py-0.5 rounded-full">
-                            Principal
-                          </span>
-                        )}
                       </div>
                     </Link>
                   ))}
@@ -153,11 +152,6 @@ export default function Header() {
                       location.startsWith(`/${city.slug}`) ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
                     }`}>
                       {city.name}
-                      {city.featured && (
-                        <span className="ml-2 text-xs bg-[#368A45] text-white px-2 py-0.5 rounded-full">
-                          Principal
-                        </span>
-                      )}
                     </span>
                   </Link>
                 ))}

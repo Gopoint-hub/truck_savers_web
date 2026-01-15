@@ -81,7 +81,7 @@ export default function HoustonHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Dirección</p>
-                <p className="text-gray-600">1362 Sheffield Blvd, Houston, TX 77020</p>
+                <p className="text-gray-600">1362 Sheffield Blvd, Houston, TX 77015</p>
               </div>
             </div>
             <div className="flex items-center gap-4">

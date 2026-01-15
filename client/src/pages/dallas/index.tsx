@@ -18,7 +18,7 @@ const dallasServices = [
 ];
 
 export default function DallasHub() {
-  const whatsappNumber = "17134555566"; // Actualizar con número de Dallas
+  const whatsappNumber = "17134555566";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (
@@ -39,7 +39,7 @@ export default function DallasHub() {
               Taller Mecánico de Camiones en Dallas
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              The Truck Savers llega a Dallas con más de 21 años de experiencia en reparación y mantenimiento de camiones diésel.
+              Más de 21 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -52,12 +52,12 @@ export default function DallasHub() {
                   Agendar por WhatsApp
                 </Button>
               </a>
-              <Link href="/dallas/contact">
+              <a href="tel:+17134555566">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto">
                   <Phone className="w-5 h-5 mr-2" />
-                  Contactar Dallas
+                  Llamar: 713-455-5566
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function DallasHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Dirección</p>
-                <p className="text-gray-600">Dallas, TX</p>
+                <p className="text-gray-600">4739 Lucky Ln, Dallas, TX 75247</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ export default function DallasHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Teléfono</p>
-                <Link href="/dallas/contact" className="text-[#368A45] hover:underline">Ver contacto</Link>
+                <a href="tel:+17134555566" className="text-[#368A45] hover:underline">713-455-5566</a>
               </div>
             </div>
             <div className="flex items-center gap-4">

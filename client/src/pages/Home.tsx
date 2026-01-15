@@ -13,34 +13,28 @@ const cities = [
     slug: 'houston',
     name: 'Houston',
     state: 'TX',
-    country: 'USA',
-    address: '1362 Sheffield Blvd, Houston, TX 77020',
+    country: 'EE.UU.',
+    address: '1362 Sheffield Blvd, Houston, TX 77015',
     phone: '713-455-5566',
     whatsapp: '17134555566',
-    active: true,
-    featured: true,
   },
   {
     slug: 'dallas',
     name: 'Dallas',
     state: 'TX',
-    country: 'USA',
-    address: 'Próximamente',
+    country: 'EE.UU.',
+    address: '4739 Lucky Ln, Dallas, TX 75247',
     phone: '713-455-5566',
     whatsapp: '17134555566',
-    active: true,
-    featured: false,
   },
   {
     slug: 'monterrey',
     name: 'Monterrey',
-    state: 'NL',
+    state: 'N.L.',
     country: 'México',
-    address: 'Próximamente',
-    phone: '',
-    whatsapp: '528112345678',
-    active: true,
-    featured: false,
+    address: 'Libramiento Noreste KM 33.5–Num 30, Nueva Castilla, 66052',
+    phone: '52 81 3541 4652',
+    whatsapp: '528135414652',
   },
 ];
 
@@ -59,9 +53,12 @@ export default function Home() {
         />
         <div className="container relative z-10 text-center">
           <img 
-            src="/images/thetrucksavers-logo.png" 
+            src="/images/home_logo.png" 
             alt="The Truck Savers" 
             className="h-20 md:h-24 mx-auto mb-8"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
           />
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             The Truck Savers
@@ -106,16 +103,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {cities.map((city) => (
               <Link key={city.slug} href={`/${city.slug}`}>
-                <div className={`group bg-white rounded-xl p-6 border-2 transition-all cursor-pointer hover:shadow-xl ${
-                  city.featured 
-                    ? 'border-[#368A45] shadow-lg' 
-                    : 'border-gray-200 hover:border-[#368A45]'
-                }`}>
-                  {city.featured && (
-                    <span className="inline-block bg-[#368A45] text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
-                      Sede Principal
-                    </span>
-                  )}
+                <div className="group bg-white rounded-xl p-6 border-2 border-gray-200 hover:border-[#368A45] transition-all cursor-pointer hover:shadow-xl h-full">
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-14 h-14 bg-[#368A45]/10 rounded-full flex items-center justify-center">
                       <MapPin className="w-7 h-7 text-[#368A45]" />
@@ -126,14 +114,12 @@ export default function Home() {
                     {city.name}
                   </h3>
                   <p className="text-gray-500 mb-4">{city.state}, {city.country}</p>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 text-sm mb-4 min-h-[40px]">
                     {city.address}
                   </p>
-                  {city.phone && (
-                    <p className="text-[#368A45] font-semibold">
-                      {city.phone}
-                    </p>
-                  )}
+                  <p className="text-[#368A45] font-semibold">
+                    {city.phone}
+                  </p>
                 </div>
               </Link>
             ))}
