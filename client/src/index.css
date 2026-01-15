@@ -43,16 +43,19 @@
 }
 
 :root {
-  /* Industrial Modern - Green + Gray Palette */
-  --primary: oklch(0.6 0.2 142.5); /* Green #22C55E */
+  /* The Truck Savers - Pantone Brand Colors */
+  /* Verde Oscuro Primario: RGB(54, 138, 69) #368A45 */
+  /* Verde Claro Secundario: RGB(87, 185, 79) #57B94F */
+  /* Amarillo/Dorado: RGB(216, 153, 61) #D8993D */
+  --primary: #368A45; /* Verde Oscuro Pantone */
   --primary-foreground: oklch(1 0 0); /* White */
-  --sidebar-primary: oklch(0.55 0.18 142.5);
+  --sidebar-primary: #368A45;
   --sidebar-primary-foreground: oklch(1 0 0);
-  --chart-1: oklch(0.65 0.22 142.5);
-  --chart-2: oklch(0.6 0.2 142.5);
-  --chart-3: oklch(0.55 0.18 142.5);
-  --chart-4: oklch(0.5 0.16 142.5);
-  --chart-5: oklch(0.45 0.14 142.5);
+  --chart-1: #57B94F; /* Verde Claro */
+  --chart-2: #368A45; /* Verde Oscuro */
+  --chart-3: #D8993D; /* Dorado */
+  --chart-4: #2D6E39; /* Verde más oscuro */
+  --chart-5: #1F4620; /* Verde muy oscuro */
   --radius: 0.5rem; /* 8px - more industrial */
   --background: oklch(1 0 0); /* White */
   --foreground: oklch(0.18 0.01 65); /* Dark gray #1F2937 */
@@ -60,23 +63,23 @@
   --card-foreground: oklch(0.18 0.01 65);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.01 65);
-  --secondary: oklch(0.35 0.01 286); /* Medium gray #4B5563 */
+  --secondary: #57B94F; /* Verde Claro */
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.92 0.001 286); /* Light gray #E5E7EB */
   --muted-foreground: oklch(0.45 0.01 286); /* Gray #6B7280 */
-  --accent: oklch(0.6 0.2 142.5); /* Green */
+  --accent: #D8993D; /* Dorado */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.6 0.2 25); /* Orange #F97316 */
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.92 0.001 286); /* Light gray */
   --input: oklch(0.96 0.001 286); /* Very light gray */
-  --ring: oklch(0.6 0.2 142.5); /* Green */
+  --ring: #368A45; /* Verde Oscuro */
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.18 0.01 65);
-  --sidebar-accent: oklch(0.6 0.2 142.5);
+  --sidebar-accent: #368A45;
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.92 0.001 286);
-  --sidebar-ring: oklch(0.6 0.2 142.5);
+  --sidebar-ring: #368A45;
 }
 
 .dark {
