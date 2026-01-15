@@ -140,14 +140,13 @@ export default function Header() {
               </span>
             </Link>
 
-            <a 
-              href="https://store.thetrucksavers.com/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-lg font-medium text-gray-700 hover:text-[#368A45] hover:bg-gray-50 transition-colors"
-            >
-              Tienda
-            </a>
+            <Link href="/store">
+              <span className={`px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                location.startsWith('/store') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+              }`}>
+                Tienda
+              </span>
+            </Link>
           </nav>
 
           {/* CTA Button - Shows current city contact or Houston */}
@@ -205,15 +204,13 @@ export default function Header() {
                 </span>
               </Link>
 
-              <a 
-                href="https://store.thetrucksavers.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block px-4 py-3 rounded-lg font-medium text-gray-700"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Tienda
-              </a>
+              <Link href="/store" onClick={() => setIsMenuOpen(false)}>
+                <span className={`block px-4 py-3 rounded-lg font-medium ${
+                  location.startsWith('/store') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
+                }`}>
+                  Tienda
+                </span>
+              </Link>
 
               {/* Mobile Contact CTA */}
               <div className="px-4 pt-4 mt-2 border-t border-gray-200">

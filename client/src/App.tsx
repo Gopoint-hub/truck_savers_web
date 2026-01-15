@@ -34,6 +34,9 @@ import MonterreyContact from "./pages/monterrey/Contact";
 import ResourcesHub from "./pages/resources/index";
 import Blog from "./pages/blog/Blog";
 
+// Store Pages
+import StoreHub from "./pages/store/index";
+
 // Scroll to top on route change
 function ScrollToTop() {
   const [location] = useLocation();
@@ -82,6 +85,10 @@ function Router() {
       {/* Resources */}
       <Route path="/resources" component={ResourcesHub} />
       <Route path="/resources/blog" component={Blog} />
+      
+      {/* Store */}
+      <Route path="/store" component={StoreHub} />
+      <Route path="/tienda" component={StoreHub} />
       
       {/* Legacy Redirects (301) */}
       <Route path="/contacto">
