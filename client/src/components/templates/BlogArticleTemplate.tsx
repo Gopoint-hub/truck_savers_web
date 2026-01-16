@@ -55,8 +55,8 @@ export default function BlogArticleTemplate({
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div 
-          className="absolute inset-0 bg-cover bg-top"
-          style={{ backgroundImage: `url('${heroImage}')` }}
+          className="absolute inset-0 bg-cover"
+          style={{ backgroundImage: `url('${heroImage}')`, backgroundPosition: 'center 35%' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-gray-900/60" />
         <div className="container relative z-10">

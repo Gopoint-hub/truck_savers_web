@@ -17,8 +17,8 @@ export default function HoustonContact() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-12 md:py-16">
         <div 
-          className="absolute inset-0 bg-cover bg-top opacity-30"
-          style={{ backgroundImage: "url('/images/the-truck-savers-best-truck-repair.jpg')" }}
+          className="absolute inset-0 bg-cover opacity-30"
+          style={{ backgroundImage: "url('/images/the-truck-savers-best-truck-repair.jpg')", backgroundPosition: 'center 35%' }}
         />
         <div className="absolute inset-0 bg-gray-900/70" />
         <div className="container relative z-10">

@@ -27,8 +27,8 @@ export default function MonterreyHub() {
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />
         <div 
-          className="absolute inset-0 bg-cover bg-top opacity-40"
-          style={{ backgroundImage: "url('/images/thetrucksavers-banner-4.webp')" }}
+          className="absolute inset-0 bg-cover opacity-40"
+          style={{ backgroundImage: "url('/images/thetrucksavers-banner-4.webp')", backgroundPosition: 'center 35%' }}
         />
         <div className="container relative z-10">
           <div className="max-w-3xl">

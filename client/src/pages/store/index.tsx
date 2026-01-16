@@ -35,8 +35,8 @@ export default function StoreHub() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div 
-          className="absolute inset-0 bg-cover bg-top opacity-30"
-          style={{ backgroundImage: "url('/images/salvamorenas-botellas.webp')" }}
+          className="absolute inset-0 bg-cover opacity-30"
+          style={{ backgroundImage: "url('/images/salvamorenas-botellas.webp')", backgroundPosition: 'center 35%' }}
         />
         <div className="absolute inset-0 bg-gray-900/70" />
         <div className="container relative z-10">
