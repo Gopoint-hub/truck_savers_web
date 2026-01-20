@@ -22,7 +22,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, CheckCircle, Clock, AlertTriangle, Trash2, List, LayoutGrid, XCircle } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Plus, CheckCircle, Clock, AlertTriangle, Trash2, List, LayoutGrid, XCircle, User } from "lucide-react";
 import { toast } from "sonner";
 
 // Definición de status con colores
@@ -75,7 +76,9 @@ export default function CmsTasks() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterPriority, setFilterPriority] = useState<string>("all");
+  const [filterAssignee, setFilterAssignee] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
+  const [newTaskAssignee, setNewTaskAssignee] = useState<string>("");
   
   const utils = trpc.useUtils();
   const { data: tasks, isLoading } = trpc.tasks.list.useQuery(
@@ -87,6 +90,7 @@ export default function CmsTasks() {
         }
   );
   const { data: stats } = trpc.tasks.stats.useQuery();
+  const { data: users } = trpc.users.list.useQuery();
   
   // Para Kanban, necesitamos todas las tareas sin filtro de status
   const { data: allTasks } = trpc.tasks.list.useQuery(
@@ -101,6 +105,7 @@ export default function CmsTasks() {
       utils.tasks.stats.invalidate();
       utils.dashboard.stats.invalidate();
       setIsCreateOpen(false);
+      setNewTaskAssignee("");
       toast.success("Tarea creada exitosamente");
     },
     onError: (error) => {
@@ -140,6 +145,7 @@ export default function CmsTasks() {
       description: formData.get("description") as string || undefined,
       priority: formData.get("priority") as "alta" | "media" | "baja",
       status: "pendiente",
+      assignedTo: newTaskAssignee ? parseInt(newTaskAssignee) : undefined,
     });
   };
 
@@ -147,6 +153,13 @@ export default function CmsTasks() {
     updateTask.mutate({
       id: taskId,
       status: newStatus as "pendiente" | "en_progreso" | "completada" | "cancelada",
+    });
+  };
+
+  const handleAssigneeChange = (taskId: number, assigneeId: string) => {
+    updateTask.mutate({
+      id: taskId,
+      assignedTo: assigneeId === "unassigned" ? undefined : parseInt(assigneeId),
     });
   };
 
@@ -176,13 +189,57 @@ export default function CmsTasks() {
     }
   };
 
-  // Agrupar tareas por status para Kanban
-  const tasksByStatus = {
-    pendiente: allTasks?.filter(t => t.status === "pendiente") || [],
-    en_progreso: allTasks?.filter(t => t.status === "en_progreso") || [],
-    completada: allTasks?.filter(t => t.status === "completada") || [],
-    cancelada: allTasks?.filter(t => t.status === "cancelada") || [],
+  const getUserById = (userId: number | null | undefined) => {
+    if (!userId || !users) return null;
+    return users.find(u => u.id === userId);
   };
+
+  const getAssigneeAvatar = (assignedTo: number | null | undefined) => {
+    const user = getUserById(assignedTo);
+    if (!user) {
+      return (
+        <div className="flex items-center gap-1 text-gray-400">
+          <User className="h-3 w-3" />
+          <span className="text-[10px]">Sin asignar</span>
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center gap-1">
+        <Avatar className="h-5 w-5 border border-gray-200">
+          <AvatarFallback className="text-[8px] bg-[#368A45] text-white">
+            {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-[10px] text-gray-600 truncate max-w-[60px]">
+          {user.name?.split(' ')[0] || user.email?.split('@')[0]}
+        </span>
+      </div>
+    );
+  };
+
+  // Filtrar tareas por asignado
+  const filteredTasks = tasks?.filter(task => {
+    if (filterAssignee === "all") return true;
+    if (filterAssignee === "unassigned") return !task.assignedTo;
+    return task.assignedTo === parseInt(filterAssignee);
+  });
+
+  // Agrupar tareas por status para Kanban
+  const getTasksByStatus = (taskList: typeof tasks) => ({
+    pendiente: taskList?.filter(t => t.status === "pendiente") || [],
+    en_progreso: taskList?.filter(t => t.status === "en_progreso") || [],
+    completada: taskList?.filter(t => t.status === "completada") || [],
+    cancelada: taskList?.filter(t => t.status === "cancelada") || [],
+  });
+
+  const filteredAllTasks = allTasks?.filter(task => {
+    if (filterAssignee === "all") return true;
+    if (filterAssignee === "unassigned") return !task.assignedTo;
+    return task.assignedTo === parseInt(filterAssignee);
+  });
+
+  const tasksByStatus = getTasksByStatus(filteredAllTasks);
 
   return (
     <div className="space-y-4 overflow-x-hidden max-w-full">
@@ -247,18 +304,36 @@ export default function CmsTasks() {
                       className="bg-white border-gray-200 text-sm min-h-[60px]"
                     />
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="priority" className="text-sm">Prioridad</Label>
-                    <Select name="priority" defaultValue="media">
-                      <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
-                        <SelectValue placeholder="Seleccionar prioridad" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-gray-200">
-                        <SelectItem value="alta" className="text-sm">Alta</SelectItem>
-                        <SelectItem value="media" className="text-sm">Media</SelectItem>
-                        <SelectItem value="baja" className="text-sm">Baja</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="priority" className="text-sm">Prioridad</Label>
+                      <Select name="priority" defaultValue="media">
+                        <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
+                          <SelectValue placeholder="Seleccionar" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200">
+                          <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+                          <SelectItem value="media" className="text-sm">Media</SelectItem>
+                          <SelectItem value="baja" className="text-sm">Baja</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="assignee" className="text-sm">Asignar a</Label>
+                      <Select value={newTaskAssignee} onValueChange={setNewTaskAssignee}>
+                        <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
+                          <SelectValue placeholder="Sin asignar" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200">
+                          <SelectItem value="unassigned" className="text-sm">Sin asignar</SelectItem>
+                          {users?.map((user) => (
+                            <SelectItem key={user.id} value={user.id.toString()} className="text-sm">
+                              {user.name || user.email || `Usuario ${user.id}`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
                 <DialogFooter>
@@ -312,11 +387,11 @@ export default function CmsTasks() {
         </Card>
       </div>
 
-      {/* Filters - Solo mostrar en vista lista */}
-      {viewMode === "list" && (
-        <div className="flex flex-wrap gap-2">
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        {viewMode === "list" && (
           <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
+            <SelectTrigger className="w-[120px] bg-white border-gray-200 text-sm h-8">
               <SelectValue placeholder="Estado" />
             </SelectTrigger>
             <SelectContent className="bg-white border-gray-200">
@@ -327,19 +402,33 @@ export default function CmsTasks() {
               <SelectItem value="cancelada" className="text-sm">Cancelada</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={filterPriority} onValueChange={setFilterPriority}>
-            <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
-              <SelectValue placeholder="Prioridad" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-gray-200">
-              <SelectItem value="all" className="text-sm">Todas</SelectItem>
-              <SelectItem value="alta" className="text-sm">Alta</SelectItem>
-              <SelectItem value="media" className="text-sm">Media</SelectItem>
-              <SelectItem value="baja" className="text-sm">Baja</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      )}
+        )}
+        <Select value={filterPriority} onValueChange={setFilterPriority}>
+          <SelectTrigger className="w-[120px] bg-white border-gray-200 text-sm h-8">
+            <SelectValue placeholder="Prioridad" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border-gray-200">
+            <SelectItem value="all" className="text-sm">Todas</SelectItem>
+            <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+            <SelectItem value="media" className="text-sm">Media</SelectItem>
+            <SelectItem value="baja" className="text-sm">Baja</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={filterAssignee} onValueChange={setFilterAssignee}>
+          <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
+            <SelectValue placeholder="Asignado a" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border-gray-200">
+            <SelectItem value="all" className="text-sm">Todos</SelectItem>
+            <SelectItem value="unassigned" className="text-sm">Sin asignar</SelectItem>
+            {users?.map((user) => (
+              <SelectItem key={user.id} value={user.id.toString()} className="text-sm">
+                {user.name || user.email || `Usuario ${user.id}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       {/* Vista Lista */}
       {viewMode === "list" && (
@@ -347,21 +436,21 @@ export default function CmsTasks() {
           <CardHeader className="p-3 pb-2">
             <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Tareas</CardTitle>
             <CardDescription className="text-gray-500 text-xs">
-              {tasks?.length || 0} tareas encontradas
+              {filteredTasks?.length || 0} tareas encontradas
             </CardDescription>
           </CardHeader>
           <CardContent className="p-3 pt-0">
             {isLoading ? (
               <div className="text-center py-6 text-gray-400 text-sm">Cargando tareas...</div>
-            ) : tasks && tasks.length > 0 ? (
+            ) : filteredTasks && filteredTasks.length > 0 ? (
               <div className="space-y-2">
-                {tasks.map((task) => {
+                {filteredTasks.map((task) => {
                   const statusConfig = getStatusConfig(task.status || 'pendiente');
                   const StatusIcon = statusConfig.icon;
                   return (
                     <div
                       key={task.id}
-                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-md border transition-colors gap-2 ${statusConfig.bgColor} ${statusConfig.borderColor} hover:opacity-90`}
+                      className={`flex flex-col gap-2 p-2.5 rounded-md border transition-colors ${statusConfig.bgColor} ${statusConfig.borderColor} hover:opacity-90`}
                     >
                       <div className="flex items-start gap-2 flex-1 min-w-0 overflow-hidden">
                         <div className="mt-0.5 flex-shrink-0">
@@ -380,9 +469,29 @@ export default function CmsTasks() {
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0 ml-5 sm:ml-0">
+                      <div className="flex flex-wrap items-center gap-2 ml-5">
                         {getStatusBadge(task.status || 'pendiente')}
                         {getPriorityBadge(task.priority || 'media')}
+                        
+                        {/* Assignee selector */}
+                        <Select
+                          value={task.assignedTo?.toString() || "unassigned"}
+                          onValueChange={(value) => handleAssigneeChange(task.id, value)}
+                        >
+                          <SelectTrigger className="w-[110px] bg-white border-gray-200 text-[10px] h-6 gap-1">
+                            {getAssigneeAvatar(task.assignedTo)}
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-200">
+                            <SelectItem value="unassigned" className="text-xs">Sin asignar</SelectItem>
+                            {users?.map((user) => (
+                              <SelectItem key={user.id} value={user.id.toString()} className="text-xs">
+                                {user.name || user.email || `Usuario ${user.id}`}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        {/* Status selector */}
                         <Select
                           value={task.status || 'pendiente'}
                           onValueChange={(value) => handleStatusChange(task.id, value)}
@@ -397,6 +506,7 @@ export default function CmsTasks() {
                             <SelectItem value="cancelada" className="text-xs">Cancelada</SelectItem>
                           </SelectContent>
                         </Select>
+                        
                         <Button
                           variant="ghost"
                           size="icon"
@@ -480,6 +590,26 @@ export default function CmsTasks() {
                               {task.description}
                             </p>
                           )}
+                          
+                          {/* Assignee */}
+                          <div className="mb-2">
+                            <Select
+                              value={task.assignedTo?.toString() || "unassigned"}
+                              onValueChange={(value) => handleAssigneeChange(task.id, value)}
+                            >
+                              <SelectTrigger className="w-full bg-gray-50 border-gray-200 text-[9px] h-6">
+                                {getAssigneeAvatar(task.assignedTo)}
+                              </SelectTrigger>
+                              <SelectContent className="bg-white border-gray-200">
+                                <SelectItem value="unassigned" className="text-xs">Sin asignar</SelectItem>
+                                {users?.map((user) => (
+                                  <SelectItem key={user.id} value={user.id.toString()} className="text-xs">
+                                    {user.name || user.email || `Usuario ${user.id}`}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                           
                           <div className="flex items-center justify-between gap-2">
                             {getPriorityBadge(task.priority || 'media')}

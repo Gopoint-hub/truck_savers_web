@@ -42,3 +42,8 @@
 ## Mejoras Módulo Usuarios
 - [x] Agregar funcionalidad para crear usuarios manualmente
 - [x] Agregar Jorge@thetrucksavers.com como administrador
+
+## Asignación de Pendientes
+- [x] Agregar selector para asignar pendientes a usuarios del CMS
+- [x] Agregar filtro por usuario asignado en lista y Kanban
+- [x] Mostrar avatar y nombre del usuario asignado en cada tarea
