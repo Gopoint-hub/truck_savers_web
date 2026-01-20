@@ -10,6 +10,6 @@
 - [x] Crear módulo de newsletter con envío de correos
 - [x] Crear módulo de base de datos de clientes/suscriptores
 - [x] Crear módulo de gestión de usuarios administradores
-- [ ] Importar datos del Excel de pendientes
+- [x] Importar datos del Excel de pendientes
 - [ ] Configurar servicio de envío de emails para newsletter
 
