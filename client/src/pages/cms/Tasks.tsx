@@ -22,13 +22,60 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, CheckCircle, Clock, AlertTriangle, Trash2 } from "lucide-react";
+import { Plus, CheckCircle, Clock, AlertTriangle, Trash2, List, LayoutGrid, XCircle } from "lucide-react";
 import { toast } from "sonner";
+
+// Definición de status con colores
+const STATUS_CONFIG = {
+  pendiente: {
+    label: "Pendiente",
+    bgColor: "bg-amber-50",
+    borderColor: "border-amber-200",
+    textColor: "text-amber-700",
+    badgeBg: "bg-amber-100",
+    badgeText: "text-amber-800",
+    headerBg: "bg-amber-500",
+    icon: AlertTriangle,
+  },
+  en_progreso: {
+    label: "En Progreso",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200",
+    textColor: "text-blue-700",
+    badgeBg: "bg-blue-100",
+    badgeText: "text-blue-800",
+    headerBg: "bg-blue-500",
+    icon: Clock,
+  },
+  completada: {
+    label: "Completada",
+    bgColor: "bg-green-50",
+    borderColor: "border-green-200",
+    textColor: "text-green-700",
+    badgeBg: "bg-green-100",
+    badgeText: "text-green-800",
+    headerBg: "bg-green-500",
+    icon: CheckCircle,
+  },
+  cancelada: {
+    label: "Cancelada",
+    bgColor: "bg-gray-50",
+    borderColor: "border-gray-200",
+    textColor: "text-gray-500",
+    badgeBg: "bg-gray-100",
+    badgeText: "text-gray-600",
+    headerBg: "bg-gray-400",
+    icon: XCircle,
+  },
+};
+
+type StatusKey = keyof typeof STATUS_CONFIG;
 
 export default function CmsTasks() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterPriority, setFilterPriority] = useState<string>("all");
+  const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
   
   const utils = trpc.useUtils();
   const { data: tasks, isLoading } = trpc.tasks.list.useQuery(
@@ -40,6 +87,13 @@ export default function CmsTasks() {
         }
   );
   const { data: stats } = trpc.tasks.stats.useQuery();
+  
+  // Para Kanban, necesitamos todas las tareas sin filtro de status
+  const { data: allTasks } = trpc.tasks.list.useQuery(
+    filterPriority === "all" 
+      ? undefined 
+      : { priority: filterPriority !== "all" ? filterPriority : undefined }
+  );
   
   const createTask = trpc.tasks.create.useMutation({
     onSuccess: () => {
@@ -96,15 +150,17 @@ export default function CmsTasks() {
     });
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "completada":
-        return <CheckCircle className="h-3.5 w-3.5 text-green-500" />;
-      case "en_progreso":
-        return <Clock className="h-3.5 w-3.5 text-yellow-500" />;
-      default:
-        return <AlertTriangle className="h-3.5 w-3.5 text-gray-400" />;
-    }
+  const getStatusConfig = (status: string) => {
+    return STATUS_CONFIG[status as StatusKey] || STATUS_CONFIG.pendiente;
+  };
+
+  const getStatusBadge = (status: string) => {
+    const config = getStatusConfig(status);
+    return (
+      <Badge className={`${config.badgeBg} ${config.badgeText} text-[10px] px-1.5 py-0 border-0`}>
+        {config.label}
+      </Badge>
+    );
   };
 
   const getPriorityBadge = (priority: string) => {
@@ -120,6 +176,14 @@ export default function CmsTasks() {
     }
   };
 
+  // Agrupar tareas por status para Kanban
+  const tasksByStatus = {
+    pendiente: allTasks?.filter(t => t.status === "pendiente") || [],
+    en_progreso: allTasks?.filter(t => t.status === "en_progreso") || [],
+    completada: allTasks?.filter(t => t.status === "completada") || [],
+    cancelada: allTasks?.filter(t => t.status === "cancelada") || [],
+  };
+
   return (
     <div className="space-y-4 overflow-x-hidden max-w-full">
       {/* Header */}
@@ -128,75 +192,96 @@ export default function CmsTasks() {
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Pendientes</h1>
           <p className="text-gray-500 text-sm mt-0.5">Gestión de tareas del área de marketing</p>
         </div>
-        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8">
-              <Plus className="h-3.5 w-3.5 mr-1.5" />
-              Nueva Tarea
+        <div className="flex items-center gap-2">
+          {/* Toggle Vista */}
+          <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setViewMode("list")}
+              className={`h-7 px-2 ${viewMode === "list" ? "bg-white shadow-sm" : "hover:bg-gray-200"}`}
+            >
+              <List className="h-3.5 w-3.5" />
             </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-base">Crear Nueva Tarea</DialogTitle>
-              <DialogDescription className="text-gray-500 text-sm">
-                Agrega una nueva tarea al sistema de pendientes
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleCreateTask}>
-              <div className="space-y-3 py-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="title" className="text-sm">Título</Label>
-                  <Input
-                    id="title"
-                    name="title"
-                    placeholder="Descripción de la tarea"
-                    className="bg-white border-gray-200 text-sm h-9"
-                    required
-                  />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setViewMode("kanban")}
+              className={`h-7 px-2 ${viewMode === "kanban" ? "bg-white shadow-sm" : "hover:bg-gray-200"}`}
+            >
+              <LayoutGrid className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+          <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8">
+                <Plus className="h-3.5 w-3.5 mr-1.5" />
+                Nueva Tarea
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-base">Crear Nueva Tarea</DialogTitle>
+                <DialogDescription className="text-gray-500 text-sm">
+                  Agrega una nueva tarea al sistema de pendientes
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleCreateTask}>
+                <div className="space-y-3 py-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="title" className="text-sm">Título</Label>
+                    <Input
+                      id="title"
+                      name="title"
+                      placeholder="Descripción de la tarea"
+                      className="bg-white border-gray-200 text-sm h-9"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="description" className="text-sm">Descripción (opcional)</Label>
+                    <Textarea
+                      id="description"
+                      name="description"
+                      placeholder="Detalles adicionales..."
+                      className="bg-white border-gray-200 text-sm min-h-[60px]"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="priority" className="text-sm">Prioridad</Label>
+                    <Select name="priority" defaultValue="media">
+                      <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
+                        <SelectValue placeholder="Seleccionar prioridad" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border-gray-200">
+                        <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+                        <SelectItem value="media" className="text-sm">Media</SelectItem>
+                        <SelectItem value="baja" className="text-sm">Baja</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="description" className="text-sm">Descripción (opcional)</Label>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    placeholder="Detalles adicionales..."
-                    className="bg-white border-gray-200 text-sm min-h-[60px]"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="priority" className="text-sm">Prioridad</Label>
-                  <Select name="priority" defaultValue="media">
-                    <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
-                      <SelectValue placeholder="Seleccionar prioridad" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-gray-200">
-                      <SelectItem value="alta" className="text-sm">Alta</SelectItem>
-                      <SelectItem value="media" className="text-sm">Media</SelectItem>
-                      <SelectItem value="baja" className="text-sm">Baja</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsCreateOpen(false)}
-                  className="border-gray-200 text-sm h-8"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8"
-                  disabled={createTask.isPending}
-                >
-                  {createTask.isPending ? "Creando..." : "Crear Tarea"}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsCreateOpen(false)}
+                    className="border-gray-200 text-sm h-8"
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8"
+                    disabled={createTask.isPending}
+                  >
+                    {createTask.isPending ? "Creando..." : "Crear Tarea"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Stats */}
@@ -207,127 +292,226 @@ export default function CmsTasks() {
             <p className="text-[10px] text-gray-400">Total</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 shadow-sm">
+        <Card className="bg-amber-50 border-amber-200 shadow-sm">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-yellow-500">{stats?.pendiente || 0}</div>
-            <p className="text-[10px] text-gray-400">Pendientes</p>
+            <div className="text-lg font-bold text-amber-600">{stats?.pendiente || 0}</div>
+            <p className="text-[10px] text-amber-500">Pendientes</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 shadow-sm">
+        <Card className="bg-blue-50 border-blue-200 shadow-sm">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-blue-500">{stats?.en_progreso || 0}</div>
-            <p className="text-[10px] text-gray-400">En Progreso</p>
+            <div className="text-lg font-bold text-blue-600">{stats?.en_progreso || 0}</div>
+            <p className="text-[10px] text-blue-500">En Progreso</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 shadow-sm">
+        <Card className="bg-green-50 border-green-200 shadow-sm">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-green-500">{stats?.completada || 0}</div>
-            <p className="text-[10px] text-gray-400">Completadas</p>
+            <div className="text-lg font-bold text-green-600">{stats?.completada || 0}</div>
+            <p className="text-[10px] text-green-500">Completadas</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
-            <SelectValue placeholder="Estado" />
-          </SelectTrigger>
-          <SelectContent className="bg-white border-gray-200">
-            <SelectItem value="all" className="text-sm">Todos</SelectItem>
-            <SelectItem value="pendiente" className="text-sm">Pendiente</SelectItem>
-            <SelectItem value="en_progreso" className="text-sm">En Progreso</SelectItem>
-            <SelectItem value="completada" className="text-sm">Completada</SelectItem>
-            <SelectItem value="cancelada" className="text-sm">Cancelada</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={filterPriority} onValueChange={setFilterPriority}>
-          <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
-            <SelectValue placeholder="Prioridad" />
-          </SelectTrigger>
-          <SelectContent className="bg-white border-gray-200">
-            <SelectItem value="all" className="text-sm">Todas</SelectItem>
-            <SelectItem value="alta" className="text-sm">Alta</SelectItem>
-            <SelectItem value="media" className="text-sm">Media</SelectItem>
-            <SelectItem value="baja" className="text-sm">Baja</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      {/* Filters - Solo mostrar en vista lista */}
+      {viewMode === "list" && (
+        <div className="flex flex-wrap gap-2">
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
+              <SelectValue placeholder="Estado" />
+            </SelectTrigger>
+            <SelectContent className="bg-white border-gray-200">
+              <SelectItem value="all" className="text-sm">Todos</SelectItem>
+              <SelectItem value="pendiente" className="text-sm">Pendiente</SelectItem>
+              <SelectItem value="en_progreso" className="text-sm">En Progreso</SelectItem>
+              <SelectItem value="completada" className="text-sm">Completada</SelectItem>
+              <SelectItem value="cancelada" className="text-sm">Cancelada</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={filterPriority} onValueChange={setFilterPriority}>
+            <SelectTrigger className="w-[140px] bg-white border-gray-200 text-sm h-8">
+              <SelectValue placeholder="Prioridad" />
+            </SelectTrigger>
+            <SelectContent className="bg-white border-gray-200">
+              <SelectItem value="all" className="text-sm">Todas</SelectItem>
+              <SelectItem value="alta" className="text-sm">Alta</SelectItem>
+              <SelectItem value="media" className="text-sm">Media</SelectItem>
+              <SelectItem value="baja" className="text-sm">Baja</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
 
-      {/* Tasks List */}
-      <Card className="bg-white border-gray-200 shadow-sm">
-        <CardHeader className="p-3 pb-2">
-          <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Tareas</CardTitle>
-          <CardDescription className="text-gray-500 text-xs">
-            {tasks?.length || 0} tareas encontradas
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-3 pt-0">
-          {isLoading ? (
-            <div className="text-center py-6 text-gray-400 text-sm">Cargando tareas...</div>
-          ) : tasks && tasks.length > 0 ? (
-            <div className="space-y-2">
-              {tasks.map((task) => (
-                <div
-                  key={task.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 bg-gray-50 rounded-md border border-gray-100 hover:bg-gray-100 transition-colors gap-2"
-                >
-                  <div className="flex items-start gap-2 flex-1 min-w-0 overflow-hidden">
-                    <div className="mt-0.5 flex-shrink-0">
-                      {getStatusIcon(task.status || 'pendiente')}
+      {/* Vista Lista */}
+      {viewMode === "list" && (
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardHeader className="p-3 pb-2">
+            <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Tareas</CardTitle>
+            <CardDescription className="text-gray-500 text-xs">
+              {tasks?.length || 0} tareas encontradas
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-3 pt-0">
+            {isLoading ? (
+              <div className="text-center py-6 text-gray-400 text-sm">Cargando tareas...</div>
+            ) : tasks && tasks.length > 0 ? (
+              <div className="space-y-2">
+                {tasks.map((task) => {
+                  const statusConfig = getStatusConfig(task.status || 'pendiente');
+                  const StatusIcon = statusConfig.icon;
+                  return (
+                    <div
+                      key={task.id}
+                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-md border transition-colors gap-2 ${statusConfig.bgColor} ${statusConfig.borderColor} hover:opacity-90`}
+                    >
+                      <div className="flex items-start gap-2 flex-1 min-w-0 overflow-hidden">
+                        <div className="mt-0.5 flex-shrink-0">
+                          <StatusIcon className={`h-3.5 w-3.5 ${statusConfig.textColor}`} />
+                        </div>
+                        <div className="flex-1 min-w-0 overflow-hidden">
+                          <p className={`text-xs font-medium line-clamp-2 break-words ${
+                            task.status === 'completada' ? 'text-gray-400 line-through' : 'text-gray-900'
+                          }`}>
+                            {task.title}
+                          </p>
+                          {task.description && (
+                            <p className="text-[10px] text-gray-400 line-clamp-1 break-words mt-0.5">
+                              {task.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-5 sm:ml-0">
+                        {getStatusBadge(task.status || 'pendiente')}
+                        {getPriorityBadge(task.priority || 'media')}
+                        <Select
+                          value={task.status || 'pendiente'}
+                          onValueChange={(value) => handleStatusChange(task.id, value)}
+                        >
+                          <SelectTrigger className="w-[90px] bg-white border-gray-200 text-[10px] h-6">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-200">
+                            <SelectItem value="pendiente" className="text-xs">Pendiente</SelectItem>
+                            <SelectItem value="en_progreso" className="text-xs">En Progreso</SelectItem>
+                            <SelectItem value="completada" className="text-xs">Completada</SelectItem>
+                            <SelectItem value="cancelada" className="text-xs">Cancelada</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6 flex-shrink-0"
+                          onClick={() => {
+                            if (confirm("¿Estás seguro de eliminar esta tarea?")) {
+                              deleteTask.mutate({ id: task.id });
+                            }
+                          }}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0 overflow-hidden">
-                      <p className={`text-xs font-medium line-clamp-2 break-words ${
-                        task.status === 'completada' ? 'text-gray-400 line-through' : 'text-gray-900'
-                      }`}>
-                        {task.title}
-                      </p>
-                      {task.description && (
-                        <p className="text-[10px] text-gray-400 line-clamp-1 break-words mt-0.5">
-                          {task.description}
-                        </p>
-                      )}
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-400 text-sm">
+                No hay tareas que mostrar
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Vista Kanban */}
+      {viewMode === "kanban" && (
+        <div className="overflow-x-auto pb-4">
+          <div className="flex gap-3 min-w-max">
+            {(["pendiente", "en_progreso", "completada", "cancelada"] as StatusKey[]).map((status) => {
+              const config = STATUS_CONFIG[status];
+              const tasksInColumn = tasksByStatus[status];
+              const StatusIcon = config.icon;
+              
+              return (
+                <div key={status} className="w-[280px] flex-shrink-0">
+                  {/* Header de columna */}
+                  <div className={`${config.headerBg} text-white rounded-t-lg px-3 py-2 flex items-center justify-between`}>
+                    <div className="flex items-center gap-2">
+                      <StatusIcon className="h-4 w-4" />
+                      <span className="font-medium text-sm">{config.label}</span>
                     </div>
+                    <Badge className="bg-white/20 text-white text-xs">
+                      {tasksInColumn.length}
+                    </Badge>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-5 sm:ml-0">
-                    {getPriorityBadge(task.priority || 'media')}
-                    <Select
-                      value={task.status || 'pendiente'}
-                      onValueChange={(value) => handleStatusChange(task.id, value)}
-                    >
-                      <SelectTrigger className="w-[90px] bg-white border-gray-200 text-[10px] h-6">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-gray-200">
-                        <SelectItem value="pendiente" className="text-xs">Pendiente</SelectItem>
-                        <SelectItem value="en_progreso" className="text-xs">En Progreso</SelectItem>
-                        <SelectItem value="completada" className="text-xs">Completada</SelectItem>
-                        <SelectItem value="cancelada" className="text-xs">Cancelada</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6 flex-shrink-0"
-                      onClick={() => {
-                        if (confirm("¿Estás seguro de eliminar esta tarea?")) {
-                          deleteTask.mutate({ id: task.id });
-                        }
-                      }}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
+                  
+                  {/* Contenido de columna */}
+                  <div className={`${config.bgColor} ${config.borderColor} border border-t-0 rounded-b-lg p-2 min-h-[400px] space-y-2`}>
+                    {isLoading ? (
+                      <div className="text-center py-4 text-gray-400 text-xs">Cargando...</div>
+                    ) : tasksInColumn.length > 0 ? (
+                      tasksInColumn.map((task) => (
+                        <div
+                          key={task.id}
+                          className="bg-white rounded-md border border-gray-200 p-2.5 shadow-sm hover:shadow-md transition-shadow"
+                        >
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <p className={`text-xs font-medium line-clamp-2 break-words flex-1 ${
+                              task.status === 'completada' ? 'text-gray-400 line-through' : 'text-gray-900'
+                            }`}>
+                              {task.title}
+                            </p>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="text-red-400 hover:text-red-500 hover:bg-red-50 h-5 w-5 flex-shrink-0"
+                              onClick={() => {
+                                if (confirm("¿Estás seguro de eliminar esta tarea?")) {
+                                  deleteTask.mutate({ id: task.id });
+                                }
+                              }}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                          
+                          {task.description && (
+                            <p className="text-[10px] text-gray-400 line-clamp-2 break-words mb-2">
+                              {task.description}
+                            </p>
+                          )}
+                          
+                          <div className="flex items-center justify-between gap-2">
+                            {getPriorityBadge(task.priority || 'media')}
+                            <Select
+                              value={task.status || 'pendiente'}
+                              onValueChange={(value) => handleStatusChange(task.id, value)}
+                            >
+                              <SelectTrigger className="w-[80px] bg-gray-50 border-gray-200 text-[9px] h-5">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-white border-gray-200">
+                                <SelectItem value="pendiente" className="text-xs">Pendiente</SelectItem>
+                                <SelectItem value="en_progreso" className="text-xs">En Progreso</SelectItem>
+                                <SelectItem value="completada" className="text-xs">Completada</SelectItem>
+                                <SelectItem value="cancelada" className="text-xs">Cancelada</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-400 text-xs">
+                        Sin tareas
+                      </div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-6 text-gray-400 text-sm">
-              No hay tareas que mostrar
-            </div>
-          )}
-        </CardContent>
-      </Card>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

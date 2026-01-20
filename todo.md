@@ -33,3 +33,8 @@
 - [x] Corregir desbordamiento en página Tasks en móvil
 - [x] Corregir línea negra y bordes cortados en móvil
 - [x] Hacer que el menú se cierre automáticamente al seleccionar módulo en móvil
+
+## Mejoras Tasks CMS
+- [x] Agregar colores diferenciados por status en lista de tareas
+- [x] Crear vista Kanban estilo Pipedrive con columnas por status
+- [x] Permitir cambiar entre vista lista y vista Kanban
