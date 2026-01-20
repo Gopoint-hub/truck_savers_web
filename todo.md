@@ -28,3 +28,8 @@
 ## Corrección Mobile CMS
 - [x] Corregir desbordamiento de contenido en móvil (Dashboard)
 - [x] Ajustar textos largos para que no se salgan del viewport
+
+## Corrección UI Mobile CMS - Fase 2
+- [x] Corregir desbordamiento en página Tasks en móvil
+- [x] Corregir línea negra y bordes cortados en móvil
+- [x] Hacer que el menú se cierre automáticamente al seleccionar módulo en móvil

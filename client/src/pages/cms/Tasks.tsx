@@ -121,7 +121,7 @@ export default function CmsTasks() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-x-hidden max-w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
@@ -270,30 +270,32 @@ export default function CmsTasks() {
               {tasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-center justify-between p-2.5 bg-gray-50 rounded-md border border-gray-100 hover:bg-gray-100 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 bg-gray-50 rounded-md border border-gray-100 hover:bg-gray-100 transition-colors gap-2"
                 >
-                  <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                    {getStatusIcon(task.status || 'pendiente')}
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs font-medium truncate ${
+                  <div className="flex items-start gap-2 flex-1 min-w-0 overflow-hidden">
+                    <div className="mt-0.5 flex-shrink-0">
+                      {getStatusIcon(task.status || 'pendiente')}
+                    </div>
+                    <div className="flex-1 min-w-0 overflow-hidden">
+                      <p className={`text-xs font-medium line-clamp-2 break-words ${
                         task.status === 'completada' ? 'text-gray-400 line-through' : 'text-gray-900'
                       }`}>
                         {task.title}
                       </p>
                       {task.description && (
-                        <p className="text-[10px] text-gray-400 truncate mt-0.5">
+                        <p className="text-[10px] text-gray-400 line-clamp-1 break-words mt-0.5">
                           {task.description}
                         </p>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0 ml-5 sm:ml-0">
                     {getPriorityBadge(task.priority || 'media')}
                     <Select
                       value={task.status || 'pendiente'}
                       onValueChange={(value) => handleStatusChange(task.id, value)}
                     >
-                      <SelectTrigger className="w-[100px] bg-white border-gray-200 text-[10px] h-6">
+                      <SelectTrigger className="w-[90px] bg-white border-gray-200 text-[10px] h-6">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200">
@@ -306,7 +308,7 @@ export default function CmsTasks() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6"
+                      className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6 flex-shrink-0"
                       onClick={() => {
                         if (confirm("¿Estás seguro de eliminar esta tarea?")) {
                           deleteTask.mutate({ id: task.id });

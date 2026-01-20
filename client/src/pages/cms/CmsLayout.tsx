@@ -154,12 +154,20 @@ function CmsLayoutContent({
 }: CmsLayoutContentProps) {
   const { user, logout } = useAuth();
   const [location, setLocation] = useLocation();
-  const { state, toggleSidebar } = useSidebar();
+  const { state, toggleSidebar, setOpenMobile, openMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const activeMenuItem = menuItems.find(item => item.path === location) || menuItems[0];
   const isMobile = useIsMobile();
+
+  // Función para navegar y cerrar el menú en móvil
+  const handleNavigation = (path: string) => {
+    setLocation(path);
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   useEffect(() => {
     if (isCollapsed) {
@@ -198,7 +206,7 @@ function CmsLayoutContent({
   }, [isResizing, setSidebarWidth]);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
@@ -234,7 +242,7 @@ function CmsLayoutContent({
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       isActive={isActive}
-                      onClick={() => setLocation(item.path)}
+                      onClick={() => handleNavigation(item.path)}
                       tooltip={item.label}
                       className={`h-9 text-sm transition-all font-normal ${
                         isActive 
@@ -301,7 +309,7 @@ function CmsLayoutContent({
         />
       </div>
 
-      <SidebarInset className="bg-gray-50">
+      <SidebarInset className="bg-gray-50 overflow-x-hidden">
         {isMobile && (
           <div className="flex border-b border-gray-200 h-12 items-center justify-between bg-white px-3 backdrop-blur sticky top-0 z-40 shadow-sm">
             <div className="flex items-center gap-2">
