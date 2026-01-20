@@ -1,0 +1,9 @@
+{
+  "query": "-- Crear Etapa 1 - Frontend + SEO\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 1 - Frontend + SEO', 'Arquitectura SEO, reestructuración de URLs y optimización del sitio web', '#368A45', 0, NOW(), NOW());\n\n-- Crear Etapa 2 - Backend + Módulos Marketing\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 2 - Backend + Módulos Marketing', 'CMS interno, newsletter, dashboard de métricas y sistema de clientes', '#3B82F6', 1, NOW(), NOW());\n\n-- Crear Etapa 3 - Consultoría Continua\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 3 - Consultoría Continua', 'Análisis de datos, decisiones estratégicas y optimización continua', '#8B5CF6', 2, NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute -- Crear Etapa 1 - Frontend + SEO\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 1 - Frontend + SEO', 'Arquitectura SEO, reestructuración de URLs y optimización del sitio web', '#368A45', 0, NOW(), NOW());\n\n-- Crear Etapa 2 - Backend + Módulos Marketing\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 2 - Backend + Módulos Marketing', 'CMS interno, newsletter, dashboard de métricas y sistema de clientes', '#3B82F6', 1, NOW(), NOW());\n\n-- Crear Etapa 3 - Consultoría Continua\nINSERT INTO roadmap_stages (name, description, color, sortOrder, createdAt, updatedAt)\nVALUES ('Etapa 3 - Consultoría Continua', 'Análisis de datos, decisiones estratégicas y optimización continua', '#8B5CF6', 2, NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 76
+}

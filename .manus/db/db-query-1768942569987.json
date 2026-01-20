@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, name FROM roadmap_stages ORDER BY sortOrder;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute SELECT id, name FROM roadmap_stages ORDER BY sortOrder;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Etapa 1 - Frontend + SEO"
+    },
+    {
+      "id": "2",
+      "name": "Etapa 2 - Backend + Módulos Marketing"
+    },
+    {
+      "id": "3",
+      "name": "Etapa 3 - Consultoría Continua"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1\tEtapa 1 - Frontend + SEO\n2\tEtapa 2 - Backend + Módulos Marketing\n3\tEtapa 3 - Consultoría Continua\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,9 @@
+{
+  "query": "-- Entregables Etapa 3 - Consultoría Continua (stageId = 3)\nINSERT INTO roadmap_deliverables (stageId, name, status, sortOrder, createdAt, updatedAt) VALUES\n(3, 'Lectura de datos y análisis', 'pendiente', 0, NOW(), NOW()),\n(3, 'Toma de decisiones estratégicas', 'pendiente', 1, NOW(), NOW()),\n(3, 'Priorización de acciones', 'pendiente', 2, NOW(), NOW()),\n(3, 'Definición de nuevos módulos', 'pendiente', 3, NOW(), NOW()),\n(3, 'Optimización continua', 'pendiente', 4, NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute -- Entregables Etapa 3 - Consultoría Continua (stageId = 3)\nINSERT INTO roadmap_deliverables (stageId, name, status, sortOrder, createdAt, updatedAt) VALUES\n(3, 'Lectura de datos y análisis', 'pendiente', 0, NOW(), NOW()),\n(3, 'Toma de decisiones estratégicas', 'pendiente', 1, NOW(), NOW()),\n(3, 'Priorización de acciones', 'pendiente', 2, NOW(), NOW()),\n(3, 'Definición de nuevos módulos', 'pendiente', 3, NOW(), NOW()),\n(3, 'Optimización continua', 'pendiente', 4, NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 58
+}

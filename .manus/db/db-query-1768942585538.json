@@ -1,0 +1,9 @@
+{
+  "query": "-- Entregables Etapa 2 - Backend + Módulos Marketing (stageId = 2)\nINSERT INTO roadmap_deliverables (stageId, name, status, sortOrder, createdAt, updatedAt) VALUES\n(2, 'Backend del sitio (CMS interno)', 'pendiente', 0, NOW(), NOW()),\n(2, 'Módulo de newsletter con IA', 'pendiente', 1, NOW(), NOW()),\n(2, 'Dashboard de métricas y resultados', 'pendiente', 2, NOW(), NOW()),\n(2, 'Sistema de clientes / base de datos', 'pendiente', 3, NOW(), NOW()),\n(2, 'Métricas de ciclo de compra', 'pendiente', 4, NOW(), NOW()),\n(2, 'Cruce marketing – ventas', 'pendiente', 5, NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute -- Entregables Etapa 2 - Backend + Módulos Marketing (stageId = 2)\nINSERT INTO roadmap_deliverables (stageId, name, status, sortOrder, createdAt, updatedAt) VALUES\n(2, 'Backend del sitio (CMS interno)', 'pendiente', 0, NOW(), NOW()),\n(2, 'Módulo de newsletter con IA', 'pendiente', 1, NOW(), NOW()),\n(2, 'Dashboard de métricas y resultados', 'pendiente', 2, NOW(), NOW()),\n(2, 'Sistema de clientes / base de datos', 'pendiente', 3, NOW(), NOW()),\n(2, 'Métricas de ciclo de compra', 'pendiente', 4, NOW(), NOW()),\n(2, 'Cruce marketing – ventas', 'pendiente', 5, NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 58
+}

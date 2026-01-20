@@ -80,3 +80,11 @@
 - [x] Renombrar "Metas y Objetivos" a "Objetivos Comerciales"
 - [x] Importar datos del Checklist SEO desde el Excel
 - [ ] Importar datos del Roadmap desde el Excel (pendiente: usuario debe agregar etapas manualmente)
+
+## Nuevos Usuarios y Roadmap
+- [x] Agregar liseth@theusmarketer.com como administrador
+- [x] Agregar Eltrucksaver@thetrucksavers.com como administrador
+- [x] Agregar Jorge@thetrucksavers.com como administrador
+- [x] Crear Etapa 1 - Frontend + SEO con sus entregables
+- [x] Crear Etapa 2 - Backend + Módulos Marketing con sus entregables
+- [x] Crear Etapa 3 - Consultoría Continua con sus entregables
