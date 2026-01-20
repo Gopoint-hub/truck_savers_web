@@ -103,7 +103,7 @@ export const tasks = mysqlTable("tasks", {
   title: varchar("title", { length: 500 }).notNull(),
   description: text("description"),
   priority: mysqlEnum("priority", ["alta", "media", "baja"]).default("media"),
-  status: mysqlEnum("status", ["pendiente", "en_progreso", "completada", "cancelada"]).default("pendiente"),
+  status: mysqlEnum("status", ["pendiente", "en_progreso", "esperando_respuesta", "completada"]).default("pendiente"),
   dueDate: timestamp("dueDate"),
   assignedTo: int("assignedTo").references(() => users.id),
   createdBy: int("createdBy").references(() => users.id),
@@ -238,3 +238,42 @@ export const seoChecklist = mysqlTable("seo_checklist", {
 
 export type SeoChecklistItem = typeof seoChecklist.$inferSelect;
 export type InsertSeoChecklistItem = typeof seoChecklist.$inferInsert;
+
+
+// ============================================
+// ROADMAP DEL PROYECTO
+// ============================================
+
+/**
+ * Etapas del roadmap del proyecto
+ */
+export const roadmapStages = mysqlTable("roadmap_stages", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  description: text("description"),
+  sortOrder: int("sortOrder").default(0),
+  color: varchar("color", { length: 20 }).default("#368A45"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RoadmapStage = typeof roadmapStages.$inferSelect;
+export type InsertRoadmapStage = typeof roadmapStages.$inferInsert;
+
+/**
+ * Entregables del roadmap
+ */
+export const roadmapDeliverables = mysqlTable("roadmap_deliverables", {
+  id: int("id").autoincrement().primaryKey(),
+  stageId: int("stageId").references(() => roadmapStages.id).notNull(),
+  name: varchar("name", { length: 300 }).notNull(),
+  description: text("description"),
+  status: mysqlEnum("status", ["pendiente", "en_progreso", "completado"]).default("pendiente"),
+  sortOrder: int("sortOrder").default(0),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RoadmapDeliverable = typeof roadmapDeliverables.$inferSelect;
+export type InsertRoadmapDeliverable = typeof roadmapDeliverables.$inferInsert;

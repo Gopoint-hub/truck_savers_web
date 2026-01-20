@@ -194,7 +194,7 @@ export const appRouter = router({
         objectiveId: z.number().optional(),
         categoryId: z.number().optional(),
         priority: z.enum(["alta", "media", "baja"]).optional(),
-        status: z.enum(["pendiente", "en_progreso", "completada", "cancelada"]).optional(),
+        status: z.enum(["pendiente", "en_progreso", "esperando_respuesta", "completada"]).optional(),
         dueDate: z.date().optional(),
         assignedTo: z.number().optional(),
       }))
@@ -212,7 +212,7 @@ export const appRouter = router({
         objectiveId: z.number().optional(),
         categoryId: z.number().optional(),
         priority: z.enum(["alta", "media", "baja"]).optional(),
-        status: z.enum(["pendiente", "en_progreso", "completada", "cancelada"]).optional(),
+        status: z.enum(["pendiente", "en_progreso", "esperando_respuesta", "completada"]).optional(),
         dueDate: z.date().optional(),
         assignedTo: z.number().optional(),
         completedAt: z.date().optional(),
@@ -434,15 +434,106 @@ export const appRouter = router({
   }),
 
   // ============================================
+  // ROADMAP
+  // ============================================
+  roadmap: router({
+    stages: router({
+      list: protectedProcedure.query(async () => {
+        return db.getAllRoadmapStages();
+      }),
+      create: adminProcedure
+        .input(z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          sortOrder: z.number().optional(),
+          color: z.string().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          await db.createRoadmapStage(input);
+          return { success: true };
+        }),
+      update: adminProcedure
+        .input(z.object({
+          id: z.number(),
+          name: z.string().optional(),
+          description: z.string().optional(),
+          sortOrder: z.number().optional(),
+          color: z.string().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          const { id, ...data } = input;
+          await db.updateRoadmapStage(id, data);
+          return { success: true };
+        }),
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input }) => {
+          await db.deleteRoadmapStage(input.id);
+          return { success: true };
+        }),
+    }),
+    deliverables: router({
+      list: protectedProcedure.query(async () => {
+        return db.getAllRoadmapDeliverables();
+      }),
+      byStage: protectedProcedure
+        .input(z.object({ stageId: z.number() }))
+        .query(async ({ input }) => {
+          return db.getDeliverablesByStage(input.stageId);
+        }),
+      create: adminProcedure
+        .input(z.object({
+          stageId: z.number(),
+          name: z.string(),
+          description: z.string().optional(),
+          status: z.enum(["pendiente", "en_progreso", "completado"]).optional(),
+          sortOrder: z.number().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          await db.createRoadmapDeliverable(input);
+          return { success: true };
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          name: z.string().optional(),
+          description: z.string().optional(),
+          status: z.enum(["pendiente", "en_progreso", "completado"]).optional(),
+          sortOrder: z.number().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          const { id, ...data } = input;
+          if (data.status === 'completado') {
+            await db.updateRoadmapDeliverable(id, { ...data, completedAt: new Date() });
+          } else {
+            await db.updateRoadmapDeliverable(id, data);
+          }
+          return { success: true };
+        }),
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input }) => {
+          await db.deleteRoadmapDeliverable(input.id);
+          return { success: true };
+        }),
+    }),
+    stats: protectedProcedure.query(async () => {
+      return db.getRoadmapStats();
+    }),
+  }),
+
+  // ============================================
   // DASHBOARD STATS
   // ============================================
   dashboard: router({
     stats: protectedProcedure.query(async () => {
-      const [taskStats, subscriberStats, objectives, tasks] = await Promise.all([
+      const [taskStats, subscriberStats, objectives, tasks, seoStats, roadmapStats] = await Promise.all([
         db.getTaskStats(),
         db.getSubscriberStats(),
         db.getAllObjectives(),
         db.getAllTasks(),
+        db.getSeoChecklistStats(),
+        db.getRoadmapStats(),
       ]);
       
       // Calculate objectives progress
@@ -470,6 +561,8 @@ export const appRouter = router({
         },
         recentTasks,
         highPriorityTasks,
+        seo: seoStats,
+        roadmap: roadmapStats,
       };
     }),
   }),

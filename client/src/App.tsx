@@ -54,6 +54,8 @@ import CmsObjectives from "./pages/cms/Objectives";
 import CmsSubscribers from "./pages/cms/Subscribers";
 import CmsNewsletters from "./pages/cms/Newsletters";
 import CmsUsers from "./pages/cms/Users";
+import CmsRoadmap from "./pages/cms/Roadmap";
+import CmsSeoChecklist from "./pages/cms/SeoChecklist";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -89,6 +91,8 @@ function CmsRouter() {
         <Route path="/cms/subscribers" component={CmsSubscribers} />
         <Route path="/cms/newsletters" component={CmsNewsletters} />
         <Route path="/cms/users" component={CmsUsers} />
+        <Route path="/cms/roadmap" component={CmsRoadmap} />
+        <Route path="/cms/seo-checklist" component={CmsSeoChecklist} />
         <Route component={CmsDashboard} />
       </Switch>
     </CmsLayout>

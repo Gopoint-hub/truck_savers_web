@@ -54,3 +54,29 @@
 
 ## Corrección Layout Desktop CMS
 - [x] Corregir layout del Dashboard en versión desktop (tarjetas de estadísticas, listas de tareas)
+
+## Sistema Kanban para Tareas
+- [x] Agregar nuevo status 'esperando_respuesta' al esquema de base de datos
+- [x] Convertir vista de tareas a Kanban como vista principal
+- [x] Crear columnas: Pendiente, En Progreso, Esperando Respuesta, Completada
+- [x] Implementar drag & drop para mover tareas entre columnas
+- [x] Eliminar vista de lista, dejar solo Kanban
+
+## Sistema de Autenticación CMS
+- [ ] Revisar problema de acceso denegado para usuarios existentes
+- [ ] Agregar campo de contraseña hash al esquema de usuarios
+- [ ] Crear página de login con email/contraseña para CMS
+- [ ] Implementar endpoint de autenticación con email/contraseña
+- [ ] Implementar recuperación de contraseña por email
+- [ ] Crear página para restablecer contraseña
+
+## Reestructuración CMS - 4 Áreas
+- [x] Crear esquema de base de datos para Checklist SEO
+- [x] Crear esquema de base de datos para Roadmap del Proyecto
+- [x] Crear endpoints tRPC para Checklist SEO y Roadmap
+- [x] Reorganizar sidebar en 4 áreas: Proyecto, Negocio, Operaciones, Marketing
+- [x] Crear página de Checklist SEO con items agrupados por área
+- [x] Crear página de Roadmap con etapas y entregables
+- [x] Renombrar "Metas y Objetivos" a "Objetivos Comerciales"
+- [x] Importar datos del Checklist SEO desde el Excel
+- [ ] Importar datos del Roadmap desde el Excel (pendiente: usuario debe agregar etapas manualmente)

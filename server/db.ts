@@ -12,7 +12,9 @@ import {
   newsletterSends, InsertNewsletterSend,
   cmsModules, InsertCmsModule,
   userModulePermissions, InsertUserModulePermission,
-  seoChecklist, InsertSeoChecklistItem
+  seoChecklist, InsertSeoChecklistItem,
+  roadmapStages, InsertRoadmapStage,
+  roadmapDeliverables, InsertRoadmapDeliverable
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -501,4 +503,93 @@ export async function createSeoChecklistItem(data: InsertSeoChecklistItem) {
   const db = await getDb();
   if (!db) return;
   await db.insert(seoChecklist).values(data);
+}
+
+
+// ============================================
+// ROADMAP FUNCTIONS
+// ============================================
+
+export async function getAllRoadmapStages() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(roadmapStages).orderBy(roadmapStages.sortOrder);
+}
+
+export async function createRoadmapStage(data: InsertRoadmapStage) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(roadmapStages).values(data);
+}
+
+export async function updateRoadmapStage(id: number, data: Partial<InsertRoadmapStage>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(roadmapStages).set(data).where(eq(roadmapStages.id, id));
+}
+
+export async function deleteRoadmapStage(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  // Delete all deliverables first
+  await db.delete(roadmapDeliverables).where(eq(roadmapDeliverables.stageId, id));
+  await db.delete(roadmapStages).where(eq(roadmapStages.id, id));
+}
+
+export async function getAllRoadmapDeliverables() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(roadmapDeliverables).orderBy(roadmapDeliverables.stageId, roadmapDeliverables.sortOrder);
+}
+
+export async function getDeliverablesByStage(stageId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(roadmapDeliverables).where(eq(roadmapDeliverables.stageId, stageId)).orderBy(roadmapDeliverables.sortOrder);
+}
+
+export async function createRoadmapDeliverable(data: InsertRoadmapDeliverable) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(roadmapDeliverables).values(data);
+}
+
+export async function updateRoadmapDeliverable(id: number, data: Partial<InsertRoadmapDeliverable>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(roadmapDeliverables).set(data).where(eq(roadmapDeliverables.id, id));
+}
+
+export async function deleteRoadmapDeliverable(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(roadmapDeliverables).where(eq(roadmapDeliverables.id, id));
+}
+
+export async function getSeoChecklistStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, completado: 0, pendiente: 0, en_progreso: 0 };
+  
+  const allItems = await db.select().from(seoChecklist);
+  
+  return {
+    total: allItems.length,
+    completado: allItems.filter(i => i.status === 'completado').length,
+    pendiente: allItems.filter(i => i.status === 'pendiente').length,
+    en_progreso: allItems.filter(i => i.status === 'en_progreso').length,
+  };
+}
+
+export async function getRoadmapStats() {
+  const db = await getDb();
+  if (!db) return { totalStages: 0, totalDeliverables: 0, completedDeliverables: 0 };
+  
+  const stages = await db.select().from(roadmapStages);
+  const deliverables = await db.select().from(roadmapDeliverables);
+  
+  return {
+    totalStages: stages.length,
+    totalDeliverables: deliverables.length,
+    completedDeliverables: deliverables.filter(d => d.status === 'completado').length,
+  };
 }

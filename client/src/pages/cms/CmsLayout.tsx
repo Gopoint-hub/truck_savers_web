@@ -1,6 +1,11 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -31,25 +36,65 @@ import {
   Mail, 
   UserCircle,
   Truck,
-  Menu
+  ChevronDown,
+  Map,
+  ClipboardCheck,
+  BarChart3,
+  MessageSquare
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from '@/components/DashboardLayoutSkeleton';
 import { Button } from "@/components/ui/button";
 
-const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/cms" },
-  { icon: CheckSquare, label: "Pendientes", path: "/cms/tasks" },
-  { icon: Target, label: "Metas y Objetivos", path: "/cms/objectives" },
-  { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
-  { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
-  { icon: Users, label: "Usuarios", path: "/cms/users" },
+// Estructura del menú organizada por áreas
+const menuAreas = [
+  {
+    id: "proyecto",
+    label: "Proyecto",
+    icon: Map,
+    items: [
+      { icon: Map, label: "Roadmap", path: "/cms/roadmap" },
+      { icon: ClipboardCheck, label: "Checklist SEO", path: "/cms/seo-checklist" },
+    ],
+  },
+  {
+    id: "negocio",
+    label: "Negocio",
+    icon: BarChart3,
+    items: [
+      { icon: LayoutDashboard, label: "Dashboard", path: "/cms" },
+      { icon: Target, label: "Objetivos Comerciales", path: "/cms/objectives" },
+    ],
+  },
+  {
+    id: "operaciones",
+    label: "Operaciones",
+    icon: CheckSquare,
+    items: [
+      { icon: CheckSquare, label: "Pendientes", path: "/cms/tasks" },
+      { icon: Users, label: "Usuarios", path: "/cms/users" },
+    ],
+  },
+  {
+    id: "marketing",
+    label: "Marketing",
+    icon: Mail,
+    items: [
+      { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
+      { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
+      { icon: MessageSquare, label: "WhatsApp", path: "/cms/whatsapp", disabled: true },
+    ],
+  },
 ];
 
+// Flat list for finding active item
+const allMenuItems = menuAreas.flatMap(area => area.items);
+
 const SIDEBAR_WIDTH_KEY = "cms-sidebar-width";
-const DEFAULT_WIDTH = 220;
-const MIN_WIDTH = 180;
+const SIDEBAR_AREAS_KEY = "cms-sidebar-areas";
+const DEFAULT_WIDTH = 240;
+const MIN_WIDTH = 200;
 const MAX_WIDTH = 320;
 
 export default function CmsLayout({
@@ -154,12 +199,34 @@ function CmsLayoutContent({
 }: CmsLayoutContentProps) {
   const { user, logout } = useAuth();
   const [location, setLocation] = useLocation();
-  const { state, toggleSidebar, setOpenMobile, openMobile } = useSidebar();
+  const { state, toggleSidebar, setOpenMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const activeMenuItem = menuItems.find(item => item.path === location) || menuItems[0];
   const isMobile = useIsMobile();
+
+  // Estado de áreas expandidas
+  const [expandedAreas, setExpandedAreas] = useState<Record<string, boolean>>(() => {
+    const saved = localStorage.getItem(SIDEBAR_AREAS_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    // Por defecto, expandir el área que contiene la página actual
+    const currentArea = menuAreas.find(area => 
+      area.items.some(item => item.path === location)
+    );
+    return menuAreas.reduce((acc, area) => {
+      acc[area.id] = area.id === currentArea?.id;
+      return acc;
+    }, {} as Record<string, boolean>);
+  });
+
+  // Guardar estado de áreas en localStorage
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_AREAS_KEY, JSON.stringify(expandedAreas));
+  }, [expandedAreas]);
+
+  const activeMenuItem = allMenuItems.find(item => item.path === location) || allMenuItems.find(item => item.path === '/cms');
 
   // Función para navegar y cerrar el menú en móvil
   const handleNavigation = (path: string) => {
@@ -167,6 +234,13 @@ function CmsLayoutContent({
     if (isMobile) {
       setOpenMobile(false);
     }
+  };
+
+  const toggleArea = (areaId: string) => {
+    setExpandedAreas(prev => ({
+      ...prev,
+      [areaId]: !prev[areaId],
+    }));
   };
 
   useEffect(() => {
@@ -233,32 +307,66 @@ function CmsLayoutContent({
             </div>
           </SidebarHeader>
 
-          <SidebarContent className="gap-0 bg-white">
-            <SidebarMenu className="px-2 py-2">
-              {menuItems.map(item => {
-                const isActive = location === item.path || 
-                  (item.path === '/cms' && location === '/cms/dashboard');
-                return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton
-                      isActive={isActive}
-                      onClick={() => handleNavigation(item.path)}
-                      tooltip={item.label}
-                      className={`h-9 text-sm transition-all font-normal ${
-                        isActive 
-                          ? "bg-[#368A45]/10 text-[#368A45] hover:bg-[#368A45]/15" 
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                      }`}
-                    >
-                      <item.icon
-                        className={`h-4 w-4 ${isActive ? "text-[#368A45]" : ""}`}
-                      />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
+          <SidebarContent className="gap-0 bg-white overflow-y-auto">
+            {menuAreas.map(area => (
+              <Collapsible
+                key={area.id}
+                open={expandedAreas[area.id]}
+                onOpenChange={() => toggleArea(area.id)}
+                className="group/collapsible"
+              >
+                <div className="px-2 pt-3 pb-1">
+                  <CollapsibleTrigger asChild>
+                    <button className="flex items-center justify-between w-full px-2 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <area.icon className="h-3.5 w-3.5" />
+                        {!isCollapsed && <span>{area.label}</span>}
+                      </div>
+                      {!isCollapsed && (
+                        <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${expandedAreas[area.id] ? 'rotate-180' : ''}`} />
+                      )}
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent>
+                  <SidebarMenu className="px-2 pb-1">
+                    {area.items.map(item => {
+                      const isActive = location === item.path || 
+                        (item.path === '/cms' && location === '/cms/dashboard');
+                      const isDisabled = 'disabled' in item && item.disabled;
+                      return (
+                        <SidebarMenuItem key={item.path}>
+                          <SidebarMenuButton
+                            isActive={isActive}
+                            onClick={() => !isDisabled && handleNavigation(item.path)}
+                            tooltip={item.label}
+                            className={`h-8 text-sm transition-all font-normal ${
+                              isDisabled
+                                ? "text-gray-400 cursor-not-allowed opacity-50"
+                                : isActive 
+                                  ? "bg-[#368A45]/10 text-[#368A45] hover:bg-[#368A45]/15" 
+                                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                            }`}
+                          >
+                            <item.icon
+                              className={`h-4 w-4 ${isActive ? "text-[#368A45]" : ""}`}
+                            />
+                            <span className="flex items-center gap-2">
+                              {item.label}
+                              {isDisabled && (
+                                <span className="text-[10px] bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded">
+                                  Próximamente
+                                </span>
+                              )}
+                            </span>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
           </SidebarContent>
 
           <SidebarFooter className="p-2 border-t border-gray-200 bg-white">

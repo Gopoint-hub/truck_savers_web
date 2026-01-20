@@ -15,6 +15,20 @@
       "when": 1768925471609,
       "tag": "0001_kind_stephen_strange",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1768940401654,
+      "tag": "0002_watery_hardball",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1768941415361,
+      "tag": "0003_boring_iron_monger",
+      "breakpoints": true
     }
   ]
 }

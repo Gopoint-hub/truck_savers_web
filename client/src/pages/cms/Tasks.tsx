@@ -1,6 +1,6 @@
 import { trpc } from "@/lib/trpc";
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useRef } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,10 +23,10 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Plus, CheckCircle, Clock, AlertTriangle, Trash2, List, LayoutGrid, XCircle, User } from "lucide-react";
+import { Plus, CheckCircle, Clock, AlertTriangle, Trash2, MessageCircle, User, GripVertical } from "lucide-react";
 import { toast } from "sonner";
 
-// Definición de status con colores - MEJORADOS para mejor contraste
+// Definición de status con colores para Kanban
 const STATUS_CONFIG = {
   pendiente: {
     label: "Pendiente",
@@ -48,6 +48,16 @@ const STATUS_CONFIG = {
     headerBg: "bg-blue-500",
     icon: Clock,
   },
+  esperando_respuesta: {
+    label: "Esperando Respuesta",
+    bgColor: "bg-purple-50",
+    borderColor: "border-purple-300",
+    textColor: "text-purple-700",
+    badgeBg: "bg-purple-100",
+    badgeText: "text-purple-900",
+    headerBg: "bg-purple-500",
+    icon: MessageCircle,
+  },
   completada: {
     label: "Completada",
     bgColor: "bg-green-50",
@@ -58,46 +68,27 @@ const STATUS_CONFIG = {
     headerBg: "bg-green-500",
     icon: CheckCircle,
   },
-  cancelada: {
-    label: "Cancelada",
-    bgColor: "bg-gray-100",
-    borderColor: "border-gray-300",
-    textColor: "text-gray-600",
-    badgeBg: "bg-gray-200",
-    badgeText: "text-gray-800",
-    headerBg: "bg-gray-500",
-    icon: XCircle,
-  },
 };
 
 type StatusKey = keyof typeof STATUS_CONFIG;
+const KANBAN_COLUMNS: StatusKey[] = ["pendiente", "en_progreso", "esperando_respuesta", "completada"];
 
 export default function CmsTasks() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterPriority, setFilterPriority] = useState<string>("all");
   const [filterAssignee, setFilterAssignee] = useState<string>("all");
-  const [viewMode, setViewMode] = useState<"list" | "kanban">("list");
   const [newTaskAssignee, setNewTaskAssignee] = useState<string>("");
+  const [draggedTaskId, setDraggedTaskId] = useState<number | null>(null);
+  const [dragOverColumn, setDragOverColumn] = useState<StatusKey | null>(null);
   
   const utils = trpc.useUtils();
   const { data: tasks, isLoading } = trpc.tasks.list.useQuery(
-    filterStatus === "all" && filterPriority === "all" 
-      ? undefined 
-      : {
-          status: filterStatus !== "all" ? filterStatus : undefined,
-          priority: filterPriority !== "all" ? filterPriority : undefined,
-        }
-  );
-  const { data: stats } = trpc.tasks.stats.useQuery();
-  const { data: users } = trpc.users.list.useQuery();
-  
-  // Para Kanban, necesitamos todas las tareas sin filtro de status
-  const { data: allTasks } = trpc.tasks.list.useQuery(
     filterPriority === "all" 
       ? undefined 
       : { priority: filterPriority !== "all" ? filterPriority : undefined }
   );
+  const { data: stats } = trpc.tasks.stats.useQuery();
+  const { data: users } = trpc.users.list.useQuery();
   
   const createTask = trpc.tasks.create.useMutation({
     onSuccess: () => {
@@ -118,7 +109,6 @@ export default function CmsTasks() {
       utils.tasks.list.invalidate();
       utils.tasks.stats.invalidate();
       utils.dashboard.stats.invalidate();
-      toast.success("Tarea actualizada");
     },
     onError: (error) => {
       toast.error("Error al actualizar: " + error.message);
@@ -149,10 +139,10 @@ export default function CmsTasks() {
     });
   };
 
-  const handleStatusChange = (taskId: number, newStatus: string) => {
+  const handleStatusChange = (taskId: number, newStatus: StatusKey) => {
     updateTask.mutate({
       id: taskId,
-      status: newStatus as "pendiente" | "en_progreso" | "completada" | "cancelada",
+      status: newStatus,
     });
   };
 
@@ -170,17 +160,36 @@ export default function CmsTasks() {
     });
   };
 
-  const getStatusConfig = (status: string) => {
-    return STATUS_CONFIG[status as StatusKey] || STATUS_CONFIG.pendiente;
+  // Drag & Drop handlers
+  const handleDragStart = (e: React.DragEvent, taskId: number) => {
+    setDraggedTaskId(taskId);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", taskId.toString());
   };
 
-  const getStatusBadge = (status: string) => {
-    const config = getStatusConfig(status);
-    return (
-      <Badge className={`${config.badgeBg} ${config.badgeText} text-[10px] px-1.5 py-0 border-0 font-semibold`}>
-        {config.label}
-      </Badge>
-    );
+  const handleDragOver = (e: React.DragEvent, status: StatusKey) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOverColumn(status);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverColumn(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, newStatus: StatusKey) => {
+    e.preventDefault();
+    if (draggedTaskId) {
+      handleStatusChange(draggedTaskId, newStatus);
+      toast.success(`Tarea movida a ${STATUS_CONFIG[newStatus].label}`);
+    }
+    setDraggedTaskId(null);
+    setDragOverColumn(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedTaskId(null);
+    setDragOverColumn(null);
   };
 
   const getPriorityBadge = (priority: string) => {
@@ -196,14 +205,13 @@ export default function CmsTasks() {
     }
   };
 
-  // Selector de prioridad editable
-  const getPrioritySelector = (taskId: number, currentPriority: string, compact: boolean = false) => {
+  const getPrioritySelector = (taskId: number, currentPriority: string) => {
     return (
       <Select
         value={currentPriority || 'media'}
         onValueChange={(value) => handlePriorityChange(taskId, value)}
       >
-        <SelectTrigger className={`bg-white border-gray-300 ${compact ? 'w-[70px] text-[9px] h-5' : 'w-[80px] text-[10px] h-6'}`}>
+        <SelectTrigger className="w-[70px] bg-white border-gray-300 text-[9px] h-5">
           {getPriorityBadge(currentPriority || 'media')}
         </SelectTrigger>
         <SelectContent className="bg-white border-gray-200">
@@ -259,7 +267,7 @@ export default function CmsTasks() {
     );
   };
 
-  // Filtrar tareas por asignado
+  // Filtrar tareas
   const filteredTasks = tasks?.filter(task => {
     if (filterAssignee === "all") return true;
     if (filterAssignee === "unassigned") return !task.assignedTo;
@@ -270,17 +278,11 @@ export default function CmsTasks() {
   const getTasksByStatus = (taskList: typeof tasks) => ({
     pendiente: taskList?.filter(t => t.status === "pendiente") || [],
     en_progreso: taskList?.filter(t => t.status === "en_progreso") || [],
+    esperando_respuesta: taskList?.filter(t => t.status === "esperando_respuesta") || [],
     completada: taskList?.filter(t => t.status === "completada") || [],
-    cancelada: taskList?.filter(t => t.status === "cancelada") || [],
   });
 
-  const filteredAllTasks = allTasks?.filter(task => {
-    if (filterAssignee === "all") return true;
-    if (filterAssignee === "unassigned") return !task.assignedTo;
-    return task.assignedTo === parseInt(filterAssignee);
-  });
-
-  const tasksByStatus = getTasksByStatus(filteredAllTasks);
+  const tasksByStatus = getTasksByStatus(filteredTasks);
 
   return (
     <div className="space-y-4 overflow-x-hidden max-w-full">
@@ -288,164 +290,116 @@ export default function CmsTasks() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Pendientes</h1>
-          <p className="text-gray-600 text-sm mt-0.5">Gestión de tareas del área de marketing</p>
+          <p className="text-gray-600 text-sm mt-0.5">Arrastra las tareas entre columnas para cambiar su estado</p>
         </div>
-        <div className="flex items-center gap-2">
-          {/* Toggle Vista */}
-          <div className="flex items-center bg-gray-100 rounded-md p-0.5">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode("list")}
-              className={`h-7 px-2 ${viewMode === "list" ? "bg-white shadow-sm text-gray-900" : "hover:bg-gray-200 text-gray-600"}`}
-            >
-              <List className="h-3.5 w-3.5" />
+        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+          <DialogTrigger asChild>
+            <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8 text-white font-semibold">
+              <Plus className="h-3.5 w-3.5 mr-1.5" />
+              Nueva Tarea
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode("kanban")}
-              className={`h-7 px-2 ${viewMode === "kanban" ? "bg-white shadow-sm text-gray-900" : "hover:bg-gray-200 text-gray-600"}`}
-            >
-              <LayoutGrid className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-          <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8 text-white font-semibold">
-                <Plus className="h-3.5 w-3.5 mr-1.5" />
-                Nueva Tarea
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-base text-gray-900 font-bold">Crear Nueva Tarea</DialogTitle>
-                <DialogDescription className="text-gray-600 text-sm">
-                  Agrega una nueva tarea al sistema de pendientes
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleCreateTask}>
-                <div className="space-y-3 py-3">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="title" className="text-sm text-gray-800 font-semibold">Título</Label>
-                    <Input
-                      id="title"
-                      name="title"
-                      placeholder="Descripción de la tarea"
-                      className="bg-white border-gray-300 text-sm h-9 text-gray-900 placeholder:text-gray-400"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="description" className="text-sm text-gray-800 font-semibold">Descripción (opcional)</Label>
-                    <Textarea
-                      id="description"
-                      name="description"
-                      placeholder="Detalles adicionales..."
-                      className="bg-white border-gray-300 text-sm min-h-[60px] text-gray-900 placeholder:text-gray-400"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="priority" className="text-sm text-gray-800 font-semibold">Prioridad</Label>
-                      <Select name="priority" defaultValue="media">
-                        <SelectTrigger className="bg-white border-gray-300 text-sm h-9 text-gray-900">
-                          <SelectValue placeholder="Seleccionar" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200">
-                          <SelectItem value="alta" className="text-sm text-gray-900">Alta</SelectItem>
-                          <SelectItem value="media" className="text-sm text-gray-900">Media</SelectItem>
-                          <SelectItem value="baja" className="text-sm text-gray-900">Baja</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="assignee" className="text-sm text-gray-800 font-semibold">Asignar a</Label>
-                      <Select value={newTaskAssignee} onValueChange={setNewTaskAssignee}>
-                        <SelectTrigger className="bg-white border-gray-300 text-sm h-9 text-gray-900">
-                          <SelectValue placeholder="Sin asignar" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200">
-                          <SelectItem value="unassigned" className="text-sm text-gray-900">Sin asignar</SelectItem>
-                          {users?.map((user) => (
-                            <SelectItem key={user.id} value={user.id.toString()} className="text-sm text-gray-900">
-                              {user.name || user.email || `Usuario ${user.id}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+          </DialogTrigger>
+          <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-gray-900 font-bold">Nueva Tarea</DialogTitle>
+              <DialogDescription className="text-gray-600">
+                Crea una nueva tarea para el equipo de marketing
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleCreateTask} className="space-y-4">
+              <div>
+                <Label htmlFor="title" className="text-gray-800 font-semibold">Título</Label>
+                <Input
+                  id="title"
+                  name="title"
+                  required
+                  className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
+                  placeholder="Describe la tarea..."
+                />
+              </div>
+              <div>
+                <Label htmlFor="description" className="text-gray-800 font-semibold">Descripción</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
+                  placeholder="Detalles adicionales..."
+                  rows={3}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="priority" className="text-gray-800 font-semibold">Prioridad</Label>
+                  <Select name="priority" defaultValue="media">
+                    <SelectTrigger className="bg-white border-gray-300 text-gray-900">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-gray-200">
+                      <SelectItem value="alta" className="text-gray-900">Alta</SelectItem>
+                      <SelectItem value="media" className="text-gray-900">Media</SelectItem>
+                      <SelectItem value="baja" className="text-gray-900">Baja</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <DialogFooter>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setIsCreateOpen(false)}
-                    className="border-gray-300 text-sm h-8 text-gray-700 hover:text-gray-900"
-                  >
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8 text-white font-semibold"
-                    disabled={createTask.isPending}
-                  >
-                    {createTask.isPending ? "Creando..." : "Crear Tarea"}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
+                <div>
+                  <Label className="text-gray-800 font-semibold">Asignar a</Label>
+                  <Select value={newTaskAssignee} onValueChange={setNewTaskAssignee}>
+                    <SelectTrigger className="bg-white border-gray-300 text-gray-900">
+                      <SelectValue placeholder="Sin asignar" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-gray-200">
+                      <SelectItem value="unassigned" className="text-gray-900">Sin asignar</SelectItem>
+                      {users?.map((user) => (
+                        <SelectItem key={user.id} value={user.id.toString()} className="text-gray-900">
+                          {user.name || user.email || `Usuario ${user.id}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit" className="bg-[#368A45] hover:bg-[#2D6E39] text-white font-semibold" disabled={createTask.isPending}>
+                  {createTask.isPending ? "Creando..." : "Crear Tarea"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        <Card className="bg-white border-gray-200 shadow-sm">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Card className="bg-white border-gray-200">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-gray-900">{stats?.total || 0}</div>
-            <p className="text-[10px] text-gray-600 font-medium">Total</p>
+            <p className="text-xs text-gray-600 font-medium">Total</p>
+            <p className="text-2xl font-bold text-gray-900">{stats?.total || 0}</p>
           </CardContent>
         </Card>
-        <Card className="bg-amber-50 border-amber-300 shadow-sm">
+        <Card className="bg-amber-50 border-amber-200">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-amber-700">{stats?.pendiente || 0}</div>
-            <p className="text-[10px] text-amber-700 font-medium">Pendientes</p>
+            <p className="text-xs text-amber-700 font-medium">Pendientes</p>
+            <p className="text-2xl font-bold text-amber-900">{stats?.pendiente || 0}</p>
           </CardContent>
         </Card>
-        <Card className="bg-blue-50 border-blue-300 shadow-sm">
+        <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-blue-700">{stats?.en_progreso || 0}</div>
-            <p className="text-[10px] text-blue-700 font-medium">En Progreso</p>
+            <p className="text-xs text-blue-700 font-medium">En Progreso</p>
+            <p className="text-2xl font-bold text-blue-900">{stats?.en_progreso || 0}</p>
           </CardContent>
         </Card>
-        <Card className="bg-green-50 border-green-300 shadow-sm">
+        <Card className="bg-green-50 border-green-200">
           <CardContent className="p-3">
-            <div className="text-lg font-bold text-green-700">{stats?.completada || 0}</div>
-            <p className="text-[10px] text-green-700 font-medium">Completadas</p>
+            <p className="text-xs text-green-700 font-medium">Completadas</p>
+            <p className="text-2xl font-bold text-green-900">{stats?.completada || 0}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        {viewMode === "list" && (
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-[120px] bg-white border-gray-300 text-sm h-8 text-gray-900">
-              <SelectValue placeholder="Estado" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-gray-200">
-              <SelectItem value="all" className="text-sm text-gray-900">Todos</SelectItem>
-              <SelectItem value="pendiente" className="text-sm text-gray-900">Pendiente</SelectItem>
-              <SelectItem value="en_progreso" className="text-sm text-gray-900">En Progreso</SelectItem>
-              <SelectItem value="completada" className="text-sm text-gray-900">Completada</SelectItem>
-              <SelectItem value="cancelada" className="text-sm text-gray-900">Cancelada</SelectItem>
-            </SelectContent>
-          </Select>
-        )}
+      <div className="flex flex-wrap gap-2 items-center">
         <Select value={filterPriority} onValueChange={setFilterPriority}>
-          <SelectTrigger className="w-[120px] bg-white border-gray-300 text-sm h-8 text-gray-900">
+          <SelectTrigger className="w-[120px] bg-white border-gray-300 text-gray-800 h-8 text-sm">
             <SelectValue placeholder="Prioridad" />
           </SelectTrigger>
           <SelectContent className="bg-white border-gray-200">
@@ -456,8 +410,8 @@ export default function CmsTasks() {
           </SelectContent>
         </Select>
         <Select value={filterAssignee} onValueChange={setFilterAssignee}>
-          <SelectTrigger className="w-[140px] bg-white border-gray-300 text-sm h-8 text-gray-900">
-            <SelectValue placeholder="Asignado a" />
+          <SelectTrigger className="w-[140px] bg-white border-gray-300 text-gray-800 h-8 text-sm">
+            <SelectValue placeholder="Asignado" />
           </SelectTrigger>
           <SelectContent className="bg-white border-gray-200">
             <SelectItem value="all" className="text-sm text-gray-900">Todos</SelectItem>
@@ -471,221 +425,115 @@ export default function CmsTasks() {
         </Select>
       </div>
 
-      {/* Vista Lista */}
-      {viewMode === "list" && (
-        <Card className="bg-white border-gray-200 shadow-sm">
-          <CardHeader className="p-3 pb-2">
-            <CardTitle className="text-gray-900 text-sm font-bold">Lista de Tareas</CardTitle>
-            <CardDescription className="text-gray-600 text-xs">
-              {filteredTasks?.length || 0} tareas encontradas
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-3 pt-0">
-            {isLoading ? (
-              <div className="text-center py-6 text-gray-500 text-sm">Cargando tareas...</div>
-            ) : filteredTasks && filteredTasks.length > 0 ? (
-              <div className="space-y-2">
-                {filteredTasks.map((task) => {
-                  const statusConfig = getStatusConfig(task.status || 'pendiente');
-                  const StatusIcon = statusConfig.icon;
-                  return (
-                    <div
-                      key={task.id}
-                      className={`flex flex-col gap-2 p-2.5 rounded-md border transition-colors ${statusConfig.bgColor} ${statusConfig.borderColor} hover:opacity-90`}
-                    >
-                      <div className="flex items-start gap-2 flex-1 min-w-0 overflow-hidden">
-                        <div className="mt-0.5 flex-shrink-0">
-                          <StatusIcon className={`h-3.5 w-3.5 ${statusConfig.textColor}`} />
-                        </div>
-                        <div className="flex-1 min-w-0 overflow-hidden">
-                          <p className={`text-xs font-semibold line-clamp-2 break-words ${
-                            task.status === 'completada' ? 'text-gray-500 line-through' : 'text-gray-900'
-                          }`}>
-                            {task.title}
-                          </p>
-                          {task.description && (
-                            <p className="text-[10px] text-gray-600 line-clamp-1 break-words mt-0.5">
-                              {task.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2 ml-5">
-                        {getStatusBadge(task.status || 'pendiente')}
-                        
-                        {/* Priority selector - EDITABLE */}
-                        {getPrioritySelector(task.id, task.priority || 'media')}
-                        
-                        {/* Assignee selector */}
-                        <Select
-                          value={task.assignedTo?.toString() || "unassigned"}
-                          onValueChange={(value) => handleAssigneeChange(task.id, value)}
-                        >
-                          <SelectTrigger className="w-[110px] bg-white border-gray-300 text-[10px] h-6 gap-1">
-                            {getAssigneeAvatar(task.assignedTo)}
-                          </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-200">
-                            <SelectItem value="unassigned" className="text-xs text-gray-900">Sin asignar</SelectItem>
-                            {users?.map((user) => (
-                              <SelectItem key={user.id} value={user.id.toString()} className="text-xs text-gray-900">
-                                {user.name || user.email || `Usuario ${user.id}`}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-
-                        {/* Status selector */}
-                        <Select
-                          value={task.status || 'pendiente'}
-                          onValueChange={(value) => handleStatusChange(task.id, value)}
-                        >
-                          <SelectTrigger className="w-[90px] bg-white border-gray-300 text-[10px] h-6 text-gray-800">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-200">
-                            <SelectItem value="pendiente" className="text-xs text-gray-900">Pendiente</SelectItem>
-                            <SelectItem value="en_progreso" className="text-xs text-gray-900">En Progreso</SelectItem>
-                            <SelectItem value="completada" className="text-xs text-gray-900">Completada</SelectItem>
-                            <SelectItem value="cancelada" className="text-xs text-gray-900">Cancelada</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-red-500 hover:text-red-600 hover:bg-red-50 h-6 w-6 flex-shrink-0"
-                          onClick={() => {
-                            if (confirm("¿Estás seguro de eliminar esta tarea?")) {
-                              deleteTask.mutate({ id: task.id });
-                            }
-                          }}
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-6 text-gray-500 text-sm">
-                No hay tareas que mostrar
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Vista Kanban */}
-      {viewMode === "kanban" && (
-        <div className="overflow-x-auto pb-4">
-          <div className="flex gap-3 min-w-max">
-            {(["pendiente", "en_progreso", "completada", "cancelada"] as StatusKey[]).map((status) => {
-              const config = STATUS_CONFIG[status];
-              const tasksInColumn = tasksByStatus[status];
-              const StatusIcon = config.icon;
-              
-              return (
-                <div key={status} className="w-[280px] flex-shrink-0">
-                  {/* Header de columna */}
-                  <div className={`${config.headerBg} text-white rounded-t-lg px-3 py-2 flex items-center justify-between`}>
-                    <div className="flex items-center gap-2">
-                      <StatusIcon className="h-4 w-4" />
-                      <span className="font-semibold text-sm">{config.label}</span>
-                    </div>
-                    <Badge className="bg-white/20 text-white text-xs font-semibold">
-                      {tasksInColumn.length}
-                    </Badge>
+      {/* Kanban Board */}
+      <div className="overflow-x-auto pb-4">
+        <div className="flex gap-3 min-w-max">
+          {KANBAN_COLUMNS.map((status) => {
+            const config = STATUS_CONFIG[status];
+            const tasksInColumn = tasksByStatus[status];
+            const StatusIcon = config.icon;
+            const isDropTarget = dragOverColumn === status;
+            
+            return (
+              <div 
+                key={status} 
+                className="w-[300px] flex-shrink-0"
+                onDragOver={(e) => handleDragOver(e, status)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, status)}
+              >
+                {/* Header de columna */}
+                <div className={`${config.headerBg} text-white rounded-t-lg px-3 py-2 flex items-center justify-between`}>
+                  <div className="flex items-center gap-2">
+                    <StatusIcon className="h-4 w-4" />
+                    <span className="font-semibold text-sm">{config.label}</span>
                   </div>
-                  
-                  {/* Contenido de columna */}
-                  <div className={`${config.bgColor} ${config.borderColor} border border-t-0 rounded-b-lg p-2 min-h-[400px] space-y-2`}>
-                    {isLoading ? (
-                      <div className="text-center py-4 text-gray-500 text-xs">Cargando...</div>
-                    ) : tasksInColumn.length > 0 ? (
-                      tasksInColumn.map((task) => (
-                        <div
-                          key={task.id}
-                          className="bg-white rounded-md border border-gray-200 p-2.5 shadow-sm hover:shadow-md transition-shadow"
-                        >
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <p className={`text-xs font-semibold line-clamp-2 break-words flex-1 ${
+                  <Badge className="bg-white/20 text-white text-xs font-semibold">
+                    {tasksInColumn.length}
+                  </Badge>
+                </div>
+                
+                {/* Contenido de columna */}
+                <div className={`${config.bgColor} ${config.borderColor} border border-t-0 rounded-b-lg p-2 min-h-[500px] space-y-2 transition-all ${
+                  isDropTarget ? 'ring-2 ring-offset-2 ring-blue-400 bg-blue-50' : ''
+                }`}>
+                  {isLoading ? (
+                    <div className="text-center py-4 text-gray-500 text-xs">Cargando...</div>
+                  ) : tasksInColumn.length > 0 ? (
+                    tasksInColumn.map((task) => (
+                      <div
+                        key={task.id}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, task.id)}
+                        onDragEnd={handleDragEnd}
+                        className={`bg-white rounded-md border border-gray-200 p-2.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing ${
+                          draggedTaskId === task.id ? 'opacity-50 scale-95' : ''
+                        }`}
+                      >
+                        <div className="flex items-start gap-2 mb-2">
+                          <GripVertical className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-xs font-semibold line-clamp-2 break-words ${
                               task.status === 'completada' ? 'text-gray-500 line-through' : 'text-gray-900'
                             }`}>
                               {task.title}
                             </p>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="text-red-500 hover:text-red-600 hover:bg-red-50 h-5 w-5 flex-shrink-0"
-                              onClick={() => {
-                                if (confirm("¿Estás seguro de eliminar esta tarea?")) {
-                                  deleteTask.mutate({ id: task.id });
-                                }
-                              }}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
+                            {task.description && (
+                              <p className="text-[10px] text-gray-600 line-clamp-2 break-words mt-1">
+                                {task.description}
+                              </p>
+                            )}
                           </div>
-                          
-                          {task.description && (
-                            <p className="text-[10px] text-gray-600 line-clamp-2 break-words mb-2">
-                              {task.description}
-                            </p>
-                          )}
-                          
-                          {/* Assignee */}
-                          <div className="mb-2">
-                            <Select
-                              value={task.assignedTo?.toString() || "unassigned"}
-                              onValueChange={(value) => handleAssigneeChange(task.id, value)}
-                            >
-                              <SelectTrigger className="w-full bg-gray-50 border-gray-300 text-[9px] h-6">
-                                {getAssigneeAvatar(task.assignedTo)}
-                              </SelectTrigger>
-                              <SelectContent className="bg-white border-gray-200">
-                                <SelectItem value="unassigned" className="text-xs text-gray-900">Sin asignar</SelectItem>
-                                {users?.map((user) => (
-                                  <SelectItem key={user.id} value={user.id.toString()} className="text-xs text-gray-900">
-                                    {user.name || user.email || `Usuario ${user.id}`}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          
-                          <div className="flex items-center justify-between gap-2">
-                            {/* Priority selector - EDITABLE */}
-                            {getPrioritySelector(task.id, task.priority || 'media', true)}
-                            <Select
-                              value={task.status || 'pendiente'}
-                              onValueChange={(value) => handleStatusChange(task.id, value)}
-                            >
-                              <SelectTrigger className="w-[80px] bg-gray-50 border-gray-300 text-[9px] h-5 text-gray-800">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent className="bg-white border-gray-200">
-                                <SelectItem value="pendiente" className="text-xs text-gray-900">Pendiente</SelectItem>
-                                <SelectItem value="en_progreso" className="text-xs text-gray-900">En Progreso</SelectItem>
-                                <SelectItem value="completada" className="text-xs text-gray-900">Completada</SelectItem>
-                                <SelectItem value="cancelada" className="text-xs text-gray-900">Cancelada</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50 h-5 w-5 flex-shrink-0"
+                            onClick={() => {
+                              if (confirm("¿Estás seguro de eliminar esta tarea?")) {
+                                deleteTask.mutate({ id: task.id });
+                              }
+                            }}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-center py-8 text-gray-500 text-xs">
-                        Sin tareas
+                        
+                        {/* Assignee */}
+                        <div className="mb-2">
+                          <Select
+                            value={task.assignedTo?.toString() || "unassigned"}
+                            onValueChange={(value) => handleAssigneeChange(task.id, value)}
+                          >
+                            <SelectTrigger className="w-full bg-gray-50 border-gray-300 text-[9px] h-6">
+                              {getAssigneeAvatar(task.assignedTo)}
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-200">
+                              <SelectItem value="unassigned" className="text-xs text-gray-900">Sin asignar</SelectItem>
+                              {users?.map((user) => (
+                                <SelectItem key={user.id} value={user.id.toString()} className="text-xs text-gray-900">
+                                  {user.name || user.email || `Usuario ${user.id}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div className="flex items-center justify-between gap-2">
+                          {getPrioritySelector(task.id, task.priority || 'media')}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500 text-xs border-2 border-dashed border-gray-300 rounded-lg">
+                      Arrastra tareas aquí
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }
