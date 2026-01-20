@@ -24,3 +24,7 @@
 ## Corrección OAuth
 - [x] Corregir error "code and state are required" en OAuth callback
 - [x] Agregar sebastian@gopointagency.com como administrador
+
+## Corrección Mobile CMS
+- [x] Corregir desbordamiento de contenido en móvil (Dashboard)
+- [x] Ajustar textos largos para que no se salgan del viewport

@@ -315,7 +315,7 @@ function CmsLayoutContent({
             </div>
           </div>
         )}
-        <main className="flex-1 p-3 md:p-4 lg:p-5">{children}</main>
+        <main className="flex-1 p-3 md:p-4 lg:p-5 overflow-x-hidden max-w-full">{children}</main>
       </SidebarInset>
     </div>
   );

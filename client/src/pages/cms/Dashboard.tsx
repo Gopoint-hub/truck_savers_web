@@ -32,7 +32,7 @@ export default function CmsDashboard() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-x-hidden max-w-full">
       {/* Header */}
       <div>
         <h1 className="text-xl md:text-2xl font-bold text-gray-900">Dashboard</h1>
@@ -121,10 +121,10 @@ export default function CmsDashboard() {
                 {stats.highPriorityTasks.slice(0, 5).map((task) => (
                   <div
                     key={task.id}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded-md border border-gray-100"
+                    className="flex items-start justify-between p-2 bg-gray-50 rounded-md border border-gray-100 gap-2"
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-gray-900 truncate">
+                    <div className="flex-1 min-w-0 overflow-hidden">
+                      <p className="text-xs font-medium text-gray-900 line-clamp-2 break-words">
                         {task.title}
                       </p>
                       {task.dueDate && (
@@ -197,10 +197,10 @@ export default function CmsDashboard() {
               {stats.recentTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-center justify-between p-2 bg-gray-50 rounded-md border border-gray-100"
+                  className="flex items-start justify-between p-2 bg-gray-50 rounded-md border border-gray-100 gap-2"
                 >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-gray-900 truncate">
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <p className="text-xs font-medium text-gray-900 line-clamp-2 break-words">
                       {task.title}
                     </p>
                     <p className="text-[10px] text-gray-400 mt-0.5">
