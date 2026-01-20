@@ -4,14 +4,17 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 export const getLoginUrl = (returnTo?: string) => {
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;
   const appId = import.meta.env.VITE_APP_ID;
-  // Include the return path in the callback URL
+  
+  // Use a clean callback URL without query params
+  const redirectUri = `${window.location.origin}/api/oauth/callback`;
+  
+  // Encode the return path in the state along with the redirectUri
   const currentPath = returnTo || window.location.pathname;
-  const callbackUrl = new URL(`${window.location.origin}/api/oauth/callback`);
-  if (currentPath && currentPath !== '/') {
-    callbackUrl.searchParams.set('redirect_to', currentPath);
-  }
-  const redirectUri = callbackUrl.toString();
-  const state = btoa(redirectUri);
+  const stateData = {
+    redirectUri: redirectUri,
+    returnTo: currentPath !== '/' ? currentPath : undefined
+  };
+  const state = btoa(JSON.stringify(stateData));
 
   const url = new URL(`${oauthPortalUrl}/app-auth`);
   url.searchParams.set("appId", appId);

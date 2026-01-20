@@ -89,7 +89,7 @@ export default function CmsLayout({
           </div>
           <Button
             onClick={() => {
-              window.location.href = getLoginUrl();
+              window.location.href = getLoginUrl('/cms');
             }}
             size="default"
             className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white"

@@ -20,3 +20,7 @@
 - [x] Optimizar navegación para móvil
 - [x] Mejorar usabilidad del sidebar en móvil
 - [x] Corregir redirección después del login para volver al CMS
+
+## Corrección OAuth
+- [x] Corregir error "code and state are required" en OAuth callback
+- [x] Agregar sebastian@gopointagency.com como administrador
