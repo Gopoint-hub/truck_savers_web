@@ -30,7 +30,8 @@ import {
   Target, 
   Mail, 
   UserCircle,
-  Truck
+  Truck,
+  Menu
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -47,9 +48,9 @@ const menuItems = [
 ];
 
 const SIDEBAR_WIDTH_KEY = "cms-sidebar-width";
-const DEFAULT_WIDTH = 260;
-const MIN_WIDTH = 200;
-const MAX_WIDTH = 400;
+const DEFAULT_WIDTH = 220;
+const MIN_WIDTH = 180;
+const MAX_WIDTH = 320;
 
 export default function CmsLayout({
   children,
@@ -72,26 +73,26 @@ export default function CmsLayout({
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex items-center gap-3 mb-4">
-            <Truck className="h-10 w-10 text-[#368A45]" />
-            <span className="text-2xl font-bold text-white">TTS CMS</span>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center gap-6 p-6 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200">
+          <div className="flex items-center gap-2">
+            <Truck className="h-8 w-8 text-[#368A45]" />
+            <span className="text-xl font-bold text-gray-900">TTS CMS</span>
           </div>
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-xl font-semibold tracking-tight text-center text-white">
-              Iniciar sesión para continuar
+          <div className="flex flex-col items-center gap-3">
+            <h1 className="text-lg font-semibold text-center text-gray-900">
+              Iniciar sesión
             </h1>
-            <p className="text-sm text-gray-400 text-center max-w-sm">
-              El acceso a este panel de administración requiere autenticación.
+            <p className="text-sm text-gray-500 text-center">
+              El acceso requiere autenticación.
             </p>
           </div>
           <Button
             onClick={() => {
               window.location.href = getLoginUrl();
             }}
-            size="lg"
-            className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white shadow-lg hover:shadow-xl transition-all"
+            size="default"
+            className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white"
           >
             Iniciar sesión
           </Button>
@@ -103,23 +104,20 @@ export default function CmsLayout({
   // Check if user is admin
   if (user.role !== 'admin') {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex items-center gap-3 mb-4">
-            <Truck className="h-10 w-10 text-red-500" />
-            <span className="text-2xl font-bold text-white">Acceso Denegado</span>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center gap-6 p-6 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200">
+          <div className="flex items-center gap-2">
+            <Truck className="h-8 w-8 text-red-500" />
+            <span className="text-xl font-bold text-gray-900">Acceso Denegado</span>
           </div>
-          <div className="flex flex-col items-center gap-6">
-            <p className="text-sm text-gray-400 text-center max-w-sm">
-              No tienes permisos de administrador para acceder a este panel.
-              Contacta al administrador si crees que esto es un error.
-            </p>
-          </div>
+          <p className="text-sm text-gray-500 text-center">
+            No tienes permisos de administrador para acceder a este panel.
+          </p>
           <Button
             onClick={() => {
               window.location.href = '/';
             }}
-            size="lg"
+            size="default"
             variant="outline"
             className="w-full"
           >
@@ -200,26 +198,26 @@ function CmsLayoutContent({
   }, [isResizing, setSidebarWidth]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
-          className="border-r border-gray-800 bg-gray-950"
+          className="border-r border-gray-200 bg-white"
           disableTransition={isResizing}
         >
-          <SidebarHeader className="h-16 justify-center border-b border-gray-800">
-            <div className="flex items-center gap-3 px-2 transition-all w-full">
+          <SidebarHeader className="h-12 justify-center border-b border-gray-200 bg-white">
+            <div className="flex items-center gap-2 px-2 transition-all w-full">
               <button
                 onClick={toggleSidebar}
-                className="h-8 w-8 flex items-center justify-center hover:bg-gray-800 rounded-lg transition-colors focus:outline-none shrink-0"
+                className="h-7 w-7 flex items-center justify-center hover:bg-gray-100 rounded-md transition-colors focus:outline-none shrink-0"
                 aria-label="Toggle navigation"
               >
-                <PanelLeft className="h-4 w-4 text-gray-400" />
+                <PanelLeft className="h-4 w-4 text-gray-500" />
               </button>
               {!isCollapsed ? (
-                <div className="flex items-center gap-2 min-w-0">
-                  <Truck className="h-6 w-6 text-[#368A45]" />
-                  <span className="font-bold tracking-tight truncate text-white">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <Truck className="h-5 w-5 text-[#368A45]" />
+                  <span className="font-semibold text-sm tracking-tight truncate text-gray-900">
                     TTS CMS
                   </span>
                 </div>
@@ -227,8 +225,8 @@ function CmsLayoutContent({
             </div>
           </SidebarHeader>
 
-          <SidebarContent className="gap-0 bg-gray-950">
-            <SidebarMenu className="px-2 py-3">
+          <SidebarContent className="gap-0 bg-white">
+            <SidebarMenu className="px-2 py-2">
               {menuItems.map(item => {
                 const isActive = location === item.path || 
                   (item.path === '/cms' && location === '/cms/dashboard');
@@ -238,10 +236,10 @@ function CmsLayoutContent({
                       isActive={isActive}
                       onClick={() => setLocation(item.path)}
                       tooltip={item.label}
-                      className={`h-10 transition-all font-normal ${
+                      className={`h-9 text-sm transition-all font-normal ${
                         isActive 
-                          ? "bg-[#368A45]/20 text-[#368A45] hover:bg-[#368A45]/30" 
-                          : "text-gray-400 hover:text-white hover:bg-gray-800"
+                          ? "bg-[#368A45]/10 text-[#368A45] hover:bg-[#368A45]/15" 
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       }`}
                     >
                       <item.icon
@@ -255,38 +253,38 @@ function CmsLayoutContent({
             </SidebarMenu>
           </SidebarContent>
 
-          <SidebarFooter className="p-3 border-t border-gray-800 bg-gray-950">
+          <SidebarFooter className="p-2 border-t border-gray-200 bg-white">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-gray-800 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none">
-                  <Avatar className="h-9 w-9 border border-gray-700 shrink-0">
+                <button className="flex items-center gap-2 rounded-md px-1 py-1 hover:bg-gray-100 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none">
+                  <Avatar className="h-7 w-7 border border-gray-200 shrink-0">
                     <AvatarFallback className="text-xs font-medium bg-[#368A45] text-white">
                       {user?.name?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
-                    <p className="text-sm font-medium truncate leading-none text-white">
+                    <p className="text-xs font-medium truncate leading-none text-gray-900">
                       {user?.name || "-"}
                     </p>
-                    <p className="text-xs text-gray-500 truncate mt-1.5">
+                    <p className="text-[10px] text-gray-500 truncate mt-0.5">
                       {user?.role === 'admin' ? 'Administrador' : 'Usuario'}
                     </p>
                   </div>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-gray-900 border-gray-700">
+              <DropdownMenuContent align="end" className="w-44 bg-white border-gray-200">
                 <DropdownMenuItem
                   onClick={() => setLocation('/')}
-                  className="cursor-pointer text-gray-300 hover:text-white focus:text-white"
+                  className="cursor-pointer text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  <Truck className="mr-2 h-4 w-4" />
+                  <Truck className="mr-2 h-3.5 w-3.5" />
                   <span>Ir al sitio</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={logout}
-                  className="cursor-pointer text-red-400 focus:text-red-400"
+                  className="cursor-pointer text-red-500 focus:text-red-500 text-sm"
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <LogOut className="mr-2 h-3.5 w-3.5" />
                   <span>Cerrar sesión</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -294,7 +292,7 @@ function CmsLayoutContent({
           </SidebarFooter>
         </Sidebar>
         <div
-          className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#368A45]/50 transition-colors ${isCollapsed ? "hidden" : ""}`}
+          className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-[#368A45]/30 transition-colors ${isCollapsed ? "hidden" : ""}`}
           onMouseDown={() => {
             if (isCollapsed) return;
             setIsResizing(true);
@@ -303,22 +301,21 @@ function CmsLayoutContent({
         />
       </div>
 
-      <SidebarInset className="bg-gray-900">
+      <SidebarInset className="bg-gray-50">
         {isMobile && (
-          <div className="flex border-b border-gray-800 h-14 items-center justify-between bg-gray-900 px-2 backdrop-blur sticky top-0 z-40">
+          <div className="flex border-b border-gray-200 h-12 items-center justify-between bg-white px-3 backdrop-blur sticky top-0 z-40 shadow-sm">
             <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 rounded-lg bg-gray-800 text-white" />
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="tracking-tight text-white">
-                    {activeMenuItem?.label ?? "Menu"}
-                  </span>
-                </div>
+              <SidebarTrigger className="h-8 w-8 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200" />
+              <div className="flex items-center gap-2">
+                <Truck className="h-4 w-4 text-[#368A45]" />
+                <span className="text-sm font-medium text-gray-900">
+                  {activeMenuItem?.label ?? "Menu"}
+                </span>
               </div>
             </div>
           </div>
         )}
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-3 md:p-4 lg:p-5">{children}</main>
       </SidebarInset>
     </div>
   );

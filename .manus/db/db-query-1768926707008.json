@@ -1,0 +1,32 @@
+{
+  "query": "SELECT * FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute SELECT * FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "AmuMGeW9djDZVJ2pq5d6pc",
+      "name": "edmundo",
+      "email": "edmundo@qualitymultiserv.com",
+      "loginMethod": "email",
+      "role": "admin",
+      "createdAt": "2026-01-20 16:19:33",
+      "updatedAt": "2026-01-20 16:26:22",
+      "lastSignedIn": "2026-01-20 16:26:22"
+    },
+    {
+      "id": "12",
+      "openId": "8rHvM4nBdryAHR8gewpSVU",
+      "name": "sebastian.jara.b",
+      "email": "sebastian.jara.b@gmail.com",
+      "loginMethod": "email",
+      "role": "user",
+      "createdAt": "2026-01-20 16:30:48",
+      "updatedAt": "2026-01-20 16:30:58",
+      "lastSignedIn": "2026-01-20 16:30:59"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\tloginMethod\trole\tcreatedAt\tupdatedAt\tlastSignedIn\n1\tAmuMGeW9djDZVJ2pq5d6pc\tedmundo\tedmundo@qualitymultiserv.com\temail\tadmin\t2026-01-20 16:19:33\t2026-01-20 16:26:22\t2026-01-20 16:26:22\n12\t8rHvM4nBdryAHR8gewpSVU\tsebastian.jara.b\tsebastian.jara.b@gmail.com\temail\tuser\t2026-01-20 16:30:48\t2026-01-20 16:30:58\t2026-01-20 16:30:59\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

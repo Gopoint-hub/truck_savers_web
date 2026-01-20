@@ -13,3 +13,10 @@
 - [x] Importar datos del Excel de pendientes
 - [ ] Configurar servicio de envío de emails para newsletter
 
+
+## Rediseño CMS - Tema Claro y Mobile
+- [x] Cambiar tema del CMS a colores claros (fondo blanco)
+- [x] Reducir tamaños de fuente en desktop
+- [x] Optimizar navegación para móvil
+- [x] Mejorar usabilidad del sidebar en móvil
+- [x] Corregir redirección después del login para volver al CMS

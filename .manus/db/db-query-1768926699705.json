@@ -1,0 +1,24 @@
+{
+  "query": "SELECT id, openId, name, email, role FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 47hAhXzy8pHCHjL.root --database iGLpkssJXNtgdEVmvEnvkr --execute SELECT id, openId, name, email, role FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "AmuMGeW9djDZVJ2pq5d6pc",
+      "name": "edmundo",
+      "email": "edmundo@qualitymultiserv.com",
+      "role": "admin"
+    },
+    {
+      "id": "12",
+      "openId": "8rHvM4nBdryAHR8gewpSVU",
+      "name": "sebastian.jara.b",
+      "email": "sebastian.jara.b@gmail.com",
+      "role": "user"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\trole\n1\tAmuMGeW9djDZVJ2pq5d6pc\tedmundo\tedmundo@qualitymultiserv.com\tadmin\n12\t8rHvM4nBdryAHR8gewpSVU\tsebastian.jara.b\tsebastian.jara.b@gmail.com\tuser\n",
+  "stderr": "",
+  "execution_time_ms": 710
+}

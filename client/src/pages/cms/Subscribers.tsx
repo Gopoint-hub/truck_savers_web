@@ -20,14 +20,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Upload, Trash2, Search, Users, UserCheck, UserX } from "lucide-react";
 import { toast } from "sonner";
@@ -115,8 +107,6 @@ export default function CmsSubscribers() {
       try {
         const text = event.target?.result as string;
         const lines = text.split('\n').filter(line => line.trim());
-        
-        // Skip header row
         const dataLines = lines.slice(1);
         
         const subscribers = dataLines.map(line => {
@@ -146,29 +136,29 @@ export default function CmsSubscribers() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold text-white">Suscriptores</h1>
-          <p className="text-gray-400 mt-1">Base de datos de clientes para newsletter</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900">Suscriptores</h1>
+          <p className="text-gray-500 text-sm mt-0.5">Base de datos de clientes para newsletter</p>
         </div>
         <div className="flex gap-2">
           <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="border-gray-600">
-                <Upload className="h-4 w-4 mr-2" />
-                Importar CSV
+              <Button variant="outline" className="border-gray-200 text-sm h-8">
+                <Upload className="h-3.5 w-3.5 mr-1.5" />
+                CSV
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-gray-800 border-gray-700 text-white">
+            <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
               <DialogHeader>
-                <DialogTitle>Importar Suscriptores</DialogTitle>
-                <DialogDescription className="text-gray-400">
-                  Sube un archivo CSV con los suscriptores. Formato: email, nombre, teléfono, empresa, ubicación
+                <DialogTitle className="text-base">Importar Suscriptores</DialogTitle>
+                <DialogDescription className="text-gray-500 text-sm">
+                  Formato: email, nombre, teléfono, empresa, ubicación
                 </DialogDescription>
               </DialogHeader>
-              <div className="py-4">
+              <div className="py-3">
                 <input
                   type="file"
                   accept=".csv"
@@ -178,16 +168,16 @@ export default function CmsSubscribers() {
                 />
                 <Button
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full bg-gray-900 border border-dashed border-gray-600 hover:border-[#368A45] h-32"
+                  className="w-full bg-gray-50 border border-dashed border-gray-300 hover:border-[#368A45] h-24"
                   variant="outline"
                   disabled={bulkCreate.isPending}
                 >
                   {bulkCreate.isPending ? (
                     "Importando..."
                   ) : (
-                    <div className="flex flex-col items-center gap-2">
-                      <Upload className="h-8 w-8 text-gray-400" />
-                      <span className="text-gray-400">Haz clic para seleccionar archivo CSV</span>
+                    <div className="flex flex-col items-center gap-1">
+                      <Upload className="h-6 w-6 text-gray-400" />
+                      <span className="text-gray-500 text-xs">Seleccionar archivo CSV</span>
                     </div>
                   )}
                 </Button>
@@ -196,80 +186,80 @@ export default function CmsSubscribers() {
           </Dialog>
           <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-[#368A45] hover:bg-[#2D6E39]">
-                <Plus className="h-4 w-4 mr-2" />
+              <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8">
+                <Plus className="h-3.5 w-3.5 mr-1.5" />
                 Agregar
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-gray-800 border-gray-700 text-white">
+            <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
               <DialogHeader>
-                <DialogTitle>Agregar Suscriptor</DialogTitle>
-                <DialogDescription className="text-gray-400">
+                <DialogTitle className="text-base">Agregar Suscriptor</DialogTitle>
+                <DialogDescription className="text-gray-500 text-sm">
                   Agrega un nuevo suscriptor manualmente
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleCreateSubscriber}>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
+                <div className="space-y-3 py-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="email" className="text-sm">Email *</Label>
                     <Input
                       id="email"
                       name="email"
                       type="email"
                       placeholder="correo@ejemplo.com"
-                      className="bg-gray-900 border-gray-700"
+                      className="bg-white border-gray-200 text-sm h-9"
                       required
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Nombre</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="name" className="text-sm">Nombre</Label>
                       <Input
                         id="name"
                         name="name"
-                        placeholder="Nombre completo"
-                        className="bg-gray-900 border-gray-700"
+                        placeholder="Nombre"
+                        className="bg-white border-gray-200 text-sm h-9"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Teléfono</Label>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="phone" className="text-sm">Teléfono</Label>
                       <Input
                         id="phone"
                         name="phone"
-                        placeholder="+1 234 567 8900"
-                        className="bg-gray-900 border-gray-700"
+                        placeholder="+1 234 567"
+                        className="bg-white border-gray-200 text-sm h-9"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="company">Empresa</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="company" className="text-sm">Empresa</Label>
                       <Input
                         id="company"
                         name="company"
-                        placeholder="Nombre de empresa"
-                        className="bg-gray-900 border-gray-700"
+                        placeholder="Empresa"
+                        className="bg-white border-gray-200 text-sm h-9"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="location">Ubicación</Label>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="location" className="text-sm">Ubicación</Label>
                       <Input
                         id="location"
                         name="location"
                         placeholder="Houston, TX"
-                        className="bg-gray-900 border-gray-700"
+                        className="bg-white border-gray-200 text-sm h-9"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="language">Idioma</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="language" className="text-sm">Idioma</Label>
                     <Select name="language" defaultValue="es">
-                      <SelectTrigger className="bg-gray-900 border-gray-700">
-                        <SelectValue placeholder="Seleccionar idioma" />
+                      <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
+                        <SelectValue placeholder="Idioma" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
-                        <SelectItem value="es">Español</SelectItem>
-                        <SelectItem value="en">English</SelectItem>
+                      <SelectContent className="bg-white border-gray-200">
+                        <SelectItem value="es" className="text-sm">Español</SelectItem>
+                        <SelectItem value="en" className="text-sm">English</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -279,13 +269,13 @@ export default function CmsSubscribers() {
                     type="button"
                     variant="outline"
                     onClick={() => setIsCreateOpen(false)}
-                    className="border-gray-600"
+                    className="border-gray-200 text-sm h-8"
                   >
                     Cancelar
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-[#368A45] hover:bg-[#2D6E39]"
+                    className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8"
                     disabled={createSubscriber.isPending}
                   >
                     {createSubscriber.isPending ? "Agregando..." : "Agregar"}
@@ -298,36 +288,36 @@ export default function CmsSubscribers() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <Users className="h-8 w-8 text-blue-500" />
+      <div className="grid grid-cols-3 gap-2">
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-blue-500" />
               <div>
-                <div className="text-2xl font-bold text-white">{stats?.total || 0}</div>
-                <p className="text-xs text-gray-400">Total Suscriptores</p>
+                <div className="text-lg font-bold text-gray-900">{stats?.total || 0}</div>
+                <p className="text-[10px] text-gray-400">Total</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <UserCheck className="h-8 w-8 text-green-500" />
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <UserCheck className="h-5 w-5 text-green-500" />
               <div>
-                <div className="text-2xl font-bold text-white">{stats?.active || 0}</div>
-                <p className="text-xs text-gray-400">Activos</p>
+                <div className="text-lg font-bold text-gray-900">{stats?.active || 0}</div>
+                <p className="text-[10px] text-gray-400">Activos</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <UserX className="h-8 w-8 text-red-500" />
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <UserX className="h-5 w-5 text-red-500" />
               <div>
-                <div className="text-2xl font-bold text-white">{stats?.inactive || 0}</div>
-                <p className="text-xs text-gray-400">Inactivos</p>
+                <div className="text-lg font-bold text-gray-900">{stats?.inactive || 0}</div>
+                <p className="text-[10px] text-gray-400">Inactivos</p>
               </div>
             </div>
           </CardContent>
@@ -335,111 +325,92 @@ export default function CmsSubscribers() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-4">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+      <div className="flex flex-wrap gap-2">
+        <div className="relative flex-1 min-w-[150px]">
+          <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
           <Input
-            placeholder="Buscar por email, nombre o empresa..."
+            placeholder="Buscar..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-gray-800 border-gray-700"
+            className="pl-8 bg-white border-gray-200 text-sm h-8"
           />
         </div>
         <Select value={filterActive} onValueChange={setFilterActive}>
-          <SelectTrigger className="w-[180px] bg-gray-800 border-gray-700">
-            <SelectValue placeholder="Filtrar por estado" />
+          <SelectTrigger className="w-[120px] bg-white border-gray-200 text-sm h-8">
+            <SelectValue placeholder="Estado" />
           </SelectTrigger>
-          <SelectContent className="bg-gray-800 border-gray-700">
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="active">Activos</SelectItem>
-            <SelectItem value="inactive">Inactivos</SelectItem>
+          <SelectContent className="bg-white border-gray-200">
+            <SelectItem value="all" className="text-sm">Todos</SelectItem>
+            <SelectItem value="active" className="text-sm">Activos</SelectItem>
+            <SelectItem value="inactive" className="text-sm">Inactivos</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Subscribers Table */}
-      <Card className="bg-gray-800 border-gray-700">
-        <CardHeader>
-          <CardTitle className="text-white">Lista de Suscriptores</CardTitle>
-          <CardDescription className="text-gray-400">
+      {/* Subscribers List */}
+      <Card className="bg-white border-gray-200 shadow-sm">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Suscriptores</CardTitle>
+          <CardDescription className="text-gray-500 text-xs">
             {subscribers?.length || 0} suscriptores encontrados
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-3 pt-0">
           {isLoading ? (
-            <div className="text-center py-8 text-gray-400">Cargando suscriptores...</div>
+            <div className="text-center py-6 text-gray-400 text-sm">Cargando suscriptores...</div>
           ) : subscribers && subscribers.length > 0 ? (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-gray-700">
-                    <TableHead className="text-gray-400">Email</TableHead>
-                    <TableHead className="text-gray-400">Nombre</TableHead>
-                    <TableHead className="text-gray-400">Empresa</TableHead>
-                    <TableHead className="text-gray-400">Ubicación</TableHead>
-                    <TableHead className="text-gray-400">Estado</TableHead>
-                    <TableHead className="text-gray-400 text-right">Acciones</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {subscribers.map((subscriber) => (
-                    <TableRow key={subscriber.id} className="border-gray-700">
-                      <TableCell className="text-white font-medium">
-                        {subscriber.email}
-                      </TableCell>
-                      <TableCell className="text-gray-300">
-                        {subscriber.name || "-"}
-                      </TableCell>
-                      <TableCell className="text-gray-300">
-                        {subscriber.company || "-"}
-                      </TableCell>
-                      <TableCell className="text-gray-300">
-                        {subscriber.location || "-"}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={subscriber.isActive ? "default" : "secondary"}
-                          className={subscriber.isActive ? "bg-green-600" : "bg-gray-600"}
-                        >
-                          {subscriber.isActive ? "Activo" : "Inactivo"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-gray-400 hover:text-white"
-                            onClick={() => {
-                              updateSubscriber.mutate({
-                                id: subscriber.id,
-                                isActive: !subscriber.isActive,
-                              });
-                            }}
-                          >
-                            {subscriber.isActive ? "Desactivar" : "Activar"}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
-                            onClick={() => {
-                              if (confirm("¿Estás seguro de eliminar este suscriptor?")) {
-                                deleteSubscriber.mutate({ id: subscriber.id });
-                              }
-                            }}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="space-y-2">
+              {subscribers.map((subscriber) => (
+                <div
+                  key={subscriber.id}
+                  className="flex items-center justify-between p-2.5 bg-gray-50 rounded-md border border-gray-100"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-gray-900 truncate">
+                      {subscriber.email}
+                    </p>
+                    <p className="text-[10px] text-gray-400 truncate mt-0.5">
+                      {subscriber.name || "-"} • {subscriber.company || "-"} • {subscriber.location || "-"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      variant={subscriber.isActive ? "default" : "secondary"}
+                      className={`text-[10px] px-1.5 py-0 ${subscriber.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+                    >
+                      {subscriber.isActive ? "Activo" : "Inactivo"}
+                    </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-gray-400 hover:text-gray-600 text-[10px] h-6 px-2"
+                      onClick={() => {
+                        updateSubscriber.mutate({
+                          id: subscriber.id,
+                          isActive: !subscriber.isActive,
+                        });
+                      }}
+                    >
+                      {subscriber.isActive ? "Desactivar" : "Activar"}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6"
+                      onClick={() => {
+                        if (confirm("¿Estás seguro de eliminar este suscriptor?")) {
+                          deleteSubscriber.mutate({ id: subscriber.id });
+                        }
+                      }}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-6 text-gray-400 text-sm">
               No hay suscriptores que mostrar
             </div>
           )}

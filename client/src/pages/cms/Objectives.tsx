@@ -27,7 +27,6 @@ import { toast } from "sonner";
 
 export default function CmsObjectives() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [editingObjective, setEditingObjective] = useState<number | null>(null);
   
   const utils = trpc.useUtils();
   const { data: objectives, isLoading } = trpc.objectives.list.useQuery();
@@ -50,7 +49,6 @@ export default function CmsObjectives() {
     onSuccess: () => {
       utils.objectives.list.invalidate();
       utils.dashboard.stats.invalidate();
-      setEditingObjective(null);
       toast.success("Objetivo actualizado");
     },
     onError: (error) => {
@@ -112,101 +110,101 @@ export default function CmsObjectives() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold text-white">Metas y Objetivos</h1>
-          <p className="text-gray-400 mt-1">Gestión de objetivos comerciales por línea de negocio</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900">Metas y Objetivos</h1>
+          <p className="text-gray-500 text-sm mt-0.5">Gestión de objetivos comerciales por línea de negocio</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-[#368A45] hover:bg-[#2D6E39]">
-              <Plus className="h-4 w-4 mr-2" />
+            <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8">
+              <Plus className="h-3.5 w-3.5 mr-1.5" />
               Nuevo Objetivo
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-gray-800 border-gray-700 text-white">
+          <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
             <DialogHeader>
-              <DialogTitle>Crear Nuevo Objetivo</DialogTitle>
-              <DialogDescription className="text-gray-400">
+              <DialogTitle className="text-base">Crear Nuevo Objetivo</DialogTitle>
+              <DialogDescription className="text-gray-500 text-sm">
                 Define una nueva meta comercial
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreateObjective}>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="serviceProduct">Servicio/Producto</Label>
+              <div className="space-y-3 py-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="serviceProduct" className="text-sm">Servicio/Producto</Label>
                   <Input
                     id="serviceProduct"
                     name="serviceProduct"
                     placeholder="Ej: Alineaciones, Cambios de aceite..."
-                    className="bg-gray-900 border-gray-700"
+                    className="bg-white border-gray-200 text-sm h-9"
                     required
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="targetValue">Meta (texto)</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="targetValue" className="text-sm">Meta (texto)</Label>
                     <Input
                       id="targetValue"
                       name="targetValue"
                       placeholder="Ej: 150 / mes"
-                      className="bg-gray-900 border-gray-700"
+                      className="bg-white border-gray-200 text-sm h-9"
                       required
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="targetNumeric">Meta (número)</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="targetNumeric" className="text-sm">Meta (número)</Label>
                     <Input
                       id="targetNumeric"
                       name="targetNumeric"
                       type="number"
                       placeholder="150"
-                      className="bg-gray-900 border-gray-700"
+                      className="bg-white border-gray-200 text-sm h-9"
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="period">Período</Label>
+                <div className="space-y-1.5">
+                  <Label htmlFor="period" className="text-sm">Período</Label>
                   <Select name="period" defaultValue="monthly">
-                    <SelectTrigger className="bg-gray-900 border-gray-700">
+                    <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
                       <SelectValue placeholder="Seleccionar período" />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-gray-700">
-                      <SelectItem value="daily">Diario</SelectItem>
-                      <SelectItem value="weekly">Semanal</SelectItem>
-                      <SelectItem value="monthly">Mensual</SelectItem>
-                      <SelectItem value="quarterly">Trimestral</SelectItem>
-                      <SelectItem value="yearly">Anual</SelectItem>
+                    <SelectContent className="bg-white border-gray-200">
+                      <SelectItem value="daily" className="text-sm">Diario</SelectItem>
+                      <SelectItem value="weekly" className="text-sm">Semanal</SelectItem>
+                      <SelectItem value="monthly" className="text-sm">Mensual</SelectItem>
+                      <SelectItem value="quarterly" className="text-sm">Trimestral</SelectItem>
+                      <SelectItem value="yearly" className="text-sm">Anual</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="businessLineId">Línea de Negocio</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="businessLineId" className="text-sm">Línea de Negocio</Label>
                     <Select name="businessLineId">
-                      <SelectTrigger className="bg-gray-900 border-gray-700">
+                      <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
                         <SelectValue placeholder="Seleccionar..." />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
+                      <SelectContent className="bg-white border-gray-200">
                         {businessLines?.map((bl) => (
-                          <SelectItem key={bl.id} value={bl.id.toString()}>
+                          <SelectItem key={bl.id} value={bl.id.toString()} className="text-sm">
                             {bl.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="locationId">Ubicación</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="locationId" className="text-sm">Ubicación</Label>
                     <Select name="locationId">
-                      <SelectTrigger className="bg-gray-900 border-gray-700">
+                      <SelectTrigger className="bg-white border-gray-200 text-sm h-9">
                         <SelectValue placeholder="Seleccionar..." />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
+                      <SelectContent className="bg-white border-gray-200">
                         {locations?.map((loc) => (
-                          <SelectItem key={loc.id} value={loc.id.toString()}>
+                          <SelectItem key={loc.id} value={loc.id.toString()} className="text-sm">
                             {loc.name}
                           </SelectItem>
                         ))}
@@ -220,13 +218,13 @@ export default function CmsObjectives() {
                   type="button"
                   variant="outline"
                   onClick={() => setIsCreateOpen(false)}
-                  className="border-gray-600"
+                  className="border-gray-200 text-sm h-8"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#368A45] hover:bg-[#2D6E39]"
+                  className="bg-[#368A45] hover:bg-[#2D6E39] text-sm h-8"
                   disabled={createObjective.isPending}
                 >
                   {createObjective.isPending ? "Creando..." : "Crear Objetivo"}
@@ -238,43 +236,43 @@ export default function CmsObjectives() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <Target className="h-8 w-8 text-[#368A45]" />
+      <div className="grid grid-cols-3 gap-2">
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-[#368A45]" />
               <div>
-                <div className="text-2xl font-bold text-white">{objectives?.length || 0}</div>
-                <p className="text-xs text-gray-400">Objetivos Totales</p>
+                <div className="text-lg font-bold text-gray-900">{objectives?.length || 0}</div>
+                <p className="text-[10px] text-gray-400">Totales</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <TrendingUp className="h-8 w-8 text-green-500" />
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-green-500" />
               <div>
-                <div className="text-2xl font-bold text-white">
+                <div className="text-lg font-bold text-gray-900">
                   {objectives?.filter(o => o.isActive).length || 0}
                 </div>
-                <p className="text-xs text-gray-400">Objetivos Activos</p>
+                <p className="text-[10px] text-gray-400">Activos</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-3">
-              <Target className="h-8 w-8 text-yellow-500" />
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-yellow-500" />
               <div>
-                <div className="text-2xl font-bold text-white">
+                <div className="text-lg font-bold text-gray-900">
                   {objectives?.filter(o => {
                     const progress = calculateProgress(o.currentProgress, o.targetNumeric);
                     return progress >= 100;
                   }).length || 0}
                 </div>
-                <p className="text-xs text-gray-400">Metas Alcanzadas</p>
+                <p className="text-[10px] text-gray-400">Alcanzadas</p>
               </div>
             </div>
           </CardContent>
@@ -282,42 +280,45 @@ export default function CmsObjectives() {
       </div>
 
       {/* Objectives List */}
-      <Card className="bg-gray-800 border-gray-700">
-        <CardHeader>
-          <CardTitle className="text-white">Lista de Objetivos</CardTitle>
-          <CardDescription className="text-gray-400">
+      <Card className="bg-white border-gray-200 shadow-sm">
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Objetivos</CardTitle>
+          <CardDescription className="text-gray-500 text-xs">
             Haz clic en el progreso para actualizarlo
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-3 pt-0">
           {isLoading ? (
-            <div className="text-center py-8 text-gray-400">Cargando objetivos...</div>
+            <div className="text-center py-6 text-gray-400 text-sm">Cargando objetivos...</div>
           ) : objectives && objectives.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-2">
               {objectives.map((objective) => {
                 const progress = calculateProgress(objective.currentProgress, objective.targetNumeric);
                 return (
                   <div
                     key={objective.id}
-                    className="p-4 bg-gray-900 rounded-lg"
+                    className="p-2.5 bg-gray-50 rounded-md border border-gray-100"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="text-white font-medium">{objective.serviceProduct}</h3>
-                          <Badge variant={objective.isActive ? "default" : "secondary"} className={objective.isActive ? "bg-green-600" : "bg-gray-600"}>
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 mb-0.5">
+                          <h3 className="text-gray-900 font-medium text-xs truncate">{objective.serviceProduct}</h3>
+                          <Badge 
+                            variant={objective.isActive ? "default" : "secondary"} 
+                            className={`text-[10px] px-1 py-0 ${objective.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+                          >
                             {objective.isActive ? "Activo" : "Inactivo"}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-[10px] text-gray-400">
                           Meta: {objective.targetValue} • {getPeriodLabel(objective.period)}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-gray-400 hover:text-white"
+                          className="text-gray-400 hover:text-gray-600 h-6 w-6"
                           onClick={() => {
                             updateObjective.mutate({
                               id: objective.id,
@@ -325,19 +326,19 @@ export default function CmsObjectives() {
                             });
                           }}
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-3 w-3" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                          className="text-red-400 hover:text-red-500 hover:bg-red-50 h-6 w-6"
                           onClick={() => {
                             if (confirm("¿Estás seguro de eliminar este objetivo?")) {
                               deleteObjective.mutate({ id: objective.id });
                             }
                           }}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
@@ -345,15 +346,15 @@ export default function CmsObjectives() {
                       className="cursor-pointer"
                       onClick={() => handleUpdateProgress(objective.id, objective.currentProgress || 0)}
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-400">Progreso</span>
-                        <span className="text-sm text-white">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] text-gray-400">Progreso</span>
+                        <span className="text-[10px] text-gray-600">
                           {objective.currentProgress || 0} / {objective.targetNumeric || objective.targetValue} ({progress}%)
                         </span>
                       </div>
                       <Progress 
                         value={progress} 
-                        className="h-3 bg-gray-700"
+                        className="h-1.5 bg-gray-100"
                       />
                     </div>
                   </div>
@@ -361,7 +362,7 @@ export default function CmsObjectives() {
               })}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-6 text-gray-400 text-sm">
               No hay objetivos configurados. Crea el primero.
             </div>
           )}
