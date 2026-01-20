@@ -83,7 +83,7 @@ export default function CmsLayout({
             <h1 className="text-lg font-semibold text-center text-gray-900">
               Iniciar sesión
             </h1>
-            <p className="text-sm text-gray-500 text-center">
+            <p className="text-sm text-gray-600 text-center">
               El acceso requiere autenticación.
             </p>
           </div>
@@ -110,7 +110,7 @@ export default function CmsLayout({
             <Truck className="h-8 w-8 text-red-500" />
             <span className="text-xl font-bold text-gray-900">Acceso Denegado</span>
           </div>
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-gray-600 text-center">
             No tienes permisos de administrador para acceder a este panel.
           </p>
           <Button
@@ -274,7 +274,7 @@ function CmsLayoutContent({
                     <p className="text-xs font-medium truncate leading-none text-gray-900">
                       {user?.name || "-"}
                     </p>
-                    <p className="text-[10px] text-gray-500 truncate mt-0.5">
+                    <p className="text-[10px] text-gray-600 truncate mt-0.5">
                       {user?.role === 'admin' ? 'Administrador' : 'Usuario'}
                     </p>
                   </div>

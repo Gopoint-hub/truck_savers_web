@@ -141,7 +141,7 @@ export default function CmsSubscribers() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Suscriptores</h1>
-          <p className="text-gray-500 text-sm mt-0.5">Base de datos de clientes para newsletter</p>
+          <p className="text-gray-600 text-sm mt-0.5">Base de datos de clientes para newsletter</p>
         </div>
         <div className="flex gap-2">
           <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
@@ -154,7 +154,7 @@ export default function CmsSubscribers() {
             <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
               <DialogHeader>
                 <DialogTitle className="text-base">Importar Suscriptores</DialogTitle>
-                <DialogDescription className="text-gray-500 text-sm">
+                <DialogDescription className="text-gray-600 text-sm">
                   Formato: email, nombre, teléfono, empresa, ubicación
                 </DialogDescription>
               </DialogHeader>
@@ -177,7 +177,7 @@ export default function CmsSubscribers() {
                   ) : (
                     <div className="flex flex-col items-center gap-1">
                       <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-gray-500 text-xs">Seleccionar archivo CSV</span>
+                      <span className="text-gray-600 text-xs">Seleccionar archivo CSV</span>
                     </div>
                   )}
                 </Button>
@@ -194,7 +194,7 @@ export default function CmsSubscribers() {
             <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
               <DialogHeader>
                 <DialogTitle className="text-base">Agregar Suscriptor</DialogTitle>
-                <DialogDescription className="text-gray-500 text-sm">
+                <DialogDescription className="text-gray-600 text-sm">
                   Agrega un nuevo suscriptor manualmente
                 </DialogDescription>
               </DialogHeader>
@@ -295,7 +295,7 @@ export default function CmsSubscribers() {
               <Users className="h-5 w-5 text-blue-500" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{stats?.total || 0}</div>
-                <p className="text-[10px] text-gray-400">Total</p>
+                <p className="text-[10px] text-gray-600 font-medium">Total</p>
               </div>
             </div>
           </CardContent>
@@ -306,7 +306,7 @@ export default function CmsSubscribers() {
               <UserCheck className="h-5 w-5 text-green-500" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{stats?.active || 0}</div>
-                <p className="text-[10px] text-gray-400">Activos</p>
+                <p className="text-[10px] text-gray-600 font-medium">Activos</p>
               </div>
             </div>
           </CardContent>
@@ -317,7 +317,7 @@ export default function CmsSubscribers() {
               <UserX className="h-5 w-5 text-red-500" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{stats?.inactive || 0}</div>
-                <p className="text-[10px] text-gray-400">Inactivos</p>
+                <p className="text-[10px] text-gray-600 font-medium">Inactivos</p>
               </div>
             </div>
           </CardContent>
@@ -351,13 +351,13 @@ export default function CmsSubscribers() {
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="p-3 pb-2">
           <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Suscriptores</CardTitle>
-          <CardDescription className="text-gray-500 text-xs">
+          <CardDescription className="text-gray-600 text-xs">
             {subscribers?.length || 0} suscriptores encontrados
           </CardDescription>
         </CardHeader>
         <CardContent className="p-3 pt-0">
           {isLoading ? (
-            <div className="text-center py-6 text-gray-400 text-sm">Cargando suscriptores...</div>
+            <div className="text-center py-6 text-gray-500 text-sm">Cargando suscriptores...</div>
           ) : subscribers && subscribers.length > 0 ? (
             <div className="space-y-2">
               {subscribers.map((subscriber) => (
@@ -369,14 +369,14 @@ export default function CmsSubscribers() {
                     <p className="text-xs font-medium text-gray-900 truncate">
                       {subscriber.email}
                     </p>
-                    <p className="text-[10px] text-gray-400 truncate mt-0.5">
+                    <p className="text-[10px] text-gray-600 truncate mt-0.5">
                       {subscriber.name || "-"} • {subscriber.company || "-"} • {subscriber.location || "-"}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge
                       variant={subscriber.isActive ? "default" : "secondary"}
-                      className={`text-[10px] px-1.5 py-0 ${subscriber.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+                      className={`text-[10px] px-1.5 py-0 ${subscriber.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700"}`}
                     >
                       {subscriber.isActive ? "Activo" : "Inactivo"}
                     </Badge>
@@ -410,7 +410,7 @@ export default function CmsSubscribers() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 text-gray-400 text-sm">
+            <div className="text-center py-6 text-gray-500 text-sm">
               No hay suscriptores que mostrar
             </div>
           )}

@@ -47,3 +47,7 @@
 - [x] Agregar selector para asignar pendientes a usuarios del CMS
 - [x] Agregar filtro por usuario asignado en lista y Kanban
 - [x] Mostrar avatar y nombre del usuario asignado en cada tarea
+
+## Mejoras UI CMS - Prioridad y Colores
+- [x] Agregar selector de prioridad editable en cada tarea
+- [x] Optimizar colores de texto en el CMS para mejor contraste y legibilidad

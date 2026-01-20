@@ -115,7 +115,7 @@ export default function CmsObjectives() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Metas y Objetivos</h1>
-          <p className="text-gray-500 text-sm mt-0.5">Gestión de objetivos comerciales por línea de negocio</p>
+          <p className="text-gray-600 text-sm mt-0.5">Gestión de objetivos comerciales por línea de negocio</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
@@ -127,7 +127,7 @@ export default function CmsObjectives() {
           <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-md">
             <DialogHeader>
               <DialogTitle className="text-base">Crear Nuevo Objetivo</DialogTitle>
-              <DialogDescription className="text-gray-500 text-sm">
+              <DialogDescription className="text-gray-600 text-sm">
                 Define una nueva meta comercial
               </DialogDescription>
             </DialogHeader>
@@ -243,7 +243,7 @@ export default function CmsObjectives() {
               <Target className="h-5 w-5 text-[#368A45]" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{objectives?.length || 0}</div>
-                <p className="text-[10px] text-gray-400">Totales</p>
+                <p className="text-[10px] text-gray-600 font-medium">Totales</p>
               </div>
             </div>
           </CardContent>
@@ -256,7 +256,7 @@ export default function CmsObjectives() {
                 <div className="text-lg font-bold text-gray-900">
                   {objectives?.filter(o => o.isActive).length || 0}
                 </div>
-                <p className="text-[10px] text-gray-400">Activos</p>
+                <p className="text-[10px] text-gray-600 font-medium">Activos</p>
               </div>
             </div>
           </CardContent>
@@ -272,7 +272,7 @@ export default function CmsObjectives() {
                     return progress >= 100;
                   }).length || 0}
                 </div>
-                <p className="text-[10px] text-gray-400">Alcanzadas</p>
+                <p className="text-[10px] text-gray-600 font-medium">Alcanzadas</p>
               </div>
             </div>
           </CardContent>
@@ -283,13 +283,13 @@ export default function CmsObjectives() {
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="p-3 pb-2">
           <CardTitle className="text-gray-900 text-sm font-semibold">Lista de Objetivos</CardTitle>
-          <CardDescription className="text-gray-500 text-xs">
+          <CardDescription className="text-gray-600 text-xs">
             Haz clic en el progreso para actualizarlo
           </CardDescription>
         </CardHeader>
         <CardContent className="p-3 pt-0">
           {isLoading ? (
-            <div className="text-center py-6 text-gray-400 text-sm">Cargando objetivos...</div>
+            <div className="text-center py-6 text-gray-500 text-sm">Cargando objetivos...</div>
           ) : objectives && objectives.length > 0 ? (
             <div className="space-y-2">
               {objectives.map((objective) => {
@@ -305,12 +305,12 @@ export default function CmsObjectives() {
                           <h3 className="text-gray-900 font-medium text-xs truncate">{objective.serviceProduct}</h3>
                           <Badge 
                             variant={objective.isActive ? "default" : "secondary"} 
-                            className={`text-[10px] px-1 py-0 ${objective.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+                            className={`text-[10px] px-1 py-0 ${objective.isActive ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700"}`}
                           >
                             {objective.isActive ? "Activo" : "Inactivo"}
                           </Badge>
                         </div>
-                        <p className="text-[10px] text-gray-400">
+                        <p className="text-[10px] text-gray-600 font-medium">
                           Meta: {objective.targetValue} • {getPeriodLabel(objective.period)}
                         </p>
                       </div>
@@ -347,8 +347,8 @@ export default function CmsObjectives() {
                       onClick={() => handleUpdateProgress(objective.id, objective.currentProgress || 0)}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] text-gray-400">Progreso</span>
-                        <span className="text-[10px] text-gray-600">
+                        <span className="text-[10px] text-gray-600 font-medium">Progreso</span>
+                        <span className="text-[10px] text-gray-700 font-medium">
                           {objective.currentProgress || 0} / {objective.targetNumeric || objective.targetValue} ({progress}%)
                         </span>
                       </div>
@@ -362,7 +362,7 @@ export default function CmsObjectives() {
               })}
             </div>
           ) : (
-            <div className="text-center py-6 text-gray-400 text-sm">
+            <div className="text-center py-6 text-gray-500 text-sm">
               No hay objetivos configurados. Crea el primero.
             </div>
           )}
