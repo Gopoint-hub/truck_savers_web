@@ -1,0 +1,24 @@
+Problemas identificados en la captura de pantalla del Dashboard en desktop:
+
+1. TARJETAS DE ESTADÍSTICAS:
+   - Falta la primera tarjeta "Total Pendientes" - solo se ven 3 tarjetas en lugar de 4
+   - Las tarjetas muestran: "En Progreso", "Completadas", "Suscriptores" pero falta "Total Pendientes"
+   - La primera columna parece estar vacía o con solo un icono
+
+2. SECCIÓN DE TAREAS DE ALTA PRIORIDAD:
+   - El texto de las tareas está cortado por la izquierda
+   - El título "Tareas de Alta Prioridad" no se ve
+   - Solo se ve "...diata" (probablemente "inmediata")
+
+3. SECCIÓN DE ACTIVIDAD RECIENTE:
+   - El texto de las tareas también está cortado por la izquierda
+   - Se ve "...valor publicada en blogs y revistas..."
+
+4. LAYOUT GENERAL:
+   - Parece haber un problema de overflow o padding en el contenedor principal
+   - El contenido no está alineado correctamente con el sidebar
+
+Posibles causas:
+- El contenedor principal tiene overflow-x-hidden pero el contenido se está cortando
+- Puede haber un problema con el padding del contenedor padre (CmsLayout)
+- El grid de las tarjetas puede no estar funcionando correctamente

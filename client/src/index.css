@@ -263,6 +263,17 @@
     min-width: 0;
   }
 
+  /* Fix for CMS sidebar layout - ensure content doesn't overflow */
+  [data-slot="sidebar-inset"] {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  [data-slot="sidebar-inset"] > main {
+    min-width: 0;
+    width: 100%;
+  }
+
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem; /* 24px - tablet padding */

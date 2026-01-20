@@ -206,7 +206,7 @@ function CmsLayoutContent({
   }, [isResizing, setSidebarWidth]);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex w-full">
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
@@ -309,7 +309,7 @@ function CmsLayoutContent({
         />
       </div>
 
-      <SidebarInset className="bg-gray-50 overflow-x-hidden">
+      <SidebarInset className="bg-gray-50 overflow-hidden w-full">
         {isMobile && (
           <div className="flex border-b border-gray-200 h-12 items-center justify-between bg-white px-3 backdrop-blur sticky top-0 z-40 shadow-sm">
             <div className="flex items-center gap-2">
@@ -323,7 +323,7 @@ function CmsLayoutContent({
             </div>
           </div>
         )}
-        <main className="flex-1 p-3 md:p-4 lg:p-5 overflow-x-hidden max-w-full">{children}</main>
+        <main className="flex-1 p-3 md:p-4 lg:p-5 w-full min-w-0">{children}</main>
       </SidebarInset>
     </div>
   );

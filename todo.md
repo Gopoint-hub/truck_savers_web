@@ -51,3 +51,6 @@
 ## Mejoras UI CMS - Prioridad y Colores
 - [x] Agregar selector de prioridad editable en cada tarea
 - [x] Optimizar colores de texto en el CMS para mejor contraste y legibilidad
+
+## Corrección Layout Desktop CMS
+- [x] Corregir layout del Dashboard en versión desktop (tarjetas de estadísticas, listas de tareas)
