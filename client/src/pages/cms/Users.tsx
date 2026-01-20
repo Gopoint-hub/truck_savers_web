@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -9,12 +10,43 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Users, Shield, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Users, Shield, User, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CmsUsers() {
   const utils = trpc.useUtils();
   const { data: users, isLoading } = trpc.users.list.useQuery();
+  
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserRole, setNewUserRole] = useState<"user" | "admin">("admin");
+  
+  const createUser = trpc.users.create.useMutation({
+    onSuccess: () => {
+      utils.users.list.invalidate();
+      toast.success("Usuario creado exitosamente");
+      setIsCreateDialogOpen(false);
+      setNewUserEmail("");
+      setNewUserName("");
+      setNewUserRole("admin");
+    },
+    onError: (error) => {
+      toast.error("Error al crear usuario: " + error.message);
+    },
+  });
   
   const updateRole = trpc.users.updateRole.useMutation({
     onSuccess: () => {
@@ -25,11 +57,39 @@ export default function CmsUsers() {
       toast.error("Error al actualizar rol: " + error.message);
     },
   });
+  
+  const deleteUser = trpc.users.delete.useMutation({
+    onSuccess: () => {
+      utils.users.list.invalidate();
+      toast.success("Usuario eliminado exitosamente");
+    },
+    onError: (error) => {
+      toast.error("Error al eliminar usuario: " + error.message);
+    },
+  });
 
   const handleRoleChange = (userId: number, newRole: "user" | "admin") => {
     if (confirm(`¿Estás seguro de cambiar el rol a ${newRole === 'admin' ? 'Administrador' : 'Usuario'}?`)) {
       updateRole.mutate({ userId, role: newRole });
     }
+  };
+  
+  const handleDeleteUser = (userId: number, userName: string) => {
+    if (confirm(`¿Estás seguro de eliminar al usuario "${userName}"? Esta acción no se puede deshacer.`)) {
+      deleteUser.mutate({ userId });
+    }
+  };
+  
+  const handleCreateUser = () => {
+    if (!newUserEmail) {
+      toast.error("El email es requerido");
+      return;
+    }
+    createUser.mutate({
+      email: newUserEmail,
+      name: newUserName || undefined,
+      role: newUserRole,
+    });
   };
 
   const adminCount = users?.filter(u => u.role === 'admin').length || 0;
@@ -38,9 +98,79 @@ export default function CmsUsers() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div>
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Gestión de Usuarios</h1>
-        <p className="text-gray-500 text-sm mt-0.5">Administra los usuarios y roles del CMS</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900">Gestión de Usuarios</h1>
+          <p className="text-gray-500 text-sm mt-0.5">Administra los usuarios y roles del CMS</p>
+        </div>
+        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="bg-[#368A45] hover:bg-[#2d7339] text-white">
+              <Plus className="h-4 w-4 mr-1" />
+              <span className="hidden sm:inline">Nuevo Usuario</span>
+              <span className="sm:hidden">Nuevo</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="text-gray-900">Agregar Nuevo Usuario</DialogTitle>
+              <DialogDescription className="text-gray-500">
+                Crea un nuevo usuario con acceso al CMS. El usuario podrá iniciar sesión con este email.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email" className="text-gray-700">Email *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="usuario@ejemplo.com"
+                  value={newUserEmail}
+                  onChange={(e) => setNewUserEmail(e.target.value)}
+                  className="bg-white border-gray-200"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="name" className="text-gray-700">Nombre (opcional)</Label>
+                <Input
+                  id="name"
+                  placeholder="Nombre del usuario"
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                  className="bg-white border-gray-200"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="role" className="text-gray-700">Rol</Label>
+                <Select value={newUserRole} onValueChange={(v) => setNewUserRole(v as "user" | "admin")}>
+                  <SelectTrigger className="bg-white border-gray-200">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-gray-200">
+                    <SelectItem value="admin">Administrador</SelectItem>
+                    <SelectItem value="user">Usuario</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsCreateDialogOpen(false)}
+                className="border-gray-200"
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleCreateUser}
+                disabled={createUser.isPending}
+                className="bg-[#368A45] hover:bg-[#2d7339] text-white"
+              >
+                {createUser.isPending ? "Creando..." : "Crear Usuario"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Stats */}
@@ -103,7 +233,7 @@ export default function CmsUsers() {
                       <AvatarFallback className={`text-[10px] font-medium ${
                         user.role === 'admin' ? 'bg-[#368A45] text-white' : 'bg-gray-100 text-gray-500'
                       }`}>
-                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                        {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -115,10 +245,10 @@ export default function CmsUsers() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <Badge
                       variant={user.role === 'admin' ? "default" : "secondary"}
-                      className={`text-[10px] px-1.5 py-0 ${user.role === 'admin' ? "bg-[#368A45] text-white" : "bg-gray-200 text-gray-500"}`}
+                      className={`text-[10px] px-1.5 py-0 hidden sm:inline-flex ${user.role === 'admin' ? "bg-[#368A45] text-white" : "bg-gray-200 text-gray-500"}`}
                     >
                       {user.role === 'admin' ? 'Admin' : 'Usuario'}
                     </Badge>
@@ -126,7 +256,7 @@ export default function CmsUsers() {
                       value={user.role}
                       onValueChange={(value) => handleRoleChange(user.id, value as "user" | "admin")}
                     >
-                      <SelectTrigger className="w-[100px] bg-white border-gray-200 text-xs h-7">
+                      <SelectTrigger className="w-[80px] sm:w-[100px] bg-white border-gray-200 text-xs h-7">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200">
@@ -134,6 +264,14 @@ export default function CmsUsers() {
                         <SelectItem value="admin" className="text-xs">Admin</SelectItem>
                       </SelectContent>
                     </Select>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 w-7 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50"
+                      onClick={() => handleDeleteUser(user.id, user.name || user.email || 'Usuario')}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
                   </div>
                 </div>
               ))}

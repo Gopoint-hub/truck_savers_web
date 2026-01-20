@@ -118,6 +118,35 @@ export async function updateUserRole(userId: number, role: "user" | "admin") {
   await db.update(users).set({ role }).where(eq(users.id, userId));
 }
 
+export async function createUser(data: { email: string; name?: string; role: "user" | "admin" }) {
+  const db = await getDb();
+  if (!db) return;
+  
+  // Generate a unique openId for manually created users
+  const openId = `manual_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(users).values({
+    openId,
+    email: data.email,
+    name: data.name || null,
+    role: data.role,
+    loginMethod: 'manual',
+  });
+}
+
+export async function deleteUser(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(users).where(eq(users.id, userId));
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
 // ============================================
 // BUSINESS LINES FUNCTIONS
 // ============================================

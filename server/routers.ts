@@ -33,10 +33,31 @@ export const appRouter = router({
     list: adminProcedure.query(async () => {
       return db.getAllUsers();
     }),
+    create: adminProcedure
+      .input(z.object({ 
+        email: z.string().email(), 
+        name: z.string().optional(),
+        role: z.enum(["user", "admin"]) 
+      }))
+      .mutation(async ({ input }) => {
+        // Check if user already exists
+        const existingUser = await db.getUserByEmail(input.email);
+        if (existingUser) {
+          throw new TRPCError({ code: 'CONFLICT', message: 'Ya existe un usuario con este email' });
+        }
+        await db.createUser(input);
+        return { success: true };
+      }),
     updateRole: adminProcedure
       .input(z.object({ userId: z.number(), role: z.enum(["user", "admin"]) }))
       .mutation(async ({ input }) => {
         await db.updateUserRole(input.userId, input.role);
+        return { success: true };
+      }),
+    delete: adminProcedure
+      .input(z.object({ userId: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteUser(input.userId);
         return { success: true };
       }),
   }),

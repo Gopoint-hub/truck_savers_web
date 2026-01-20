@@ -38,3 +38,7 @@
 - [x] Agregar colores diferenciados por status en lista de tareas
 - [x] Crear vista Kanban estilo Pipedrive con columnas por status
 - [x] Permitir cambiar entre vista lista y vista Kanban
+
+## Mejoras Módulo Usuarios
+- [x] Agregar funcionalidad para crear usuarios manualmente
+- [x] Agregar Jorge@thetrucksavers.com como administrador
