@@ -46,6 +46,15 @@ import TorqueWrapArticle from "./pages/blog/TorqueWrap";
 // Store Pages
 import StoreHub from "./pages/store/index";
 
+// CMS Pages
+import CmsLayout from "./pages/cms/CmsLayout";
+import CmsDashboard from "./pages/cms/Dashboard";
+import CmsTasks from "./pages/cms/Tasks";
+import CmsObjectives from "./pages/cms/Objectives";
+import CmsSubscribers from "./pages/cms/Subscribers";
+import CmsNewsletters from "./pages/cms/Newsletters";
+import CmsUsers from "./pages/cms/Users";
+
 // Scroll to top on route change
 function ScrollToTop() {
   const [location] = useLocation();
@@ -68,7 +77,32 @@ function Redirect({ to }: { to: string }) {
   return null;
 }
 
+// CMS Router - separate from main site
+function CmsRouter() {
+  return (
+    <CmsLayout>
+      <Switch>
+        <Route path="/cms" component={CmsDashboard} />
+        <Route path="/cms/dashboard" component={CmsDashboard} />
+        <Route path="/cms/tasks" component={CmsTasks} />
+        <Route path="/cms/objectives" component={CmsObjectives} />
+        <Route path="/cms/subscribers" component={CmsSubscribers} />
+        <Route path="/cms/newsletters" component={CmsNewsletters} />
+        <Route path="/cms/users" component={CmsUsers} />
+        <Route component={CmsDashboard} />
+      </Switch>
+    </CmsLayout>
+  );
+}
+
 function Router() {
+  const [location] = useLocation();
+  
+  // Check if we're in CMS routes
+  if (location.startsWith('/cms')) {
+    return <CmsRouter />;
+  }
+  
   return (
     <Switch>
       {/* Home */}
@@ -150,17 +184,20 @@ function Router() {
 }
 
 function App() {
+  const [location] = useLocation();
+  const isCms = location.startsWith('/cms');
+  
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme={isCms ? "dark" : "light"}>
         <TooltipProvider>
           <Toaster />
           <ScrollToTop />
-          <Header />
+          {!isCms && <Header />}
           <main>
             <Router />
           </main>
-          <Footer />
+          {!isCms && <Footer />}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

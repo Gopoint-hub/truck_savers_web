@@ -1,0 +1,475 @@
+import { eq, desc, and, sql, like, or } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/mysql2";
+import { 
+  InsertUser, users,
+  businessLines, InsertBusinessLine,
+  locations, InsertLocation,
+  objectives, InsertObjective,
+  taskCategories, InsertTaskCategory,
+  tasks, InsertTask,
+  subscribers, InsertSubscriber,
+  newsletters, InsertNewsletter,
+  newsletterSends, InsertNewsletterSend,
+  cmsModules, InsertCmsModule,
+  userModulePermissions, InsertUserModulePermission,
+  seoChecklist, InsertSeoChecklistItem
+} from "../drizzle/schema";
+import { ENV } from './_core/env';
+
+let _db: ReturnType<typeof drizzle> | null = null;
+
+// Lazily create the drizzle instance so local tooling can run without a DB.
+export async function getDb() {
+  if (!_db && process.env.DATABASE_URL) {
+    try {
+      _db = drizzle(process.env.DATABASE_URL);
+    } catch (error) {
+      console.warn("[Database] Failed to connect:", error);
+      _db = null;
+    }
+  }
+  return _db;
+}
+
+// ============================================
+// USER FUNCTIONS
+// ============================================
+
+export async function upsertUser(user: InsertUser): Promise<void> {
+  if (!user.openId) {
+    throw new Error("User openId is required for upsert");
+  }
+
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot upsert user: database not available");
+    return;
+  }
+
+  try {
+    const values: InsertUser = {
+      openId: user.openId,
+    };
+    const updateSet: Record<string, unknown> = {};
+
+    const textFields = ["name", "email", "loginMethod"] as const;
+    type TextField = (typeof textFields)[number];
+
+    const assignNullable = (field: TextField) => {
+      const value = user[field];
+      if (value === undefined) return;
+      const normalized = value ?? null;
+      values[field] = normalized;
+      updateSet[field] = normalized;
+    };
+
+    textFields.forEach(assignNullable);
+
+    if (user.lastSignedIn !== undefined) {
+      values.lastSignedIn = user.lastSignedIn;
+      updateSet.lastSignedIn = user.lastSignedIn;
+    }
+    if (user.role !== undefined) {
+      values.role = user.role;
+      updateSet.role = user.role;
+    } else if (user.openId === ENV.ownerOpenId) {
+      values.role = 'admin';
+      updateSet.role = 'admin';
+    }
+
+    if (!values.lastSignedIn) {
+      values.lastSignedIn = new Date();
+    }
+
+    if (Object.keys(updateSet).length === 0) {
+      updateSet.lastSignedIn = new Date();
+    }
+
+    await db.insert(users).values(values).onDuplicateKeyUpdate({
+      set: updateSet,
+    });
+  } catch (error) {
+    console.error("[Database] Failed to upsert user:", error);
+    throw error;
+  }
+}
+
+export async function getUserByOpenId(openId: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users).orderBy(desc(users.createdAt));
+}
+
+export async function updateUserRole(userId: number, role: "user" | "admin") {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ role }).where(eq(users.id, userId));
+}
+
+// ============================================
+// BUSINESS LINES FUNCTIONS
+// ============================================
+
+export async function getAllBusinessLines() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(businessLines).orderBy(businessLines.name);
+}
+
+export async function createBusinessLine(data: InsertBusinessLine) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(businessLines).values(data);
+}
+
+// ============================================
+// LOCATIONS FUNCTIONS
+// ============================================
+
+export async function getAllLocations() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(locations).orderBy(locations.name);
+}
+
+export async function createLocation(data: InsertLocation) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(locations).values(data);
+}
+
+// ============================================
+// TASK CATEGORIES FUNCTIONS
+// ============================================
+
+export async function getAllTaskCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(taskCategories).orderBy(taskCategories.name);
+}
+
+export async function createTaskCategory(data: InsertTaskCategory) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(taskCategories).values(data);
+}
+
+// ============================================
+// OBJECTIVES FUNCTIONS
+// ============================================
+
+export async function getAllObjectives() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(objectives).orderBy(desc(objectives.createdAt));
+}
+
+export async function getObjectiveById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(objectives).where(eq(objectives.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createObjective(data: InsertObjective) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(objectives).values(data);
+}
+
+export async function updateObjective(id: number, data: Partial<InsertObjective>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(objectives).set(data).where(eq(objectives.id, id));
+}
+
+export async function deleteObjective(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(objectives).where(eq(objectives.id, id));
+}
+
+// ============================================
+// TASKS FUNCTIONS
+// ============================================
+
+export async function getAllTasks(filters?: { 
+  status?: string; 
+  priority?: string; 
+  categoryId?: number;
+  businessLineId?: number;
+  locationId?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(tasks);
+  
+  const conditions = [];
+  if (filters?.status) {
+    conditions.push(eq(tasks.status, filters.status as any));
+  }
+  if (filters?.priority) {
+    conditions.push(eq(tasks.priority, filters.priority as any));
+  }
+  if (filters?.categoryId) {
+    conditions.push(eq(tasks.categoryId, filters.categoryId));
+  }
+  if (filters?.businessLineId) {
+    conditions.push(eq(tasks.businessLineId, filters.businessLineId));
+  }
+  if (filters?.locationId) {
+    conditions.push(eq(tasks.locationId, filters.locationId));
+  }
+  
+  if (conditions.length > 0) {
+    return db.select().from(tasks).where(and(...conditions)).orderBy(desc(tasks.createdAt));
+  }
+  
+  return db.select().from(tasks).orderBy(desc(tasks.createdAt));
+}
+
+export async function getTaskById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(tasks).where(eq(tasks.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createTask(data: InsertTask) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(tasks).values(data);
+}
+
+export async function updateTask(id: number, data: Partial<InsertTask>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(tasks).set(data).where(eq(tasks.id, id));
+}
+
+export async function deleteTask(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(tasks).where(eq(tasks.id, id));
+}
+
+export async function getTaskStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, pendiente: 0, en_progreso: 0, completada: 0, alta: 0, media: 0, baja: 0 };
+  
+  const allTasks = await db.select().from(tasks);
+  
+  return {
+    total: allTasks.length,
+    pendiente: allTasks.filter(t => t.status === 'pendiente').length,
+    en_progreso: allTasks.filter(t => t.status === 'en_progreso').length,
+    completada: allTasks.filter(t => t.status === 'completada').length,
+    alta: allTasks.filter(t => t.priority === 'alta').length,
+    media: allTasks.filter(t => t.priority === 'media').length,
+    baja: allTasks.filter(t => t.priority === 'baja').length,
+  };
+}
+
+// ============================================
+// SUBSCRIBERS FUNCTIONS
+// ============================================
+
+export async function getAllSubscribers(filters?: { isActive?: boolean; search?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const conditions = [];
+  if (filters?.isActive !== undefined) {
+    conditions.push(eq(subscribers.isActive, filters.isActive));
+  }
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(subscribers.email, `%${filters.search}%`),
+        like(subscribers.name, `%${filters.search}%`),
+        like(subscribers.company, `%${filters.search}%`)
+      )
+    );
+  }
+  
+  if (conditions.length > 0) {
+    return db.select().from(subscribers).where(and(...conditions)).orderBy(desc(subscribers.subscribedAt));
+  }
+  
+  return db.select().from(subscribers).orderBy(desc(subscribers.subscribedAt));
+}
+
+export async function getSubscriberById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(subscribers).where(eq(subscribers.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createSubscriber(data: InsertSubscriber) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(subscribers).values(data);
+}
+
+export async function createManySubscribers(data: InsertSubscriber[]) {
+  const db = await getDb();
+  if (!db) return;
+  // Insert in batches to avoid issues
+  for (const subscriber of data) {
+    try {
+      await db.insert(subscribers).values(subscriber).onDuplicateKeyUpdate({
+        set: { 
+          name: subscriber.name,
+          phone: subscriber.phone,
+          company: subscriber.company,
+          location: subscriber.location,
+          updatedAt: new Date()
+        }
+      });
+    } catch (error) {
+      console.error(`Failed to insert subscriber ${subscriber.email}:`, error);
+    }
+  }
+}
+
+export async function updateSubscriber(id: number, data: Partial<InsertSubscriber>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(subscribers).set(data).where(eq(subscribers.id, id));
+}
+
+export async function deleteSubscriber(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(subscribers).where(eq(subscribers.id, id));
+}
+
+export async function getSubscriberStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, active: 0, inactive: 0 };
+  
+  const allSubscribers = await db.select().from(subscribers);
+  
+  return {
+    total: allSubscribers.length,
+    active: allSubscribers.filter(s => s.isActive).length,
+    inactive: allSubscribers.filter(s => !s.isActive).length,
+  };
+}
+
+// ============================================
+// NEWSLETTERS FUNCTIONS
+// ============================================
+
+export async function getAllNewsletters() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(newsletters).orderBy(desc(newsletters.createdAt));
+}
+
+export async function getNewsletterById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(newsletters).where(eq(newsletters.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createNewsletter(data: InsertNewsletter) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(newsletters).values(data);
+}
+
+export async function updateNewsletter(id: number, data: Partial<InsertNewsletter>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(newsletters).set(data).where(eq(newsletters.id, id));
+}
+
+export async function deleteNewsletter(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(newsletters).where(eq(newsletters.id, id));
+}
+
+// ============================================
+// CMS MODULES FUNCTIONS
+// ============================================
+
+export async function getAllCmsModules() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(cmsModules).where(eq(cmsModules.isActive, true)).orderBy(cmsModules.sortOrder);
+}
+
+export async function createCmsModule(data: InsertCmsModule) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(cmsModules).values(data);
+}
+
+// ============================================
+// USER MODULE PERMISSIONS FUNCTIONS
+// ============================================
+
+export async function getUserModulePermissions(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(userModulePermissions).where(eq(userModulePermissions.userId, userId));
+}
+
+export async function setUserModulePermission(data: InsertUserModulePermission) {
+  const db = await getDb();
+  if (!db) return;
+  
+  // Check if permission exists
+  const existing = await db.select().from(userModulePermissions)
+    .where(and(
+      eq(userModulePermissions.userId, data.userId),
+      eq(userModulePermissions.moduleId, data.moduleId)
+    )).limit(1);
+  
+  if (existing.length > 0) {
+    await db.update(userModulePermissions)
+      .set(data)
+      .where(eq(userModulePermissions.id, existing[0].id));
+  } else {
+    await db.insert(userModulePermissions).values(data);
+  }
+}
+
+// ============================================
+// SEO CHECKLIST FUNCTIONS
+// ============================================
+
+export async function getAllSeoChecklist() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(seoChecklist).orderBy(seoChecklist.area, seoChecklist.id);
+}
+
+export async function updateSeoChecklistItem(id: number, data: Partial<InsertSeoChecklistItem>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(seoChecklist).set(data).where(eq(seoChecklist.id, id));
+}
+
+export async function createSeoChecklistItem(data: InsertSeoChecklistItem) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(seoChecklist).values(data);
+}
