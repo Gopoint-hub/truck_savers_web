@@ -88,3 +88,6 @@
 - [x] Crear Etapa 1 - Frontend + SEO con sus entregables
 - [x] Crear Etapa 2 - Backend + Módulos Marketing con sus entregables
 - [x] Crear Etapa 3 - Consultoría Continua con sus entregables
+
+## Reorganización Sidebar
+- [x] Mover Checklist SEO de sección Proyecto a sección Marketing

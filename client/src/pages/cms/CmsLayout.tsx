@@ -55,7 +55,6 @@ const menuAreas = [
     icon: Map,
     items: [
       { icon: Map, label: "Roadmap", path: "/cms/roadmap" },
-      { icon: ClipboardCheck, label: "Checklist SEO", path: "/cms/seo-checklist" },
     ],
   },
   {
@@ -81,6 +80,7 @@ const menuAreas = [
     label: "Marketing",
     icon: Mail,
     items: [
+      { icon: ClipboardCheck, label: "Checklist SEO", path: "/cms/seo-checklist" },
       { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
       { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
       { icon: MessageSquare, label: "WhatsApp", path: "/cms/whatsapp", disabled: true },
