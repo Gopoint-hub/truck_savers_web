@@ -80,7 +80,7 @@ const menuAreas = [
     label: "Marketing",
     icon: Mail,
     items: [
-      { icon: ClipboardCheck, label: "Checklist SEO", path: "/cms/seo-checklist" },
+      { icon: ClipboardCheck, label: "SEO", path: "/cms/seo" },
       { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
       { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
       { icon: MessageSquare, label: "WhatsApp", path: "/cms/whatsapp", disabled: true },

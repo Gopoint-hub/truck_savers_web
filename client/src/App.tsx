@@ -92,7 +92,7 @@ function CmsRouter() {
         <Route path="/cms/newsletters" component={CmsNewsletters} />
         <Route path="/cms/users" component={CmsUsers} />
         <Route path="/cms/roadmap" component={CmsRoadmap} />
-        <Route path="/cms/seo-checklist" component={CmsSeoChecklist} />
+        <Route path="/cms/seo" component={CmsSeoChecklist} />
         <Route component={CmsDashboard} />
       </Switch>
     </CmsLayout>
@@ -193,7 +193,7 @@ function App() {
   
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme={isCms ? "dark" : "light"}>
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <ScrollToTop />

@@ -121,3 +121,10 @@
 - [x] Bulk actions en newsletters: duplicar, eliminar, editar
 - [x] Bulk actions en suscriptores: agregar, eliminar, editar
 - [ ] Bulk actions en clientes: agregar, eliminar, editar (pendiente crear módulo clientes)
+
+## Correcciones UI CMS
+- [x] Cambiar fondos negros a claros en Newsletter (tarjetas y tabla)
+- [x] Cambiar fondos negros a claros en Suscriptores (tarjetas y tabla)
+- [x] Cambiar "Checklist SEO" a "SEO" en slug (/cms/seo)
+- [x] Cambiar "Checklist SEO" a "SEO" en nombre del módulo en sidebar
+- [x] Cambiar "Checklist SEO" a "SEO" en título de la página

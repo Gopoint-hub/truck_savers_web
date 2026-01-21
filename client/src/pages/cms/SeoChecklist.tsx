@@ -149,8 +149,8 @@ export default function SeoChecklist() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Checklist SEO</h1>
-          <p className="text-gray-600 mt-1">Verificación técnica del sitio web</p>
+          <h1 className="text-2xl font-bold text-gray-900">SEO</h1>
+          <p className="text-gray-600 mt-1">Checklist de verificación técnica del sitio web</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
