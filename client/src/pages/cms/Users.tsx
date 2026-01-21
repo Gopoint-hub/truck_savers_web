@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Users, Shield, User, Plus, Trash2 } from "lucide-react";
+import { Users, Shield, User, Plus, Trash2, Mail, Send, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CmsUsers() {
@@ -33,6 +33,7 @@ export default function CmsUsers() {
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserName, setNewUserName] = useState("");
   const [newUserRole, setNewUserRole] = useState<"user" | "admin">("admin");
+  const [sendingInvitationTo, setSendingInvitationTo] = useState<number | null>(null);
   
   const createUser = trpc.users.create.useMutation({
     onSuccess: () => {
@@ -68,6 +69,17 @@ export default function CmsUsers() {
     },
   });
 
+  const sendInvitation = trpc.users.sendInvitation.useMutation({
+    onSuccess: () => {
+      toast.success("Invitación enviada exitosamente");
+      setSendingInvitationTo(null);
+    },
+    onError: (error) => {
+      toast.error("Error al enviar invitación: " + error.message);
+      setSendingInvitationTo(null);
+    },
+  });
+
   const handleRoleChange = (userId: number, newRole: "user" | "admin") => {
     if (confirm(`¿Estás seguro de cambiar el rol a ${newRole === 'admin' ? 'Administrador' : 'Usuario'}?`)) {
       updateRole.mutate({ userId, role: newRole });
@@ -92,8 +104,16 @@ export default function CmsUsers() {
     });
   };
 
+  const handleSendInvitation = (userId: number) => {
+    setSendingInvitationTo(userId);
+    sendInvitation.mutate({ userId });
+  };
+
   const adminCount = users?.filter(u => u.role === 'admin').length || 0;
   const userCount = users?.filter(u => u.role === 'user').length || 0;
+
+  // Determinar si un usuario puede acceder (tiene openId vinculado)
+  const canAccess = (user: { openId?: string | null }) => !!user.openId;
 
   return (
     <div className="space-y-4">
@@ -115,7 +135,7 @@ export default function CmsUsers() {
             <DialogHeader>
               <DialogTitle className="text-gray-900 font-bold">Agregar Nuevo Usuario</DialogTitle>
               <DialogDescription className="text-gray-600">
-                Crea un nuevo usuario con acceso al CMS. El usuario podrá iniciar sesión con este email.
+                Crea un nuevo usuario con acceso al CMS. Después podrás enviarle una invitación por email.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -237,9 +257,18 @@ export default function CmsUsers() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-gray-900 truncate">
-                        {user.name || 'Sin nombre'}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-xs font-semibold text-gray-900 truncate">
+                          {user.name || 'Sin nombre'}
+                        </p>
+                        {canAccess(user) ? (
+                          <CheckCircle2 className="h-3 w-3 text-green-500 flex-shrink-0" />
+                        ) : (
+                          <span className="text-[9px] px-1 py-0.5 bg-amber-100 text-amber-700 rounded font-medium flex-shrink-0">
+                            Pendiente
+                          </span>
+                        )}
+                      </div>
                       <p className="text-[10px] text-gray-600 truncate">
                         {user.email || '-'}
                       </p>
@@ -252,6 +281,27 @@ export default function CmsUsers() {
                     >
                       {user.role === 'admin' ? 'Admin' : 'Usuario'}
                     </Badge>
+                    {!canAccess(user) && user.email && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 px-2 text-[10px] border-blue-300 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                        onClick={() => handleSendInvitation(user.id)}
+                        disabled={sendingInvitationTo === user.id}
+                      >
+                        {sendingInvitationTo === user.id ? (
+                          <>
+                            <Send className="h-3 w-3 mr-1 animate-pulse" />
+                            <span className="hidden sm:inline">Enviando...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Mail className="h-3 w-3 mr-1" />
+                            <span className="hidden sm:inline">Invitar</span>
+                          </>
+                        )}
+                      </Button>
+                    )}
                     <Select
                       value={user.role}
                       onValueChange={(value) => handleRoleChange(user.id, value as "user" | "admin")}
@@ -287,10 +337,20 @@ export default function CmsUsers() {
       {/* Info Card */}
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="p-3 pb-2">
-          <CardTitle className="text-gray-900 text-sm font-bold">Información de Roles</CardTitle>
+          <CardTitle className="text-gray-900 text-sm font-bold">Información de Acceso</CardTitle>
         </CardHeader>
         <CardContent className="p-3 pt-0">
           <div className="space-y-2">
+            <div className="flex items-start gap-2 p-2 bg-blue-50 rounded-md border border-blue-200">
+              <Mail className="h-4 w-4 text-blue-600 mt-0.5" />
+              <div>
+                <h4 className="text-gray-900 font-semibold text-xs">Invitaciones por Email</h4>
+                <p className="text-[10px] text-gray-700">
+                  Los usuarios nuevos recibirán un email con un enlace para acceder al CMS. 
+                  Deben registrarse con el mismo email para vincular su cuenta.
+                </p>
+              </div>
+            </div>
             <div className="flex items-start gap-2 p-2 bg-green-50 rounded-md border border-green-200">
               <Shield className="h-4 w-4 text-[#368A45] mt-0.5" />
               <div>

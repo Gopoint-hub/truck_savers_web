@@ -14,12 +14,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Mail, Send, Trash2, Edit, Clock, CheckCircle } from "lucide-react";
+import { Plus, Mail, Send, Trash2, Edit, Clock, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CmsNewsletters() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [sendingId, setSendingId] = useState<number | null>(null);
+  const [confirmSendId, setConfirmSendId] = useState<number | null>(null);
   
   const utils = trpc.useUtils();
   const { data: newsletters, isLoading } = trpc.newsletters.list.useQuery();
@@ -46,6 +58,22 @@ export default function CmsNewsletters() {
     },
   });
 
+  const sendNewsletterMutation = trpc.newsletters.send.useMutation({
+    onSuccess: (result) => {
+      utils.newsletters.list.invalidate();
+      setSendingId(null);
+      if (result.success) {
+        toast.success(`Newsletter enviado a ${result.sent} suscriptores`);
+      } else {
+        toast.warning(`Enviado a ${result.sent} suscriptores. Fallaron: ${result.failed}`);
+      }
+    },
+    onError: (error) => {
+      setSendingId(null);
+      toast.error("Error al enviar: " + error.message);
+    },
+  });
+
   const handleCreateNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -54,6 +82,12 @@ export default function CmsNewsletters() {
       content: formData.get("content") as string,
       status: "draft",
     });
+  };
+
+  const handleSendNewsletter = (id: number) => {
+    setSendingId(id);
+    setConfirmSendId(null);
+    sendNewsletterMutation.mutate({ id });
   };
 
   const getStatusBadge = (status: string | null) => {
@@ -86,7 +120,7 @@ export default function CmsNewsletters() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Newsletter</h1>
-          <p className="text-gray-500 text-sm mt-0.5">Gestión de campañas de email marketing</p>
+          <p className="text-gray-600 text-sm mt-0.5">Gestión de campañas de email marketing</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
@@ -98,7 +132,7 @@ export default function CmsNewsletters() {
           <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-lg">
             <DialogHeader>
               <DialogTitle className="text-base">Crear Nueva Campaña</DialogTitle>
-              <DialogDescription className="text-gray-500 text-sm">
+              <DialogDescription className="text-gray-600 text-sm">
                 Crea un nuevo newsletter para enviar a tus suscriptores
               </DialogDescription>
             </DialogHeader>
@@ -125,8 +159,8 @@ export default function CmsNewsletters() {
                   />
                 </div>
                 <div className="bg-gray-50 p-3 rounded-md">
-                  <p className="text-xs text-gray-500">
-                    <strong className="text-gray-700">Destinatarios:</strong> {subscriberStats?.active || 0} suscriptores activos
+                  <p className="text-xs text-gray-600">
+                    <strong className="text-gray-800">Destinatarios:</strong> {subscriberStats?.active || 0} suscriptores activos
                   </p>
                 </div>
               </div>
@@ -160,7 +194,7 @@ export default function CmsNewsletters() {
               <Mail className="h-5 w-5 text-[#368A45]" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{newsletters?.length || 0}</div>
-                <p className="text-[10px] text-gray-400">Total</p>
+                <p className="text-[10px] text-gray-600">Total</p>
               </div>
             </div>
           </CardContent>
@@ -173,7 +207,7 @@ export default function CmsNewsletters() {
                 <div className="text-lg font-bold text-gray-900">
                   {newsletters?.filter(n => n.status === 'draft').length || 0}
                 </div>
-                <p className="text-[10px] text-gray-400">Borradores</p>
+                <p className="text-[10px] text-gray-600">Borradores</p>
               </div>
             </div>
           </CardContent>
@@ -186,7 +220,7 @@ export default function CmsNewsletters() {
                 <div className="text-lg font-bold text-gray-900">
                   {newsletters?.filter(n => n.status === 'sent').length || 0}
                 </div>
-                <p className="text-[10px] text-gray-400">Enviados</p>
+                <p className="text-[10px] text-gray-600">Enviados</p>
               </div>
             </div>
           </CardContent>
@@ -197,7 +231,7 @@ export default function CmsNewsletters() {
               <CheckCircle className="h-5 w-5 text-blue-500" />
               <div>
                 <div className="text-lg font-bold text-gray-900">{subscriberStats?.active || 0}</div>
-                <p className="text-[10px] text-gray-400">Activos</p>
+                <p className="text-[10px] text-gray-600">Activos</p>
               </div>
             </div>
           </CardContent>
@@ -208,13 +242,13 @@ export default function CmsNewsletters() {
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="p-3 pb-2">
           <CardTitle className="text-gray-900 text-sm font-semibold">Campañas de Newsletter</CardTitle>
-          <CardDescription className="text-gray-500 text-xs">
+          <CardDescription className="text-gray-600 text-xs">
             Gestiona tus campañas de email marketing
           </CardDescription>
         </CardHeader>
         <CardContent className="p-3 pt-0">
           {isLoading ? (
-            <div className="text-center py-6 text-gray-400 text-sm">Cargando newsletters...</div>
+            <div className="text-center py-6 text-gray-500 text-sm">Cargando newsletters...</div>
           ) : newsletters && newsletters.length > 0 ? (
             <div className="space-y-2">
               {newsletters.map((newsletter) => (
@@ -232,10 +266,10 @@ export default function CmsNewsletters() {
                           </h3>
                           {getStatusBadge(newsletter.status)}
                         </div>
-                        <p className="text-[10px] text-gray-400 line-clamp-1">
+                        <p className="text-[10px] text-gray-600 line-clamp-1">
                           {newsletter.content}
                         </p>
-                        <div className="flex items-center gap-3 mt-1 text-[10px] text-gray-400">
+                        <div className="flex items-center gap-3 mt-1 text-[10px] text-gray-500">
                           <span>
                             {new Date(newsletter.createdAt).toLocaleDateString('es-MX', {
                               day: 'numeric',
@@ -243,7 +277,7 @@ export default function CmsNewsletters() {
                             })}
                           </span>
                           {newsletter.recipientCount && newsletter.recipientCount > 0 && (
-                            <span>{newsletter.recipientCount} dest.</span>
+                            <span>{newsletter.recipientCount} destinatarios</span>
                           )}
                         </div>
                       </div>
@@ -254,12 +288,20 @@ export default function CmsNewsletters() {
                           variant="outline"
                           size="sm"
                           className="border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white text-[10px] h-6 px-2"
-                          onClick={() => {
-                            toast.info("Función de envío próximamente disponible");
-                          }}
+                          onClick={() => setConfirmSendId(newsletter.id)}
+                          disabled={sendingId === newsletter.id}
                         >
-                          <Send className="h-3 w-3 mr-1" />
-                          Enviar
+                          {sendingId === newsletter.id ? (
+                            <>
+                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                              Enviando...
+                            </>
+                          ) : (
+                            <>
+                              <Send className="h-3 w-3 mr-1" />
+                              Enviar
+                            </>
+                          )}
                         </Button>
                       )}
                       <Button
@@ -280,7 +322,7 @@ export default function CmsNewsletters() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 text-gray-400">
+            <div className="text-center py-6 text-gray-500">
               <Mail className="h-8 w-8 mx-auto mb-2 text-gray-300" />
               <p className="text-sm">No hay newsletters creados</p>
               <p className="text-xs mt-0.5">Crea tu primera campaña para comenzar</p>
@@ -290,13 +332,36 @@ export default function CmsNewsletters() {
       </Card>
 
       {/* Info Card */}
-      <Card className="bg-amber-50 border-amber-200 border-dashed">
+      <Card className="bg-green-50 border-green-200">
         <CardContent className="p-3">
-          <p className="text-xs text-amber-700">
-            <strong>Nota:</strong> El envío de newsletters requiere configuración adicional de servicios de email.
+          <p className="text-xs text-green-700">
+            <strong>Servicio de email activo:</strong> Los newsletters se envían desde newsletter@thetrucksavers.com a todos los suscriptores activos.
           </p>
         </CardContent>
       </Card>
+
+      {/* Confirm Send Dialog */}
+      <AlertDialog open={confirmSendId !== null} onOpenChange={() => setConfirmSendId(null)}>
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-gray-900">Confirmar envío de newsletter</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-600">
+              ¿Estás seguro de enviar este newsletter a <strong>{subscriberStats?.active || 0} suscriptores activos</strong>? 
+              Esta acción no se puede deshacer.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="border-gray-300 text-gray-700">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-[#368A45] hover:bg-[#2D6E39] text-white"
+              onClick={() => confirmSendId && handleSendNewsletter(confirmSendId)}
+            >
+              <Send className="h-4 w-4 mr-2" />
+              Enviar Newsletter
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

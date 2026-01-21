@@ -91,3 +91,9 @@
 
 ## Reorganización Sidebar
 - [x] Mover Checklist SEO de sección Proyecto a sección Marketing
+
+## Configuración Resend Email
+- [x] Configurar API key de Resend
+- [x] Crear servicio de email con Resend
+- [x] Implementar invitaciones por email a usuarios del CMS
+- [x] Activar envío de Newsletter con Resend

@@ -5,6 +5,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import * as db from "./db";
+import { sendInvitation, sendNewsletter } from "./email";
 
 // Admin procedure - requires admin role
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -59,6 +60,34 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.deleteUser(input.userId);
         return { success: true };
+      }),
+    sendInvitation: adminProcedure
+      .input(z.object({ userId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await db.getUserById(input.userId);
+        if (!user) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Usuario no encontrado' });
+        }
+        if (!user.email) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'El usuario no tiene email configurado' });
+        }
+        
+        // Construir URL de login
+        const baseUrl = ctx.req.headers.origin || `https://${ctx.req.headers.host}`;
+        const loginUrl = `${baseUrl}/cms`;
+        
+        const result = await sendInvitation({
+          to: user.email,
+          userName: user.name || user.email,
+          inviterName: ctx.user.name || 'Administrador',
+          loginUrl,
+        });
+        
+        if (!result.success) {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: result.error || 'Error al enviar invitación' });
+        }
+        
+        return { success: true, message: 'Invitación enviada correctamente' };
       }),
   }),
 
@@ -350,6 +379,74 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.deleteNewsletter(input.id);
         return { success: true };
+      }),
+    send: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        // Obtener el newsletter
+        const newsletter = await db.getNewsletterById(input.id);
+        if (!newsletter) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Newsletter no encontrado' });
+        }
+        if (newsletter.status === 'sent') {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'Este newsletter ya fue enviado' });
+        }
+        
+        // Obtener suscriptores activos
+        const subscribers = await db.getAllSubscribers({ isActive: true });
+        if (!subscribers || subscribers.length === 0) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'No hay suscriptores activos' });
+        }
+        
+        const emails = subscribers.map(s => s.email).filter((e): e is string => !!e);
+        if (emails.length === 0) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'No hay emails válidos' });
+        }
+        
+        // Crear HTML del newsletter
+        const html = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #368A45 0%, #2D6E39 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+              <h1 style="color: white; margin: 0; font-size: 24px;">The Truck Savers</h1>
+            </div>
+            <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+              <div style="white-space: pre-wrap;">${newsletter.content}</div>
+              <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+              <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
+                The Truck Savers - Taller mecánico de camiones y trailers<br>
+                Houston, TX | Dallas, TX | Monterrey, NL
+              </p>
+            </div>
+          </body>
+          </html>
+        `;
+        
+        // Enviar newsletter
+        const result = await sendNewsletter({
+          to: emails,
+          subject: newsletter.subject,
+          html,
+        });
+        
+        // Actualizar estado del newsletter
+        await db.updateNewsletter(input.id, {
+          status: 'sent',
+          sentAt: new Date(),
+          recipientCount: result.sent,
+        });
+        
+        return {
+          success: result.success,
+          sent: result.sent,
+          failed: result.failed,
+          errors: result.errors,
+        };
       }),
   }),
 
