@@ -418,29 +418,36 @@ export const appRouter = router({
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'No hay emails válidos' });
         }
         
-        // Crear HTML del newsletter
-        const html = `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          </head>
-          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <div style="background: linear-gradient(135deg, #368A45 0%, #2D6E39 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-              <h1 style="color: white; margin: 0; font-size: 24px;">The Truck Savers</h1>
-            </div>
-            <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-              <div style="white-space: pre-wrap;">${newsletter.content}</div>
-              <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
-              <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
-                The Truck Savers - Taller mecánico de camiones y trailers<br>
-                Houston, TX | Dallas, TX | Monterrey, NL
-              </p>
-            </div>
-          </body>
-          </html>
-        `;
+        // Usar el HTML completo guardado si existe, sino crear uno básico
+        let html: string;
+        if (newsletter.htmlContent) {
+          // Usar el HTML completo generado por IA con diseño, imágenes y estilos
+          html = newsletter.htmlContent;
+        } else {
+          // Fallback: crear HTML básico si no hay htmlContent
+          html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #368A45 0%, #2D6E39 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                <h1 style="color: white; margin: 0; font-size: 24px;">The Truck Savers</h1>
+              </div>
+              <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+                <div style="white-space: pre-wrap;">${newsletter.content}</div>
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
+                  The Truck Savers - Taller mecánico de camiones y trailers<br>
+                  Houston, TX | Dallas, TX | Monterrey, NL
+                </p>
+              </div>
+            </body>
+            </html>
+          `;
+        }
         
         // Enviar newsletter
         const result = await sendNewsletter({
@@ -498,9 +505,13 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => {
         await db.createNewsletter({
           subject: input.subject,
+          previewText: input.previewText,
           content: input.content,
+          htmlContent: input.htmlContent,
+          aiPrompt: input.aiPrompt,
           status: input.status,
           scheduledAt: input.scheduledAt,
+          scheduledTimezone: input.scheduledTimezone,
           createdBy: ctx.user.id,
         });
         return { success: true };

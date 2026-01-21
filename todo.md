@@ -137,3 +137,9 @@
 - [x] Agregar botón de micrófono al campo de prompt para dictar contenido
 - [x] Agregar botón de micrófono al campo de instrucciones de edición
 - [x] Implementar transcripción de voz a texto usando Web Speech API o servicio de transcripción
+
+## Corrección Envío Newsletter HTML
+- [x] Revisar código de envío de newsletter para identificar por qué se envía texto plano
+- [x] Corregir para que se envíe el HTML completo con diseño, imágenes y estilos
+- [x] Guardar htmlContent en la base de datos al crear newsletter
+- [ ] Probar envío de newsletter y verificar que llegue con diseño completo
