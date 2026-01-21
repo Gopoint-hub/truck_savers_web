@@ -1,4 +1,4 @@
-import { eq, desc, and, sql, like, or } from "drizzle-orm";
+import { eq, like, desc, and, or, sql, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, users,
@@ -599,4 +599,17 @@ export async function getRoadmapStats() {
     totalDeliverables: deliverables.length,
     completedDeliverables: deliverables.filter(d => d.status === 'completado').length,
   };
+}
+
+// Bulk operations for subscribers
+export async function deleteManySubscribers(ids: number[]) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  await db.delete(subscribers).where(inArray(subscribers.id, ids));
+}
+
+export async function updateManySubscribersStatus(ids: number[], isActive: boolean) {
+  const db = await getDb();
+  if (!db || ids.length === 0) return;
+  await db.update(subscribers).set({ isActive }).where(inArray(subscribers.id, ids));
 }

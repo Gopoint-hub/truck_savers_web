@@ -6,6 +6,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import { sendInvitation, sendNewsletter } from "./email";
+import { generateNewsletterWithAI, generateNewsletterImage } from "./newsletterAI";
 
 // Admin procedure - requires admin role
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -336,6 +337,18 @@ export const appRouter = router({
         await db.deleteSubscriber(input.id);
         return { success: true };
       }),
+    bulkDelete: adminProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input }) => {
+        await db.deleteManySubscribers(input.ids);
+        return { deleted: input.ids.length };
+      }),
+    bulkUpdateStatus: adminProcedure
+      .input(z.object({ ids: z.array(z.number()), isActive: z.boolean() }))
+      .mutation(async ({ input }) => {
+        await db.updateManySubscribersStatus(input.ids, input.isActive);
+        return { updated: input.ids.length };
+      }),
   }),
 
   // ============================================
@@ -447,6 +460,96 @@ export const appRouter = router({
           failed: result.failed,
           errors: result.errors,
         };
+      }),
+    // Generar newsletter con IA
+    generateWithAI: adminProcedure
+      .input(z.object({
+        prompt: z.string().min(10, "El prompt debe tener al menos 10 caracteres"),
+        previousContent: z.string().optional(),
+        editInstructions: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await generateNewsletterWithAI(input);
+        return result;
+      }),
+    // Generar imagen para newsletter
+    generateImage: adminProcedure
+      .input(z.object({
+        description: z.string().min(5, "La descripción debe tener al menos 5 caracteres"),
+      }))
+      .mutation(async ({ input }) => {
+        const imageUrl = await generateNewsletterImage(input.description);
+        return { url: imageUrl };
+      }),
+    // Guardar newsletter generado por IA
+    saveAIGenerated: adminProcedure
+      .input(z.object({
+        subject: z.string(),
+        previewText: z.string().optional(),
+        content: z.string(),
+        htmlContent: z.string(),
+        aiPrompt: z.string(),
+        status: z.enum(["draft", "scheduled", "sending", "sent", "cancelled"]).default("draft"),
+        scheduledAt: z.date().optional(),
+        scheduledTimezone: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createNewsletter({
+          subject: input.subject,
+          content: input.content,
+          status: input.status,
+          scheduledAt: input.scheduledAt,
+          createdBy: ctx.user.id,
+        });
+        return { success: true };
+      }),
+    // Obtener estadísticas de un newsletter
+    getStats: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        const newsletter = await db.getNewsletterById(input.id);
+        if (!newsletter) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Newsletter no encontrado' });
+        }
+        const recipientCount = newsletter.recipientCount || 0;
+        const openRate = recipientCount > 0 
+          ? ((newsletter.openCount || 0) / recipientCount * 100).toFixed(1)
+          : '0';
+        const clickRate = recipientCount > 0
+          ? ((newsletter.clickCount || 0) / recipientCount * 100).toFixed(1)
+          : '0';
+        return {
+          ...newsletter,
+          openRate: parseFloat(openRate),
+          clickRate: parseFloat(clickRate),
+        };
+      }),
+    // Bulk actions
+    bulkDelete: adminProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input }) => {
+        for (const id of input.ids) {
+          await db.deleteNewsletter(id);
+        }
+        return { success: true, deleted: input.ids.length };
+      }),
+    bulkDuplicate: adminProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input, ctx }) => {
+        const duplicated = [];
+        for (const id of input.ids) {
+          const original = await db.getNewsletterById(id);
+          if (original) {
+            await db.createNewsletter({
+              subject: `${original.subject} (copia)`,
+              content: original.content,
+              status: 'draft',
+              createdBy: ctx.user.id,
+            });
+            duplicated.push(id);
+          }
+        }
+        return { success: true, duplicated };
       }),
   }),
 

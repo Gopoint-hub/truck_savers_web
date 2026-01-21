@@ -143,18 +143,49 @@ export type Subscriber = typeof subscribers.$inferSelect;
 export type InsertSubscriber = typeof subscribers.$inferInsert;
 
 /**
+ * Clientes (base de datos de clientes del negocio)
+ */
+export const clients = mysqlTable("clients", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  name: varchar("name", { length: 200 }),
+  phone: varchar("phone", { length: 50 }),
+  company: varchar("company", { length: 200 }),
+  location: varchar("location", { length: 100 }),
+  locationId: int("locationId").references(() => locations.id),
+  businessLineId: int("businessLineId").references(() => businessLines.id),
+  notes: text("notes"),
+  tags: text("tags"), // Tags separados por coma
+  isActive: boolean("isActive").default(true),
+  lastServiceDate: timestamp("lastServiceDate"),
+  totalServices: int("totalServices").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Client = typeof clients.$inferSelect;
+export type InsertClient = typeof clients.$inferInsert;
+
+/**
  * Campañas de newsletter
  */
 export const newsletters = mysqlTable("newsletters", {
   id: int("id").autoincrement().primaryKey(),
   subject: varchar("subject", { length: 500 }).notNull(),
-  content: text("content").notNull(),
-  status: mysqlEnum("status", ["draft", "scheduled", "sent", "cancelled"]).default("draft"),
+  previewText: varchar("previewText", { length: 200 }), // Texto de previsualización en bandeja
+  content: text("content").notNull(), // Contenido en texto plano o markdown
+  htmlContent: text("htmlContent"), // HTML renderizado del newsletter
+  aiPrompt: text("aiPrompt"), // Prompt original usado para generar con IA
+  status: mysqlEnum("status", ["draft", "scheduled", "sending", "sent", "cancelled"]).default("draft"),
   scheduledAt: timestamp("scheduledAt"),
+  scheduledTimezone: varchar("scheduledTimezone", { length: 50 }).default("America/Chicago"), // Houston timezone
   sentAt: timestamp("sentAt"),
   recipientCount: int("recipientCount").default(0),
+  deliveredCount: int("deliveredCount").default(0),
   openCount: int("openCount").default(0),
   clickCount: int("clickCount").default(0),
+  bounceCount: int("bounceCount").default(0),
+  unsubscribeCount: int("unsubscribeCount").default(0),
   createdBy: int("createdBy").references(() => users.id),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -178,6 +209,23 @@ export const newsletterSends = mysqlTable("newsletter_sends", {
 
 export type NewsletterSend = typeof newsletterSends.$inferSelect;
 export type InsertNewsletterSend = typeof newsletterSends.$inferInsert;
+
+/**
+ * Tracking de clics en newsletters
+ */
+export const newsletterClicks = mysqlTable("newsletter_clicks", {
+  id: int("id").autoincrement().primaryKey(),
+  newsletterId: int("newsletterId").references(() => newsletters.id).notNull(),
+  subscriberId: int("subscriberId").references(() => subscribers.id),
+  linkUrl: text("linkUrl").notNull(),
+  linkText: varchar("linkText", { length: 200 }),
+  clickedAt: timestamp("clickedAt").defaultNow().notNull(),
+  userAgent: text("userAgent"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+});
+
+export type NewsletterClick = typeof newsletterClicks.$inferSelect;
+export type InsertNewsletterClick = typeof newsletterClicks.$inferInsert;
 
 // ============================================
 // CMS MODULES - PERMISOS Y ACCESO

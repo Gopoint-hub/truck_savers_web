@@ -97,3 +97,27 @@
 - [x] Crear servicio de email con Resend
 - [x] Implementar invitaciones por email a usuarios del CMS
 - [x] Activar envío de Newsletter con Resend
+
+## Sistema Newsletter con IA - Fase 1: Creación
+- [x] Generación de contenido de newsletter mediante prompt con IA
+- [x] Diseño automático con branding (logos, colores de la marca)
+- [x] Generación de imágenes acordes a la marca con IA
+- [x] Integración de videos de YouTube (thumbnail + link clicable)
+- [x] Botones y CTAs según indicaciones del prompt
+- [x] Sugerencia automática de asunto por IA
+
+## Sistema Newsletter con IA - Fase 2: Gestión
+- [x] Previsualización del newsletter antes de enviar
+- [x] Edición iterativa con IA (pedir cambios en prompt)
+- [x] Opciones de envío: Enviar ahora / Programar / Borrador
+- [x] Programación con hora Houston + equivalencias México y Colombia
+
+## Sistema Newsletter con IA - Fase 3: Métricas
+- [x] Tabla de envíos con columnas: destinatarios, aperturas, clics
+- [x] Cálculo de tasa de apertura y CTR
+- [x] Tracking de aperturas y clics por newsletter
+
+## Sistema Newsletter con IA - Fase 4: Bulk Actions
+- [x] Bulk actions en newsletters: duplicar, eliminar, editar
+- [x] Bulk actions en suscriptores: agregar, eliminar, editar
+- [ ] Bulk actions en clientes: agregar, eliminar, editar (pendiente crear módulo clientes)
