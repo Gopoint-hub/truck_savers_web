@@ -7,6 +7,8 @@ import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import { sendInvitation, sendNewsletter } from "./email";
 import { generateNewsletterWithAI, generateNewsletterImage } from "./newsletterAI";
+import { transcribeAudio } from "./_core/voiceTranscription";
+import { storagePut } from "./storage";
 
 // Admin procedure - requires admin role
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -765,6 +767,40 @@ export const appRouter = router({
         roadmap: roadmapStats,
       };
     }),
+  }),
+
+  // ============================================
+  // VOICE TRANSCRIPTION
+  // ============================================
+  voice: router({
+    transcribe: protectedProcedure
+      .input(z.object({
+        audioUrl: z.string(),
+        language: z.string().optional(),
+        prompt: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await transcribeAudio(input);
+        if ('error' in result) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: result.error,
+          });
+        }
+        return result;
+      }),
+    uploadAudio: protectedProcedure
+      .input(z.object({
+        audioBase64: z.string(),
+        mimeType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const buffer = Buffer.from(input.audioBase64, 'base64');
+        const extension = input.mimeType.split('/')[1] || 'webm';
+        const filename = `voice/${Date.now()}-${Math.random().toString(36).substring(7)}.${extension}`;
+        const { url } = await storagePut(filename, buffer, input.mimeType);
+        return { url };
+      }),
   }),
 });
 

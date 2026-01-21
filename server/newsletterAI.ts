@@ -239,8 +239,11 @@ ELEMENTOS DISPONIBLES:
    <a href="URL" class="cta-button">TEXTO DEL BOTÓN</a>
    Para botones secundarios:
    <a href="URL" class="secondary-button">TEXTO</a>
-4. IMÁGENES: Usa <img src="URL" alt="descripción" />
-   Si el usuario pide una imagen generada, usa el placeholder: [GENERAR_IMAGEN: descripción de la imagen]
+4. IMÁGENES: 
+   - Para imágenes con URL conocida: <img src="URL" alt="descripción" />
+   - Para imágenes que deben ser generadas por IA, usa SOLO el placeholder como elemento independiente (NO dentro de un tag img):
+     [GENERAR_IMAGEN: descripción detallada de la imagen]
+   - IMPORTANTE: El placeholder debe estar solo, NO dentro de src="" ni ningún otro atributo
 5. VIDEOS DE YOUTUBE: Si el usuario proporciona un link de YouTube, genera:
    <div class="video-container">
      <a href="URL_VIDEO" class="video-thumbnail">
@@ -317,18 +320,38 @@ Por favor, modifica el contenido según las instrucciones manteniendo el formato
   const content = JSON.parse(contentStr || "{}") as NewsletterContent;
   
   // Procesar placeholders de imágenes generadas
-  const imageMatches = content.htmlContent.match(/\[GENERAR_IMAGEN:\s*([^\]]+)\]/g) || [];
   let processedHtml = content.htmlContent;
   
+  // Primero, limpiar casos donde el placeholder está dentro de un tag img malformado
+  // Patrón: <img src="[GENERAR_IMAGEN: ...]" alt="..." ... />
+  const malformedImgPattern = /<img[^>]*src="\[GENERAR_IMAGEN:\s*([^\]]+)\]"[^>]*\/?>|<img[^>]*src='\[GENERAR_IMAGEN:\s*([^\]]+)\]'[^>]*\/?>/gi;
+  const malformedMatches = processedHtml.match(malformedImgPattern) || [];
+  
+  for (const malformedTag of malformedMatches) {
+    // Extraer la descripción del placeholder
+    const descMatch = malformedTag.match(/\[GENERAR_IMAGEN:\s*([^\]]+)\]/);
+    if (descMatch) {
+      const description = descMatch[1].trim();
+      // Reemplazar todo el tag malformado con solo el placeholder
+      processedHtml = processedHtml.replace(malformedTag, `[GENERAR_IMAGEN: ${description}]`);
+    }
+  }
+  
+  // Ahora procesar los placeholders normalmente
+  const imageMatches = processedHtml.match(/\[GENERAR_IMAGEN:\s*([^\]]+)\]/g) || [];
+  
   for (const match of imageMatches) {
-    const description = match.replace(/\[GENERAR_IMAGEN:\s*/, "").replace(/\]$/, "");
+    const description = match.replace(/\[GENERAR_IMAGEN:\s*/, "").replace(/\]$/, "").trim();
     try {
       const imagePrompt = `Imagen profesional para email marketing de taller de camiones: ${description}. Estilo corporativo, colores verde y gris, alta calidad.`;
       const { url: imageUrl } = await generateImage({ prompt: imagePrompt });
-      processedHtml = processedHtml.replace(match, `<img src="${imageUrl}" alt="${description}" style="max-width: 100%; border-radius: 8px;" />`);
+      // Crear un tag img limpio con la URL de S3
+      const imgTag = `<img src="${imageUrl}" alt="${description}" style="max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 20px auto;" />`;
+      processedHtml = processedHtml.replace(match, imgTag);
     } catch (error) {
       console.error("Error generando imagen:", error);
-      // Dejar el placeholder si falla
+      // Si falla, mostrar un placeholder visual
+      processedHtml = processedHtml.replace(match, `<div style="background: #f0f0f0; padding: 40px; text-align: center; border-radius: 8px; margin: 20px 0;"><p style="color: #666;">Imagen: ${description}</p></div>`);
     }
   }
 

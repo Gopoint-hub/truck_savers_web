@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,9 @@ import {
   Calendar,
   RefreshCw,
   CheckSquare,
+  Mic,
+  MicOff,
+  Square,
 } from "lucide-react";
 
 // Zonas horarias
@@ -90,6 +93,13 @@ export default function Newsletters() {
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
   const [selectedNewsletterId, setSelectedNewsletterId] = useState<number | null>(null);
+
+  // Estado para grabación de voz
+  const [isRecordingPrompt, setIsRecordingPrompt] = useState(false);
+  const [isRecordingEdit, setIsRecordingEdit] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   // Queries
   const { data: newsletters, refetch: refetchNewsletters } = trpc.newsletters.list.useQuery();
@@ -162,6 +172,93 @@ export default function Newsletters() {
       refetchNewsletters();
     },
   });
+
+  // Voice mutations
+  const uploadAudio = trpc.voice.uploadAudio.useMutation();
+  const transcribeAudio = trpc.voice.transcribe.useMutation();
+
+  // Voice recording functions
+  const startRecording = async (target: 'prompt' | 'edit') => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        stream.getTracks().forEach(track => track.stop());
+        await processAudio(audioBlob, target);
+      };
+
+      mediaRecorder.start();
+      if (target === 'prompt') {
+        setIsRecordingPrompt(true);
+      } else {
+        setIsRecordingEdit(true);
+      }
+      toast.info("Grabando... Habla ahora");
+    } catch (error) {
+      toast.error("No se pudo acceder al micrófono");
+      console.error(error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+      setIsRecordingPrompt(false);
+      setIsRecordingEdit(false);
+    }
+  };
+
+  const processAudio = async (audioBlob: Blob, target: 'prompt' | 'edit') => {
+    setIsTranscribing(true);
+    try {
+      // Convert blob to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve) => {
+        reader.onloadend = () => {
+          const base64 = (reader.result as string).split(',')[1];
+          resolve(base64);
+        };
+      });
+      reader.readAsDataURL(audioBlob);
+      const audioBase64 = await base64Promise;
+
+      // Upload to S3
+      const { url: audioUrl } = await uploadAudio.mutateAsync({
+        audioBase64,
+        mimeType: 'audio/webm',
+      });
+
+      // Transcribe
+      const result = await transcribeAudio.mutateAsync({
+        audioUrl,
+        language: 'es',
+        prompt: 'Transcribe el contenido para un newsletter de marketing',
+      });
+
+      // Update the appropriate field
+      if (target === 'prompt') {
+        setAiPrompt(prev => prev ? `${prev} ${result.text}` : result.text);
+      } else {
+        setEditInstructions(prev => prev ? `${prev} ${result.text}` : result.text);
+      }
+      toast.success("Transcripción completada");
+    } catch (error) {
+      toast.error("Error al transcribir el audio");
+      console.error(error);
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
 
   // Handlers
   const handleGenerateWithAI = () => {
@@ -523,7 +620,25 @@ export default function Newsletters() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Describe tu newsletter</label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700">Describe tu newsletter</label>
+                    <Button
+                      type="button"
+                      variant={isRecordingPrompt ? "destructive" : "outline"}
+                      size="sm"
+                      onClick={() => isRecordingPrompt ? stopRecording() : startRecording('prompt')}
+                      disabled={isTranscribing || isRecordingEdit}
+                      className="flex items-center gap-2"
+                    >
+                      {isTranscribing ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Transcribiendo...</>
+                      ) : isRecordingPrompt ? (
+                        <><Square className="w-4 h-4" /> Detener</>
+                      ) : (
+                        <><Mic className="w-4 h-4" /> Dictar</>
+                      )}
+                    </Button>
+                  </div>
                   <Textarea
                     placeholder="Ejemplo: Crea un newsletter promocionando la inspección gratuita 'La Bailada' para camiones. Incluye un video de YouTube: https://youtube.com/watch?v=xxx. Agrega un botón de WhatsApp para agendar cita."
                     value={aiPrompt}
@@ -560,7 +675,25 @@ export default function Newsletters() {
                 {generatedContent && (
                   <div className="border-t pt-4 space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">¿Quieres hacer cambios?</label>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="block text-sm font-medium text-gray-700">¿Quieres hacer cambios?</label>
+                        <Button
+                          type="button"
+                          variant={isRecordingEdit ? "destructive" : "outline"}
+                          size="sm"
+                          onClick={() => isRecordingEdit ? stopRecording() : startRecording('edit')}
+                          disabled={isTranscribing || isRecordingPrompt}
+                          className="flex items-center gap-2"
+                        >
+                          {isTranscribing ? (
+                            <><Loader2 className="w-4 h-4 animate-spin" /> Transcribiendo...</>
+                          ) : isRecordingEdit ? (
+                            <><Square className="w-4 h-4" /> Detener</>
+                          ) : (
+                            <><Mic className="w-4 h-4" /> Dictar</>
+                          )}
+                        </Button>
+                      </div>
                       <Textarea
                         placeholder="Describe los cambios: 'Cambia el título', 'Agrega más información sobre...', 'Quita la imagen', etc."
                         value={editInstructions}

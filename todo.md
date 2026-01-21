@@ -128,3 +128,12 @@
 - [x] Cambiar "Checklist SEO" a "SEO" en slug (/cms/seo)
 - [x] Cambiar "Checklist SEO" a "SEO" en nombre del módulo en sidebar
 - [x] Cambiar "Checklist SEO" a "SEO" en título de la página
+
+## Corrección Imágenes Newsletter
+- [x] Subir imágenes generadas por IA a S3 antes de incluirlas en el newsletter
+- [x] Usar URLs públicas de S3 en el HTML del email en lugar de URLs temporales
+
+## Funcionalidad de Micrófono en Newsletter
+- [x] Agregar botón de micrófono al campo de prompt para dictar contenido
+- [x] Agregar botón de micrófono al campo de instrucciones de edición
+- [x] Implementar transcripción de voz a texto usando Web Speech API o servicio de transcripción
