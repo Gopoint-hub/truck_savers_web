@@ -1,7 +1,6 @@
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -9,7 +8,7 @@ type UseAuthOptions = {
 };
 
 export function useAuth(options?: UseAuthOptions) {
-  const { redirectOnUnauthenticated = false, redirectPath = getLoginUrl() } =
+  const { redirectOnUnauthenticated = false, redirectPath = "/cms/login" } =
     options ?? {};
   const utils = trpc.useUtils();
 
@@ -26,6 +25,8 @@ export function useAuth(options?: UseAuthOptions) {
 
   const logout = useCallback(async () => {
     try {
+      // Call the local logout endpoint
+      await fetch('/api/auth/logout', { method: 'POST' });
       await logoutMutation.mutateAsync();
     } catch (error: unknown) {
       if (
@@ -34,10 +35,12 @@ export function useAuth(options?: UseAuthOptions) {
       ) {
         return;
       }
-      throw error;
+      // Continue with logout even if there's an error
     } finally {
       utils.auth.me.setData(undefined, null);
       await utils.auth.me.invalidate();
+      // Redirect to login page
+      window.location.href = '/cms/login';
     }
   }, [logoutMutation, utils]);
 
@@ -67,7 +70,7 @@ export function useAuth(options?: UseAuthOptions) {
     if (typeof window === "undefined") return;
     if (window.location.pathname === redirectPath) return;
 
-    window.location.href = redirectPath
+    window.location.href = redirectPath;
   }, [
     redirectOnUnauthenticated,
     redirectPath,

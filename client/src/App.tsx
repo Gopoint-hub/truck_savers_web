@@ -48,6 +48,7 @@ import StoreHub from "./pages/store/index";
 
 // CMS Pages
 import CmsLayout from "./pages/cms/CmsLayout";
+import CmsLogin from "./pages/cms/Login";
 import CmsDashboard from "./pages/cms/Dashboard";
 import CmsTasks from "./pages/cms/Tasks";
 import CmsObjectives from "./pages/cms/Objectives";
@@ -82,20 +83,25 @@ function Redirect({ to }: { to: string }) {
 // CMS Router - separate from main site
 function CmsRouter() {
   return (
-    <CmsLayout>
-      <Switch>
-        <Route path="/cms" component={CmsDashboard} />
-        <Route path="/cms/dashboard" component={CmsDashboard} />
-        <Route path="/cms/tasks" component={CmsTasks} />
-        <Route path="/cms/objectives" component={CmsObjectives} />
-        <Route path="/cms/subscribers" component={CmsSubscribers} />
-        <Route path="/cms/newsletters" component={CmsNewsletters} />
-        <Route path="/cms/users" component={CmsUsers} />
-        <Route path="/cms/roadmap" component={CmsRoadmap} />
-        <Route path="/cms/seo" component={CmsSeoChecklist} />
-        <Route component={CmsDashboard} />
-      </Switch>
-    </CmsLayout>
+    <Switch>
+      <Route path="/cms/login" component={CmsLogin} />
+      <Route>
+        <CmsLayout>
+          <Switch>
+            <Route path="/cms" component={CmsDashboard} />
+            <Route path="/cms/dashboard" component={CmsDashboard} />
+            <Route path="/cms/tasks" component={CmsTasks} />
+            <Route path="/cms/objectives" component={CmsObjectives} />
+            <Route path="/cms/subscribers" component={CmsSubscribers} />
+            <Route path="/cms/newsletters" component={CmsNewsletters} />
+            <Route path="/cms/users" component={CmsUsers} />
+            <Route path="/cms/roadmap" component={CmsRoadmap} />
+            <Route path="/cms/seo" component={CmsSeoChecklist} />
+            <Route component={CmsDashboard} />
+          </Switch>
+        </CmsLayout>
+      </Route>
+    </Switch>
   );
 }
 

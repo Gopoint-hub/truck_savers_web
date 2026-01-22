@@ -156,6 +156,47 @@ export async function getUserById(userId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function updateUserPassword(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ passwordHash, loginMethod: 'local' }).where(eq(users.id, userId));
+}
+
+export async function updateUserLastSignedIn(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ lastSignedIn: new Date() }).where(eq(users.id, userId));
+}
+
+export async function createUserWithPassword(data: { 
+  email: string; 
+  name?: string; 
+  passwordHash: string;
+  role: "user" | "admin" 
+}) {
+  const db = await getDb();
+  if (!db) return;
+  
+  // Generate a unique openId based on email
+  const openId = `local_${data.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  
+  await db.insert(users).values({
+    openId,
+    email: data.email,
+    name: data.name || null,
+    passwordHash: data.passwordHash,
+    role: data.role,
+    loginMethod: 'local',
+    isActive: true,
+  });
+}
+
+export async function updateUserStatus(userId: number, isActive: boolean) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ isActive }).where(eq(users.id, userId));
+}
+
 // ============================================
 // BUSINESS LINES FUNCTIONS
 // ============================================

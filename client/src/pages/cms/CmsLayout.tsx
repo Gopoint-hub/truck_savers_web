@@ -24,7 +24,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getLoginUrl } from "@/const";
+// Login URL now points to local login page
 import { useIsMobile } from "@/hooks/useMobile";
 import { 
   LayoutDashboard, 
@@ -117,33 +117,9 @@ export default function CmsLayout({
   }
 
   if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="flex flex-col items-center gap-6 p-6 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200">
-          <div className="flex items-center gap-2">
-            <Truck className="h-8 w-8 text-[#368A45]" />
-            <span className="text-xl font-bold text-gray-900">TTS CMS</span>
-          </div>
-          <div className="flex flex-col items-center gap-3">
-            <h1 className="text-lg font-semibold text-center text-gray-900">
-              Iniciar sesión
-            </h1>
-            <p className="text-sm text-gray-600 text-center">
-              El acceso requiere autenticación.
-            </p>
-          </div>
-          <Button
-            onClick={() => {
-              window.location.href = getLoginUrl('/cms');
-            }}
-            size="default"
-            className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white"
-          >
-            Iniciar sesión
-          </Button>
-        </div>
-      </div>
-    );
+    // Redirect to local login page
+    window.location.href = '/cms/login';
+    return <DashboardLayoutSkeleton />;
   }
 
   // Check if user is admin
