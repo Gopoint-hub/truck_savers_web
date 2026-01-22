@@ -1,5 +1,6 @@
 /**
  * Image generation helper using internal ImageService
+ * Now uses Cloudinary for image storage instead of S3
  *
  * Example usage:
  *   const { url: imageUrl } = await generateImage({
@@ -15,7 +16,7 @@
  *     }]
  *   });
  */
-import { storagePut } from "server/storage";
+import { uploadToCloudinary } from "server/cloudinary";
 import { ENV } from "./env";
 
 export type GenerateImageOptions = {
@@ -80,12 +81,9 @@ export async function generateImage(
   const base64Data = result.image.b64Json;
   const buffer = Buffer.from(base64Data, "base64");
 
-  // Save to S3
-  const { url } = await storagePut(
-    `generated/${Date.now()}.png`,
-    buffer,
-    result.image.mimeType
-  );
+  // Save to Cloudinary instead of S3
+  const { url } = await uploadToCloudinary(buffer, 'newsletter-generated');
+  
   return {
     url,
   };
