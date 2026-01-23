@@ -66,7 +66,7 @@ const menuAreas = [
     label: "Negocio",
     icon: BarChart3,
     items: [
-      { icon: Target, label: "Objetivos Comerciales", path: "/cms/objectives" },
+      { icon: Target, label: "Objetivos Comerciales", path: "/cms/objectives", disabled: true },
     ],
   },
   {
