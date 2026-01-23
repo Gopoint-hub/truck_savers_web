@@ -48,6 +48,9 @@ import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from '@/components/DashboardLayoutSkeleton';
 import { Button } from "@/components/ui/button";
 
+// Dashboard como elemento principal (fuera de categorías)
+const dashboardItem = { icon: LayoutDashboard, label: "Dashboard", path: "/cms" };
+
 // Estructura del menú organizada por áreas
 const menuAreas = [
   {
@@ -63,7 +66,6 @@ const menuAreas = [
     label: "Negocio",
     icon: BarChart3,
     items: [
-      { icon: LayoutDashboard, label: "Dashboard", path: "/cms" },
       { icon: Target, label: "Objetivos Comerciales", path: "/cms/objectives" },
     ],
   },
@@ -97,7 +99,7 @@ const menuAreas = [
 ];
 
 // Flat list for finding active item
-const allMenuItems = menuAreas.flatMap(area => area.items);
+const allMenuItems = [dashboardItem, ...menuAreas.flatMap(area => area.items)];
 
 const SIDEBAR_WIDTH_KEY = "cms-sidebar-width";
 const SIDEBAR_AREAS_KEY = "cms-sidebar-areas";
@@ -292,6 +294,31 @@ function CmsLayoutContent({
           </SidebarHeader>
 
           <SidebarContent className="gap-0 bg-white overflow-y-auto">
+            {/* Dashboard - Elemento principal */}
+            <SidebarMenu className="px-2 pt-3 pb-2">
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={location === '/cms' || location === '/cms/dashboard'}
+                  onClick={() => handleNavigation('/cms')}
+                  tooltip="Dashboard"
+                  className={`h-9 text-sm transition-all font-medium ${
+                    location === '/cms' || location === '/cms/dashboard'
+                      ? "bg-[#368A45]/10 text-[#368A45] hover:bg-[#368A45]/15" 
+                      : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  <LayoutDashboard
+                    className={`h-4 w-4 ${location === '/cms' || location === '/cms/dashboard' ? "text-[#368A45]" : ""}`}
+                  />
+                  <span>Dashboard</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+            
+            {/* Separador */}
+            <div className="mx-4 border-t border-gray-200" />
+            
+            {/* Categorías del menú */}
             {menuAreas.map(area => (
               <Collapsible
                 key={area.id}
