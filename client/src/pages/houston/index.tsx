@@ -2,6 +2,8 @@ import { Link } from 'wouter';
 import { Phone, MapPin, Clock, ChevronRight, Wrench, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SEO, { houstonLocalBusinessSchema, createBreadcrumbSchema } from '@/components/SEO';
+import FAQSection, { houstonFAQs } from '@/components/FAQSection';
+import GoogleMap from '@/components/GoogleMap';
 
 /**
  * Houston City Hub - SEO Local Architecture
@@ -190,8 +192,18 @@ export default function HoustonHub() {
         </div>
       </section>
 
+      {/* Google Map */}
+      <GoogleMap location="houston" />
+
+      {/* FAQs */}
+      <FAQSection 
+        faqs={houstonFAQs} 
+        title="Preguntas Frecuentes - Houston"
+        subtitle="Respuestas a las preguntas más comunes sobre nuestros servicios en Houston"
+      />
+
       {/* Breadcrumb / Internal Links */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-8 bg-white">
         <div className="container">
           <nav className="text-sm text-gray-600">
             <Link href="/" className="hover:text-[#368A45]">Inicio</Link>
