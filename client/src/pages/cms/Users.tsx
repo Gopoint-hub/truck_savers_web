@@ -36,9 +36,13 @@ export default function CmsUsers() {
   const [sendingInvitationTo, setSendingInvitationTo] = useState<number | null>(null);
   
   const createUser = trpc.users.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       utils.users.list.invalidate();
-      toast.success("Usuario creado exitosamente");
+      if (data.invitationSent) {
+        toast.success("Usuario creado e invitación enviada exitosamente");
+      } else {
+        toast.success("Usuario creado. Hubo un problema al enviar la invitación, puedes reenviarla manualmente.");
+      }
       setIsCreateDialogOpen(false);
       setNewUserEmail("");
       setNewUserName("");
@@ -135,7 +139,7 @@ export default function CmsUsers() {
             <DialogHeader>
               <DialogTitle className="text-gray-900 font-bold">Agregar Nuevo Usuario</DialogTitle>
               <DialogDescription className="text-gray-600">
-                Crea un nuevo usuario con acceso al CMS. Después podrás enviarle una invitación por email.
+                Crea un nuevo usuario con acceso al CMS. Se enviará automáticamente un email de invitación.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -186,7 +190,7 @@ export default function CmsUsers() {
                 disabled={createUser.isPending}
                 className="bg-[#368A45] hover:bg-[#2d7339] text-white font-semibold"
               >
-                {createUser.isPending ? "Creando..." : "Crear Usuario"}
+                {createUser.isPending ? "Creando y enviando invitación..." : "Crear y Enviar Invitación"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -297,7 +301,7 @@ export default function CmsUsers() {
                         ) : (
                           <>
                             <Mail className="h-3 w-3 mr-1" />
-                            <span className="hidden sm:inline">Invitar</span>
+                            <span className="hidden sm:inline">Reenviar</span>
                           </>
                         )}
                       </Button>

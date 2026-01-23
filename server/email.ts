@@ -5,7 +5,7 @@ import { ENV } from './_core/env';
 const resend = new Resend(ENV.resendApiKey);
 
 // Configuración del remitente
-const FROM_EMAIL = 'TTS CMS <noreply@thetrucksavers.com>';
+const FROM_EMAIL = 'TheTruckSavers CMS <noreply@thetrucksavers.com>';
 const FROM_EMAIL_NEWSLETTER = 'The Truck Savers <newsletter@thetrucksavers.com>';
 
 export interface SendEmailParams {

@@ -43,14 +43,70 @@ export const appRouter = router({
         name: z.string().optional(),
         role: z.enum(["user", "admin"]) 
       }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
         // Check if user already exists
         const existingUser = await db.getUserByEmail(input.email);
         if (existingUser) {
           throw new TRPCError({ code: 'CONFLICT', message: 'Ya existe un usuario con este email' });
         }
         await db.createUser(input);
-        return { success: true };
+        
+        // Get the newly created user
+        const newUser = await db.getUserByEmail(input.email);
+        if (!newUser) {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Error al crear usuario' });
+        }
+        
+        // Automatically send invitation email
+        const baseUrl = ctx.req.headers.origin || `https://${ctx.req.headers.host}`;
+        
+        // Generate invitation token
+        const { generateToken } = await import('./localAuth');
+        const token = generateToken();
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+        
+        await db.createAuthToken({
+          userId: newUser.id,
+          token,
+          type: 'invitation',
+          expiresAt,
+        });
+        
+        // Create audit log
+        await db.createAuditLog({
+          userId: ctx.user.id,
+          action: 'user_created',
+          details: JSON.stringify({ createdUserId: newUser.id, email: input.email }),
+          ipAddress: ctx.req.ip || ctx.req.headers['x-forwarded-for']?.toString() || 'unknown',
+          userAgent: ctx.req.headers['user-agent'] || 'unknown',
+        });
+        
+        await db.createAuditLog({
+          userId: ctx.user.id,
+          action: 'invitation_sent',
+          details: JSON.stringify({ invitedUserId: newUser.id }),
+          ipAddress: ctx.req.ip || ctx.req.headers['x-forwarded-for']?.toString() || 'unknown',
+          userAgent: ctx.req.headers['user-agent'] || 'unknown',
+        });
+        
+        const invitationUrl = `${baseUrl}/cms/set-password?token=${token}`;
+        
+        // Send invitation email
+        const { sendInvitationEmail } = await import('./email');
+        const result = await sendInvitationEmail({
+          to: input.email,
+          userName: input.name || input.email,
+          inviterName: ctx.user.name || 'Administrador',
+          invitationUrl,
+          expiresInHours: 24,
+        });
+        
+        if (!result.success) {
+          console.error('[Users] Failed to send invitation email:', result.error);
+          // Don't throw error, user was created successfully
+        }
+        
+        return { success: true, invitationSent: result.success };
       }),
     updateRole: adminProcedure
       .input(z.object({ userId: z.number(), role: z.enum(["user", "admin"]) }))
