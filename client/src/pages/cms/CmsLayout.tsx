@@ -197,12 +197,9 @@ function CmsLayoutContent({
     if (saved) {
       return JSON.parse(saved);
     }
-    // Por defecto, expandir el área que contiene la página actual
-    const currentArea = menuAreas.find(area => 
-      area.items.some(item => item.path === location)
-    );
+    // Por defecto, todos los menús colapsados
     return menuAreas.reduce((acc, area) => {
-      acc[area.id] = area.id === currentArea?.id;
+      acc[area.id] = false;
       return acc;
     }, {} as Record<string, boolean>);
   });
