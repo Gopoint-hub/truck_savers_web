@@ -40,7 +40,8 @@ import {
   Map,
   ClipboardCheck,
   BarChart3,
-  MessageSquare
+  MessageSquare,
+  Shield
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -72,7 +73,6 @@ const menuAreas = [
     icon: CheckSquare,
     items: [
       { icon: CheckSquare, label: "Pendientes", path: "/cms/tasks" },
-      { icon: Users, label: "Usuarios", path: "/cms/users" },
     ],
   },
   {
@@ -84,6 +84,14 @@ const menuAreas = [
       { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
       { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
       { icon: MessageSquare, label: "WhatsApp", path: "/cms/whatsapp", disabled: true },
+    ],
+  },
+  {
+    id: "admin",
+    label: "Admin",
+    icon: Shield,
+    items: [
+      { icon: Users, label: "Usuarios", path: "/cms/users" },
     ],
   },
 ];
