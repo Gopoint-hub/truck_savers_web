@@ -33,7 +33,7 @@ const dallasPageSchema = {
 };
 
 export default function DallasHub() {
-  const whatsappNumber = "17134555566";
+  const whatsappNumber = "14697759715";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (
@@ -74,10 +74,10 @@ export default function DallasHub() {
                   Agendar por WhatsApp
                 </Button>
               </a>
-              <a href="tel:+17134555566">
+              <a href="tel:+14697759715">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 w-full sm:w-auto">
                   <Phone className="w-5 h-5 mr-2" />
-                  Llamar: 713-455-5566
+                  Llamar: 469-775-9715
                 </Button>
               </a>
             </div>
@@ -104,7 +104,7 @@ export default function DallasHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Teléfono</p>
-                <a href="tel:+17134555566" className="text-[#368A45] hover:underline">713-455-5566</a>
+                <a href="tel:+14697759715" className="text-[#368A45] hover:underline">469-775-9715</a>
               </div>
             </div>
             <div className="flex items-center gap-4">
