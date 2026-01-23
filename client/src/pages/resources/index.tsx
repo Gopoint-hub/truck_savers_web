@@ -10,32 +10,36 @@ import { Button } from '@/components/ui/button';
 
 const blogPosts = [
   {
-    slug: 'go-green-apu-ahorro-diesel-camiones',
+    slug: 'go-green-apu-ahorro-diesel',
     title: 'Go Green APU: ¿Por qué te ahorra tanto diésel?',
-    excerpt: 'Descubre cómo el sistema Go Green APU puede reducir significativamente tu consumo de diésel.',
-    image: '/images/go-green-apu-ahorro-diesel-camiones.jpg',
+    excerpt: 'Descubre cómo un Go Green APU puede ayudarte a ahorrar miles de dólares en combustible cada año.',
+    image: '/images/go-green-apu-ahorro-diesel.jpg',
     date: '30 Dic 2025',
+    category: 'Ahorro',
   },
   {
-    slug: 'mantenimiento-sistema-enfriamiento',
-    title: '¡Que no se caliente! Cuida el sistema de enfriamiento',
-    excerpt: 'Consejos prácticos para mantener el sistema de enfriamiento de tu camión en óptimas condiciones.',
-    image: '/images/mantenimiento-sistema-enfriamiento-camiones-diesel.jpg',
-    date: '30 Dic 2025',
-  },
-  {
-    slug: 'significado-luces-tablero-camion',
+    slug: 'significado-luces-tablero',
     title: 'Luces del tablero: ¿Qué te está diciendo tu troca?',
-    excerpt: 'Aprende a interpretar las luces de advertencia del tablero de tu camión.',
-    image: '/images/significado-luces-tablero-camion.jpg',
+    excerpt: 'Guía completa sobre el significado de las luces de advertencia en tu camión.',
+    image: '/images/significado-luces-tablero-camion-2.jpg',
     date: '30 Dic 2025',
+    category: 'Mantenimiento',
   },
   {
-    slug: 'best-truck-repair-shop',
-    title: 'The Truck Savers: Best Truck Repair Shop',
-    excerpt: 'Why The Truck Savers is the best choice for truck repair in Houston.',
-    image: '/images/the-truck-savers-best-truck-repair-shop.jpg',
+    slug: 'sistema-enfriamiento',
+    title: '¡Que no se caliente! Cuida el sistema de enfriamiento',
+    excerpt: 'El sistema de enfriamiento es crucial para la salud de tu motor. Aprende cómo mantenerlo.',
+    image: '/images/mecanico-mantenimiento-sistema-enfriamiento-camiones-diesel.jpg',
     date: '30 Dic 2025',
+    category: 'Mantenimiento',
+  },
+  {
+    slug: 'inspeccion-carga-diaria',
+    title: 'Inspección de carga diario: Guía del trokero',
+    excerpt: 'Conoce los puntos clave que debes revisar diariamente en tu camión.',
+    image: '/images/mecanico-inspeccion-carga-diario-guia-trokero.jpg',
+    date: '30 Dic 2025',
+    category: 'Seguridad',
   },
 ];
 
@@ -45,7 +49,7 @@ const resourceCategories = [
     title: 'Blog',
     description: 'Artículos y consejos para el mantenimiento de tu camión',
     icon: BookOpen,
-    count: 4,
+    count: 7,
   },
   {
     slug: 'podcasts',
@@ -130,7 +134,7 @@ export default function ResourcesHub() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {blogPosts.map((post) => (
-              <Link key={post.slug} href={`/resources/${post.slug}`}>
+              <Link key={post.slug} href={`/blog/${post.slug}`}>
                 <article className="group bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-[#368A45] hover:shadow-lg transition-all cursor-pointer">
                   <div className="aspect-video bg-gray-100 overflow-hidden">
                     <img 
