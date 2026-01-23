@@ -1,0 +1,25 @@
+{
+  "name": "The Truck Savers - Taller Mecánico de Camiones",
+  "short_name": "TruckSavers",
+  "description": "Taller mecánico especializado en camiones y trailers con más de 21 años de experiencia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#368A45",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "automotive"],
+  "lang": "es",
+  "dir": "ltr"
+}

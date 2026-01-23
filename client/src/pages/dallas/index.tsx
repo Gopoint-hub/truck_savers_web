@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { Phone, MapPin, Clock, ChevronRight, Wrench, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEO, { dallasLocalBusinessSchema, createBreadcrumbSchema } from '@/components/SEO';
 
 /**
  * Dallas City Hub - SEO Local Architecture
@@ -17,12 +18,31 @@ const dallasServices = [
   { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
 ];
 
+// Schema combinado para Dallas
+const dallasPageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    dallasLocalBusinessSchema,
+    createBreadcrumbSchema([
+      { name: "Inicio", url: "https://truck-savers-web.onrender.com/" },
+      { name: "Dallas", url: "https://truck-savers-web.onrender.com/dallas" }
+    ])
+  ]
+};
+
 export default function DallasHub() {
   const whatsappNumber = "17134555566";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Taller Mecánico de Camiones en Dallas, TX"
+        description="Taller mecánico de camiones y trailers en Dallas, Texas. Más de 21 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 4739 Lucky Ln."
+        keywords="taller mecánico camiones Dallas, truck repair Dallas TX, semi truck mechanic Dallas, alineación camiones Dallas, suspensión camiones Dallas, frenos camiones Dallas"
+        canonical="/dallas"
+        structuredData={dallasPageSchema}
+      />
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />

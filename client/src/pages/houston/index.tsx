@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { Phone, MapPin, Clock, ChevronRight, Wrench, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEO, { houstonLocalBusinessSchema, createBreadcrumbSchema } from '@/components/SEO';
 
 /**
  * Houston City Hub - SEO Local Architecture
@@ -24,12 +25,31 @@ const houstonServices = [
   { slug: 'go-green-apu', title: 'Go Green APU', description: 'Instalación de APU para ahorro de diésel y mayor eficiencia.' },
 ];
 
+// Schema combinado para Houston
+const houstonPageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    houstonLocalBusinessSchema,
+    createBreadcrumbSchema([
+      { name: "Inicio", url: "https://truck-savers-web.onrender.com/" },
+      { name: "Houston", url: "https://truck-savers-web.onrender.com/houston" }
+    ])
+  ]
+};
+
 export default function HoustonHub() {
   const whatsappNumber = "17134555566";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Houston");
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Taller Mecánico de Camiones en Houston, TX"
+        description="Taller mecánico de camiones y trailers en Houston, Texas. Más de 21 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 1362 Sheffield Blvd."
+        keywords="taller mecánico camiones Houston, truck repair Houston TX, semi truck mechanic Houston, alineación camiones Houston, suspensión camiones Houston, frenos camiones Houston"
+        canonical="/houston"
+        structuredData={houstonPageSchema}
+      />
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />

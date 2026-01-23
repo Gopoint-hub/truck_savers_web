@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { MapPin, Phone, MessageCircle, ChevronRight, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEO, { organizationSchema, houstonLocalBusinessSchema } from '@/components/SEO';
 
 /**
  * Home Page - SEO Local Architecture
@@ -38,12 +39,38 @@ const cities = [
   },
 ];
 
+// Schema combinado para la página principal
+const homePageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    organizationSchema,
+    houstonLocalBusinessSchema,
+    {
+      "@type": "WebSite",
+      "name": "The Truck Savers",
+      "url": "https://thetrucksavers.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://thetrucksavers.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+};
+
 export default function Home() {
   const mainWhatsapp = "17134555566";
   const mainWhatsappMessage = encodeURIComponent("Hola, me gustaría información sobre sus servicios");
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Taller Mecánico de Camiones y Trailers - 21 Años en Houston"
+        description="Taller mecánico especializado en camiones y trailers con más de 21 años de experiencia. Inspección gratuita, alineación, suspensión, frenos y más. Ubicaciones en Houston, Dallas y Monterrey."
+        keywords="taller mecánico camiones Houston, reparación trailers Texas, alineación camiones, suspensión camiones, frenos camiones, cambio aceite diésel, The Truck Savers"
+        canonical="/"
+        structuredData={homePageSchema}
+      />
       {/* Hero Section - Simplified */}
       <section className="relative bg-gray-900 text-white py-20 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/80" />

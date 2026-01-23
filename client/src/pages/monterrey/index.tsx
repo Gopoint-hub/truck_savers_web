@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { Phone, MapPin, Clock, ChevronRight, Wrench, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEO, { monterreyLocalBusinessSchema, createBreadcrumbSchema } from '@/components/SEO';
 
 /**
  * Monterrey City Hub - SEO Local Architecture
@@ -17,12 +18,31 @@ const monterreyServices = [
   { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
 ];
 
+// Schema combinado para Monterrey
+const monterreyPageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    monterreyLocalBusinessSchema,
+    createBreadcrumbSchema([
+      { name: "Inicio", url: "https://truck-savers-web.onrender.com/" },
+      { name: "Monterrey", url: "https://truck-savers-web.onrender.com/monterrey" }
+    ])
+  ]
+};
+
 export default function MonterreyHub() {
   const whatsappNumber = "528135414652";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Monterrey");
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Taller Mecánico de Camiones en Monterrey, N.L."
+        description="Taller mecánico de camiones y trailers en Monterrey, Nuevo León. Más de 21 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en Libramiento Noreste KM 33.5."
+        keywords="taller mecánico camiones Monterrey, reparación trailers Nuevo León, alineación camiones Monterrey, suspensión camiones Monterrey, frenos camiones Monterrey, taller diésel Monterrey"
+        canonical="/monterrey"
+        structuredData={monterreyPageSchema}
+      />
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/70" />
