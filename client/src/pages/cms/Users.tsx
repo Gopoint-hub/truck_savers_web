@@ -112,8 +112,8 @@ export default function CmsUsers() {
   const adminCount = users?.filter(u => u.role === 'admin').length || 0;
   const userCount = users?.filter(u => u.role === 'user').length || 0;
 
-  // Determinar si un usuario puede acceder (tiene openId vinculado)
-  const canAccess = (user: { openId?: string | null }) => !!user.openId;
+  // Determinar si un usuario puede acceder (tiene contraseña configurada)
+  const canAccess = (user: { passwordHash?: string | null }) => !!user.passwordHash;
 
   return (
     <div className="space-y-4">

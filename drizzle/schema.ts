@@ -21,6 +21,12 @@ export const users = mysqlTable("users", {
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   /** Whether the user account is active */
   isActive: boolean("isActive").default(true).notNull(),
+  /** Failed login attempts counter */
+  failedLoginAttempts: int("failedLoginAttempts").default(0).notNull(),
+  /** Timestamp when the account was locked */
+  lockedUntil: timestamp("lockedUntil"),
+  /** Session version - incremented when password changes to invalidate all sessions */
+  sessionVersion: int("sessionVersion").default(1).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -329,3 +335,57 @@ export const roadmapDeliverables = mysqlTable("roadmap_deliverables", {
 
 export type RoadmapDeliverable = typeof roadmapDeliverables.$inferSelect;
 export type InsertRoadmapDeliverable = typeof roadmapDeliverables.$inferInsert;
+
+// ============================================
+// AUTHENTICATION TOKENS
+// ============================================
+
+/**
+ * Tokens for password reset and user invitations
+ */
+export const authTokens = mysqlTable("auth_tokens", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id).notNull(),
+  token: varchar("token", { length: 64 }).notNull().unique(),
+  type: mysqlEnum("type", ["invitation", "password_reset"]).notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  usedAt: timestamp("usedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AuthToken = typeof authTokens.$inferSelect;
+export type InsertAuthToken = typeof authTokens.$inferInsert;
+
+// ============================================
+// AUDIT LOG
+// ============================================
+
+/**
+ * Audit log for security-related events
+ */
+export const auditLogs = mysqlTable("audit_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id),
+  action: mysqlEnum("action", [
+    "login_success",
+    "login_failed",
+    "logout",
+    "password_change",
+    "password_reset_request",
+    "password_reset_complete",
+    "invitation_sent",
+    "invitation_accepted",
+    "account_locked",
+    "account_unlocked",
+    "user_created",
+    "user_updated",
+    "user_deleted"
+  ]).notNull(),
+  details: text("details"), // JSON with additional details
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: text("userAgent"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type InsertAuditLog = typeof auditLogs.$inferInsert;

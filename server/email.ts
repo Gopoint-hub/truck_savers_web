@@ -22,6 +22,21 @@ export interface SendInvitationParams {
   loginUrl: string;
 }
 
+export interface SendInvitationEmailParams {
+  to: string;
+  userName: string;
+  inviterName: string;
+  invitationUrl: string;
+  expiresInHours: number;
+}
+
+export interface SendPasswordResetEmailParams {
+  to: string;
+  userName: string;
+  resetUrl: string;
+  expiresInHours: number;
+}
+
 export interface SendNewsletterParams {
   to: string[];
   subject: string;
@@ -148,6 +163,122 @@ export async function sendNewsletter({ to, subject, html }: SendNewsletterParams
 
   results.success = results.failed === 0;
   return results;
+}
+
+/**
+ * Enviar email de invitación con token para configurar contraseña
+ */
+export async function sendInvitationEmail({ to, userName, inviterName, invitationUrl, expiresInHours }: SendInvitationEmailParams) {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="background: linear-gradient(135deg, #368A45 0%, #2D6E39 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <h1 style="color: white; margin: 0; font-size: 24px;">The Truck Savers</h1>
+        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Sistema de Gestión Interno</p>
+      </div>
+      
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+        <h2 style="color: #333; margin-top: 0;">¡Hola ${userName}!</h2>
+        
+        <p>Has sido invitado por <strong>${inviterName}</strong> a unirte al panel de administración de The Truck Savers.</p>
+        
+        <p>Para configurar tu contraseña y acceder al sistema, haz clic en el siguiente botón:</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${invitationUrl}" style="background: #368A45; color: white; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
+            Configurar mi contraseña
+          </a>
+        </div>
+        
+        <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 15px; margin: 20px 0;">
+          <p style="color: #856404; margin: 0; font-size: 14px;">
+            <strong>⚠️ Importante:</strong> Este enlace expira en <strong>${expiresInHours} horas</strong>.
+          </p>
+        </div>
+        
+        <p style="color: #666; font-size: 14px;">
+          Si no esperabas esta invitación, puedes ignorar este correo.
+        </p>
+        
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+        
+        <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
+          The Truck Savers - Taller mecánico de camiones y trailers<br>
+          Houston, TX | Dallas, TX | Monterrey, NL
+        </p>
+      </div>
+    </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to,
+    subject: `${inviterName} te ha invitado a The Truck Savers CMS`,
+    html,
+  });
+}
+
+/**
+ * Enviar email de recuperación de contraseña
+ */
+export async function sendPasswordResetEmail({ to, userName, resetUrl, expiresInHours }: SendPasswordResetEmailParams) {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="background: linear-gradient(135deg, #368A45 0%, #2D6E39 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <h1 style="color: white; margin: 0; font-size: 24px;">The Truck Savers</h1>
+        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Recuperación de Contraseña</p>
+      </div>
+      
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+        <h2 style="color: #333; margin-top: 0;">Hola ${userName},</h2>
+        
+        <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta.</p>
+        
+        <p>Para crear una nueva contraseña, haz clic en el siguiente botón:</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrl}" style="background: #368A45; color: white; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
+            Restablecer contraseña
+          </a>
+        </div>
+        
+        <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 15px; margin: 20px 0;">
+          <p style="color: #856404; margin: 0; font-size: 14px;">
+            <strong>⚠️ Importante:</strong> Este enlace expira en <strong>${expiresInHours} hora(s)</strong>.
+          </p>
+        </div>
+        
+        <p style="color: #666; font-size: 14px;">
+          Si no solicitaste este cambio, puedes ignorar este correo. Tu contraseña actual seguirá funcionando.
+        </p>
+        
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+        
+        <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
+          The Truck Savers - Taller mecánico de camiones y trailers<br>
+          Houston, TX | Dallas, TX | Monterrey, NL
+        </p>
+      </div>
+    </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to,
+    subject: 'Restablecer contraseña - The Truck Savers CMS',
+    html,
+  });
 }
 
 /**

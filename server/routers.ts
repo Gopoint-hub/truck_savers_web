@@ -75,15 +75,42 @@ export const appRouter = router({
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'El usuario no tiene email configurado' });
         }
         
-        // Construir URL de login
+        // Use the new local auth invitation system
         const baseUrl = ctx.req.headers.origin || `https://${ctx.req.headers.host}`;
-        const loginUrl = `${baseUrl}/cms`;
         
-        const result = await sendInvitation({
+        // Delete any existing invitation tokens
+        await db.deleteUserTokens(user.id, 'invitation');
+        
+        // Generate new token
+        const { generateToken } = await import('./localAuth');
+        const token = generateToken();
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+        
+        await db.createAuthToken({
+          userId: user.id,
+          token,
+          type: 'invitation',
+          expiresAt,
+        });
+        
+        // Create audit log
+        await db.createAuditLog({
+          userId: ctx.user.id,
+          action: 'invitation_sent',
+          details: JSON.stringify({ invitedUserId: user.id }),
+          ipAddress: ctx.req.ip || ctx.req.headers['x-forwarded-for']?.toString() || 'unknown',
+          userAgent: ctx.req.headers['user-agent'] || 'unknown',
+        });
+        
+        const invitationUrl = `${baseUrl}/cms/set-password?token=${token}`;
+        
+        const { sendInvitationEmail } = await import('./email');
+        const result = await sendInvitationEmail({
           to: user.email,
           userName: user.name || user.email,
           inviterName: ctx.user.name || 'Administrador',
-          loginUrl,
+          invitationUrl,
+          expiresInHours: 24,
         });
         
         if (!result.success) {

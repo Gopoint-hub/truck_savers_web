@@ -57,6 +57,8 @@ import CmsNewsletters from "./pages/cms/Newsletters";
 import CmsUsers from "./pages/cms/Users";
 import CmsRoadmap from "./pages/cms/Roadmap";
 import CmsSeoChecklist from "./pages/cms/SeoChecklist";
+import CmsSetPassword from "./pages/cms/SetPassword";
+import CmsChangePassword from "./pages/cms/ChangePassword";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -84,7 +86,12 @@ function Redirect({ to }: { to: string }) {
 function CmsRouter() {
   return (
     <Switch>
+      {/* Auth pages without layout */}
       <Route path="/cms/login" component={CmsLogin} />
+      <Route path="/cms/set-password" component={CmsSetPassword} />
+      <Route path="/cms/reset-password" component={CmsSetPassword} />
+      
+      {/* Protected pages with layout */}
       <Route>
         <CmsLayout>
           <Switch>
@@ -97,6 +104,7 @@ function CmsRouter() {
             <Route path="/cms/users" component={CmsUsers} />
             <Route path="/cms/roadmap" component={CmsRoadmap} />
             <Route path="/cms/seo" component={CmsSeoChecklist} />
+            <Route path="/cms/change-password" component={CmsChangePassword} />
             <Route component={CmsDashboard} />
           </Switch>
         </CmsLayout>

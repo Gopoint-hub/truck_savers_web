@@ -14,7 +14,9 @@ import {
   userModulePermissions, InsertUserModulePermission,
   seoChecklist, InsertSeoChecklistItem,
   roadmapStages, InsertRoadmapStage,
-  roadmapDeliverables, InsertRoadmapDeliverable
+  roadmapDeliverables, InsertRoadmapDeliverable,
+  authTokens, InsertAuthToken,
+  auditLogs, InsertAuditLog
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -653,4 +655,130 @@ export async function updateManySubscribersStatus(ids: number[], isActive: boole
   const db = await getDb();
   if (!db || ids.length === 0) return;
   await db.update(subscribers).set({ isActive }).where(inArray(subscribers.id, ids));
+}
+
+
+// ============================================
+// AUTH TOKENS FUNCTIONS
+// ============================================
+
+export async function createAuthToken(data: InsertAuthToken) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(authTokens).values(data);
+}
+
+export async function getAuthToken(token: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(authTokens).where(eq(authTokens.token, token)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function markTokenAsUsed(tokenId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(authTokens).set({ usedAt: new Date() }).where(eq(authTokens.id, tokenId));
+}
+
+export async function deleteExpiredTokens() {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(authTokens).where(sql`${authTokens.expiresAt} < NOW()`);
+}
+
+export async function deleteUserTokens(userId: number, type?: "invitation" | "password_reset") {
+  const db = await getDb();
+  if (!db) return;
+  if (type) {
+    await db.delete(authTokens).where(and(eq(authTokens.userId, userId), eq(authTokens.type, type)));
+  } else {
+    await db.delete(authTokens).where(eq(authTokens.userId, userId));
+  }
+}
+
+// ============================================
+// AUDIT LOG FUNCTIONS
+// ============================================
+
+export async function createAuditLog(data: InsertAuditLog) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(auditLogs).values(data);
+}
+
+export async function getAuditLogs(filters?: { userId?: number; action?: string; limit?: number }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const conditions = [];
+  if (filters?.userId) {
+    conditions.push(eq(auditLogs.userId, filters.userId));
+  }
+  if (filters?.action) {
+    conditions.push(eq(auditLogs.action, filters.action as any));
+  }
+  
+  const limit = filters?.limit || 100;
+  
+  if (conditions.length > 0) {
+    return db.select().from(auditLogs).where(and(...conditions)).orderBy(desc(auditLogs.createdAt)).limit(limit);
+  }
+  
+  return db.select().from(auditLogs).orderBy(desc(auditLogs.createdAt)).limit(limit);
+}
+
+// ============================================
+// USER SECURITY FUNCTIONS
+// ============================================
+
+export async function incrementFailedLoginAttempts(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ 
+    failedLoginAttempts: sql`${users.failedLoginAttempts} + 1` 
+  }).where(eq(users.id, userId));
+}
+
+export async function resetFailedLoginAttempts(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ 
+    failedLoginAttempts: 0,
+    lockedUntil: null
+  }).where(eq(users.id, userId));
+}
+
+export async function lockUserAccount(userId: number, lockDurationMinutes: number = 15) {
+  const db = await getDb();
+  if (!db) return;
+  const lockedUntil = new Date(Date.now() + lockDurationMinutes * 60 * 1000);
+  await db.update(users).set({ lockedUntil }).where(eq(users.id, userId));
+}
+
+export async function unlockUserAccount(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ 
+    lockedUntil: null,
+    failedLoginAttempts: 0
+  }).where(eq(users.id, userId));
+}
+
+export async function incrementSessionVersion(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ 
+    sessionVersion: sql`${users.sessionVersion} + 1` 
+  }).where(eq(users.id, userId));
+}
+
+export async function updateUserPasswordAndIncrementSession(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ 
+    passwordHash, 
+    loginMethod: 'local',
+    sessionVersion: sql`${users.sessionVersion} + 1`
+  }).where(eq(users.id, userId));
 }
