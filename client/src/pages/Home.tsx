@@ -26,8 +26,8 @@ const cities = [
     state: 'TX',
     country: 'EE.UU.',
     address: '4739 Lucky Ln, Dallas, TX 75247',
-    phone: '713-455-5566',
-    whatsapp: '17134555566',
+    phone: '469-775-9715',
+    whatsapp: '14697759715',
   },
   {
     slug: 'monterrey',
