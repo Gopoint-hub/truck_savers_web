@@ -65,7 +65,7 @@ export default function Header() {
             <div className="flex items-center gap-3 cursor-pointer">
               <img 
                 src="/images/home_logo.png" 
-                alt="The Truck Savers" 
+                alt="The Truck Savers - Taller Mecánico de Camiones" 
                 className="h-10 md:h-12"
                 onError={(e) => {
                   // Fallback si la imagen no carga

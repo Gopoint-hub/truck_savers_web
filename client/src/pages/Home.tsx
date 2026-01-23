@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { MapPin, Phone, MessageCircle, ChevronRight, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SEO, { organizationSchema, houstonLocalBusinessSchema } from '@/components/SEO';
+import FAQSection, { generalFAQs } from '@/components/FAQSection';
 
 /**
  * Home Page - SEO Local Architecture
@@ -81,7 +82,7 @@ export default function Home() {
         <div className="container relative z-10 text-center">
           <img 
             src="/images/home_logo.png" 
-            alt="The Truck Savers" 
+            alt="The Truck Savers - Taller Mecánico de Camiones en Houston, Dallas y Monterrey" 
             className="h-20 md:h-24 mx-auto mb-8"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
@@ -224,10 +225,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQs */}
+      <FAQSection 
+        faqs={generalFAQs} 
+        title="Preguntas Frecuentes"
+        subtitle="Respuestas a las preguntas más comunes sobre nuestros servicios"
+      />
+
       {/* Resources Link */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-white">
         <div className="container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-white rounded-xl border border-gray-200">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-gray-50 rounded-xl border border-gray-200">
             <div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 Recursos y Contenido
