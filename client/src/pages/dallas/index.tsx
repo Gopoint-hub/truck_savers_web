@@ -134,20 +134,22 @@ export default function DallasHub() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {dallasServices.map((service) => (
-              <div key={service.slug} className="group bg-white border border-gray-200 rounded-lg p-6 hover:border-[#368A45] hover:shadow-lg transition-all">
-                <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 bg-[#368A45]/10 rounded-lg flex items-center justify-center mb-4">
-                    <Wrench className="w-6 h-6 text-[#368A45]" />
+              <Link key={service.slug} href={`/dallas/${service.slug}`}>
+                <div className="group bg-white border border-gray-200 rounded-lg p-6 hover:border-[#368A45] hover:shadow-lg transition-all cursor-pointer h-full">
+                  <div className="flex items-start justify-between">
+                    <div className="w-12 h-12 bg-[#368A45]/10 rounded-lg flex items-center justify-center mb-4">
+                      <Wrench className="w-6 h-6 text-[#368A45]" />
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#368A45] transition-colors" />
                   </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#368A45] transition-colors" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#368A45] transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#368A45] transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  {service.description}
-                </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
