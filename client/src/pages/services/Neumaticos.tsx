@@ -2,13 +2,13 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 
 export default function Neumaticos() {
   const serviceData = {
-    title: "Reparaciones de Neumáticos de Camión y Trailer",
-    subtitle: "Servicio especializado en rectificación y reparación de llantas",
+    title: "Depilada de Llantas para Camión y Trailer",
+    subtitle: "Servicio especializado en depilado, reparación y balanceo de llantas",
     heroImage: "/images/amarillo-camion-decorativo.webp",
     description:
-      "En The Truck Savers ofrecemos servicios completos de reparación y rectificación de neumáticos para camiones y trailers. Si tu camión ha sido inspeccionado por un DOT y detectaron desgaste irregular, te ofrecemos soluciones profesionales. Nuestro equipo utiliza equipos de última generación para asegurar que tus llantas estén en óptimas condiciones.",
+      "En The Truck Savers ofrecemos servicios completos de reparación y mantenimiento de llantas para camiones y trailers. Si inspeccionaste tus llantas y encontraste algún desgaste irregular, te ofrecemos soluciones profesionales: desde la reparación de una llanta ponchada hasta un rectificado o depilado, balanceo y alineación. Nuestro equipo utiliza equipos de última generación para asegurar que tus llantas estén en óptimas condiciones.",
     features: [
-      "Rectificación de llantas",
+      "Depilado de llantas",
       "Reparación de punciones",
       "Balanceo de llantas",
       "Inspección de desgaste",
@@ -17,19 +17,19 @@ export default function Neumaticos() {
     ],
     faqs: [
       {
-        question: "¿Qué es la rectificación de llantas?",
+        question: "¿Qué es la depilada o rectificado de llantas?",
         answer:
-          "Es un proceso que elimina el desgaste irregular de la llanta para extender su vida útil. Se realiza cuando el DOT detecta desgaste no uniforme que podría causar problemas de seguridad.",
+          "También conocido como depilado, es un proceso que elimina el desgaste irregular, haciendo a la llanta redonda y emparejando el dibujo. Esto evita vibraciones y extiende la vida útil de la llanta.",
       },
       {
-        question: "¿Cuánto cuesta una rectificación?",
+        question: "¿Cuánto cuesta una depilada?",
         answer:
           "El costo depende del tamaño y condición de la llanta. Te recomendamos contactarnos para una evaluación sin costo.",
       },
       {
-        question: "¿Cuál es la diferencia entre reparación y rectificación?",
+        question: "¿Cuál es la diferencia entre reparación y depilado?",
         answer:
-          "La reparación trata punciones específicas, mientras que la rectificación corrige el desgaste irregular de toda la superficie de la llanta.",
+          "La reparación trata punciones específicas, mientras que el depilado o rectificado corrige el desgaste irregular de toda la superficie de la llanta.",
       },
       {
         question: "¿Cómo puedo prevenir el desgaste irregular?",
