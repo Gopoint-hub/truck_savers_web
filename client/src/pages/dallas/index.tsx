@@ -33,7 +33,7 @@ const dallasPageSchema = {
 };
 
 export default function DallasHub() {
-  const whatsappNumber = "14697759715";
+  const whatsappNumber = "17134555572";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (

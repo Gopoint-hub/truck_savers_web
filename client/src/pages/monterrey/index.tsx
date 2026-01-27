@@ -33,7 +33,7 @@ const monterreyPageSchema = {
 };
 
 export default function MonterreyHub() {
-  const whatsappNumber = "528135414652";
+  const whatsappNumber = "17134555572";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Monterrey");
 
   return (

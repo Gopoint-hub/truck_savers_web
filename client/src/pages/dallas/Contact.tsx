@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
  */
 
 export default function DallasContact() {
-  const whatsappNumber = "17134555566";
+  const whatsappNumber = "17134555572";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
 
   return (
