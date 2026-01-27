@@ -16,7 +16,7 @@ const dallasServices = [
   { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones', description: 'Alineación de precisión para camiones y trailers con equipos de última generación.' },
   { slug: 'suspensiones', title: 'Taller de Suspensiones', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores.' },
   { slug: 'frenos', title: 'Taller de Frenos', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos para camiones.' },
-  { slug: 'direccion-hidraulica', title: 'Dirección Hidráulica', description: 'Reparación de sistemas de dirección hidráulica para camiones.' },
+  { slug: 'direccion-hidraulica', title: 'Dirección', description: 'Reparación de sistemas de dirección para camiones.' },
   { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
 ];
 

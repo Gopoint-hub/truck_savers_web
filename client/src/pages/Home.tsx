@@ -174,7 +174,7 @@ export default function Home() {
               'Suspensiones',
               'Frenos',
               'Cambio de Aceite',
-              'Dirección Hidráulica',
+              'Dirección',
               'Neumáticos',
               'Mofles',
             ].map((service) => (
