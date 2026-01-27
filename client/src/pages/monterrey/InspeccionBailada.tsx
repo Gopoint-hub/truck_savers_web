@@ -238,7 +238,8 @@ export default function InspeccionBailadaMonterrey() {
                 <div className="mt-6 pt-6 border-t border-green-400 space-y-3">
                   <div>
                     <p className="text-sm text-green-100">Horario de Atención</p>
-                    <p className="font-semibold">Lun-Vie: 8am - 6pm | Sáb: 8am - 2pm</p>
+                    <p className="font-semibold">Lun-Vie: 8am - 6pm</p>
+                    <p className="font-semibold">Sáb: 8am - 2pm</p>
                   </div>
                   <div>
                     <p className="text-sm text-green-100">Tiempo de Inspección</p>

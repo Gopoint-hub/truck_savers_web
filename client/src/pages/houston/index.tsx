@@ -121,7 +121,8 @@ export default function HoustonHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Horario</p>
-                <p className="text-gray-600">Lun-Vie: 8am - 6pm | Sáb: 8am - 3pm</p>
+                <p className="text-gray-600">Lun-Vie: 8am - 6pm</p>
+                <p className="text-gray-600">Sáb: 8am - 3pm</p>
               </div>
             </div>
           </div>

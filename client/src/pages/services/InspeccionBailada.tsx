@@ -229,7 +229,8 @@ export default function InspeccionBailada() {
                 <div className="mt-6 pt-6 border-t border-green-400 space-y-3">
                   <div>
                     <p className="text-sm text-green-100">Disponibilidad</p>
-                    <p className="font-semibold">Lun-Vie: 8am - 6pm | Sáb: 8am - 3pm</p>
+                    <p className="font-semibold">Lun-Vie: 8am - 6pm</p>
+                    <p className="font-semibold">Sáb: 8am - 3pm</p>
                   </div>
                   <div>
                     <p className="text-sm text-green-100">Duración</p>
