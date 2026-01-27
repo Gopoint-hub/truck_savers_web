@@ -60,7 +60,7 @@ const homePageSchema = {
 };
 
 export default function Home() {
-  const mainWhatsapp = "17134555566";
+  const mainWhatsapp = "17134555572";
   const mainWhatsappMessage = encodeURIComponent("Hola, me gustaría información sobre sus servicios");
 
   return (
