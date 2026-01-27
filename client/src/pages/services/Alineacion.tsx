@@ -19,7 +19,7 @@ export default function Alineacion() {
       {
         question: "¿Con qué frecuencia debo alinear mi camión?",
         answer:
-          "Se recomienda alinear tu camión cada 10,000 a 15,000 km, o cuando notes que el vehículo se desvía hacia un lado o si has golpeado algo.",
+          "Se recomienda alinear tu camión cada 6 meses o aproximadamente 50,000 millas u 80,000 kms, cuando notes que el vehículo se desvía hacia un lado, o alguna llanta o neumático presenta desgaste irregular.",
       },
       {
         question: "¿Cómo sé si mi camión necesita alineación?",
