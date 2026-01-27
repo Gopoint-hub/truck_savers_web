@@ -13,6 +13,7 @@ const podcasts = [
     title: 'Reparando Trokeros',
     description: 'Entrevistas a trokeros sobre las diversas problemáticas que viven día a día. Hablamos de la persona, no de los fierros. Conoce las historias reales de quienes mueven a Estados Unidos y México.',
     icon: Users,
+    image: '/images/reparando-trokeros.jpg',
     platforms: [
       {
         name: 'YouTube',
@@ -33,6 +34,7 @@ const podcasts = [
     title: 'Desde el Taller',
     description: 'Serie de transmisiones en vivo donde traemos invitados especiales para platicar sobre diferentes temas de la industria del transporte. Expertos, trokeros y profesionales comparten su experiencia.',
     icon: Mic,
+    image: '/images/desde-el-taller.jpg',
     platforms: [
       {
         name: 'YouTube',
@@ -95,13 +97,17 @@ export default function PodcastsPage() {
                   </div>
                 )}
                 
+                {/* Podcast Image */}
+                <div className="aspect-square overflow-hidden">
+                  <img 
+                    src={podcast.image} 
+                    alt={podcast.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
                 <div className="p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-[#368A45]/10 rounded-full flex items-center justify-center">
-                      <podcast.icon className="w-8 h-8 text-[#368A45]" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-900">{podcast.title}</h2>
-                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{podcast.title}</h2>
                   
                   <p className="text-gray-600 mb-8 leading-relaxed">
                     {podcast.description}
