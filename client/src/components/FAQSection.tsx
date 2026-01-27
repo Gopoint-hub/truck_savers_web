@@ -168,7 +168,7 @@ export const generalFAQs: FAQ[] = [
   },
   {
     question: "¿Qué formas de pago aceptan?",
-    answer: "Aceptamos efectivo, tarjetas de crédito y débito (Visa, MasterCard, American Express), y ofrecemos opciones de financiamiento para reparaciones mayores."
+    answer: "Aceptamos tarjetas de crédito y débito (Visa, MasterCard, American Express), y ofrecemos opciones de financiamiento."
   },
   {
     question: "¿Ofrecen garantía en sus servicios?",
