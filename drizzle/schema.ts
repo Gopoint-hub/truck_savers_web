@@ -389,3 +389,28 @@ export const auditLogs = mysqlTable("audit_logs", {
 
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = typeof auditLogs.$inferInsert;
+
+
+// ============================================
+// LISTA DE ESPERA - CURSOS PRESENCIALES
+// ============================================
+
+/**
+ * Lista de espera para cursos presenciales
+ * Registra interesados que quieren ser notificados cuando haya cursos disponibles
+ */
+export const courseWaitlist = mysqlTable("course_waitlist", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 50 }).notNull(), // Número de WhatsApp
+  city: varchar("city", { length: 100 }).notNull(),
+  status: mysqlEnum("status", ["pendiente", "contactado", "inscrito", "cancelado"]).default("pendiente"),
+  notes: text("notes"),
+  contactedAt: timestamp("contactedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CourseWaitlistEntry = typeof courseWaitlist.$inferSelect;
+export type InsertCourseWaitlistEntry = typeof courseWaitlist.$inferInsert;

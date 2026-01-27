@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { GraduationCap, Monitor, Users, ChevronRight, MessageCircle } from 'lucide-react';
+import { GraduationCap, Monitor, Users, ChevronRight, CheckCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { trpc } from '@/lib/trpc';
 
 /**
  * Cursos Page - Página intermedia para cursos
@@ -10,19 +11,40 @@ import { Button } from '@/components/ui/button';
 
 export default function Cursos() {
   const [nombre, setNombre] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [ciudad, setCiudad] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const whatsappNumber = '17134555572';
+  const registerMutation = trpc.courseWaitlist.register.useMutation({
+    onSuccess: () => {
+      setSubmitted(true);
+      setError('');
+    },
+    onError: (err) => {
+      setError(err.message || 'Ocurrió un error al registrarte. Intenta de nuevo.');
+    },
+  });
 
-  const handleWhatsAppClick = () => {
-    if (nombre.trim() && ciudad.trim()) {
-      const mensaje = `Soy ${nombre} de ${ciudad}. Me interesa registrarme en la lista de espera para siguientes cursos presenciales.`;
-      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!nombre.trim() || !email.trim() || !phone.trim() || !ciudad.trim()) {
+      setError('Por favor completa todos los campos');
+      return;
     }
+
+    registerMutation.mutate({
+      name: nombre.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      city: ciudad.trim(),
+    });
   };
 
-  const isFormValid = nombre.trim() !== '' && ciudad.trim() !== '';
+  const isFormValid = nombre.trim() !== '' && email.trim() !== '' && phone.trim() !== '' && ciudad.trim() !== '';
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,56 +142,114 @@ export default function Cursos() {
                 </p>
               </div>
               <div className="p-6">
-                <p className="text-gray-600 mb-6">
-                  ¿Prefieres aprender en persona? Regístrate en nuestra lista de espera para ser notificado cuando tengamos cursos presenciales disponibles en tu ciudad.
-                </p>
-                
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">
-                      Tu nombre
-                    </label>
-                    <input
-                      type="text"
-                      id="nombre"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      placeholder="Ej: Juan Pérez"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                    />
+                {submitted ? (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      ¡Registro Exitoso!
+                    </h3>
+                    <p className="text-gray-600">
+                      Te hemos agregado a nuestra lista de espera. Te contactaremos cuando tengamos cursos presenciales disponibles en tu área.
+                    </p>
                   </div>
-                  <div>
-                    <label htmlFor="ciudad" className="block text-sm font-medium text-gray-700 mb-1">
-                      Ciudad donde te encuentras
-                    </label>
-                    <input
-                      type="text"
-                      id="ciudad"
-                      value={ciudad}
-                      onChange={(e) => setCiudad(e.target.value)}
-                      placeholder="Ej: Houston, TX"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                    />
-                  </div>
-                </div>
+                ) : (
+                  <>
+                    <p className="text-gray-600 mb-6">
+                      ¿Prefieres aprender en persona? Regístrate en nuestra lista de espera para ser notificado cuando tengamos cursos presenciales disponibles en tu ciudad.
+                    </p>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-4 mb-6">
+                      <div>
+                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">
+                          Tu nombre *
+                        </label>
+                        <input
+                          type="text"
+                          id="nombre"
+                          value={nombre}
+                          onChange={(e) => setNombre(e.target.value)}
+                          placeholder="Ej: Juan Pérez"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
+                          disabled={registerMutation.isPending}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Correo electrónico *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Ej: juan@email.com"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
+                          disabled={registerMutation.isPending}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                          Número de WhatsApp *
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="Ej: +1 713 455 5572"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
+                          disabled={registerMutation.isPending}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="ciudad" className="block text-sm font-medium text-gray-700 mb-1">
+                          Ciudad donde te encuentras *
+                        </label>
+                        <input
+                          type="text"
+                          id="ciudad"
+                          value={ciudad}
+                          onChange={(e) => setCiudad(e.target.value)}
+                          placeholder="Ej: Houston, TX"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
+                          disabled={registerMutation.isPending}
+                        />
+                      </div>
 
-                <Button 
-                  onClick={handleWhatsAppClick}
-                  disabled={!isFormValid}
-                  className={`w-full py-6 text-lg ${
-                    isFormValid 
-                      ? 'bg-green-600 hover:bg-green-700 text-white' 
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Registrarme en Lista de Espera
-                </Button>
-                
-                {!isFormValid && (
-                  <p className="text-sm text-gray-500 text-center mt-3">
-                    Completa tu nombre y ciudad para continuar
-                  </p>
+                      {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                          {error}
+                        </div>
+                      )}
+
+                      <Button 
+                        type="submit"
+                        disabled={!isFormValid || registerMutation.isPending}
+                        className={`w-full py-6 text-lg ${
+                          isFormValid && !registerMutation.isPending
+                            ? 'bg-[#368A45] hover:bg-[#2D6E39] text-white' 
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {registerMutation.isPending ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Registrando...
+                          </>
+                        ) : (
+                          'Registrarme en Lista de Espera'
+                        )}
+                      </Button>
+                    </form>
+                    
+                    {!isFormValid && (
+                      <p className="text-sm text-gray-500 text-center">
+                        Completa todos los campos para continuar
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             </div>

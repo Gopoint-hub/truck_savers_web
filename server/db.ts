@@ -16,7 +16,8 @@ import {
   roadmapStages, InsertRoadmapStage,
   roadmapDeliverables, InsertRoadmapDeliverable,
   authTokens, InsertAuthToken,
-  auditLogs, InsertAuditLog
+  auditLogs, InsertAuditLog,
+  courseWaitlist, InsertCourseWaitlistEntry
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -781,4 +782,41 @@ export async function updateUserPasswordAndIncrementSession(userId: number, pass
     loginMethod: 'local',
     sessionVersion: sql`${users.sessionVersion} + 1`
   }).where(eq(users.id, userId));
+}
+
+
+// ============================================
+// COURSE WAITLIST FUNCTIONS
+// ============================================
+
+export async function getAllCourseWaitlistEntries() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(courseWaitlist).orderBy(desc(courseWaitlist.createdAt));
+}
+
+export async function createCourseWaitlistEntry(data: InsertCourseWaitlistEntry) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(courseWaitlist).values(data);
+  return result;
+}
+
+export async function getCourseWaitlistEntryByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(courseWaitlist).where(eq(courseWaitlist.email, email));
+  return results[0] || null;
+}
+
+export async function updateCourseWaitlistEntry(id: number, data: Partial<InsertCourseWaitlistEntry>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(courseWaitlist).set(data).where(eq(courseWaitlist.id, id));
+}
+
+export async function deleteCourseWaitlistEntry(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(courseWaitlist).where(eq(courseWaitlist.id, id));
 }

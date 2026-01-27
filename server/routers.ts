@@ -864,6 +864,56 @@ export const appRouter = router({
   }),
 
   // ============================================
+  // COURSE WAITLIST (PUBLIC)
+  // ============================================
+  courseWaitlist: router({
+    register: publicProcedure
+      .input(z.object({
+        name: z.string().min(2, "El nombre es requerido"),
+        email: z.string().email("Email inválido"),
+        phone: z.string().min(10, "Número de WhatsApp inválido"),
+        city: z.string().min(2, "La ciudad es requerida"),
+      }))
+      .mutation(async ({ input }) => {
+        // Check if email already registered
+        const existing = await db.getCourseWaitlistEntryByEmail(input.email);
+        if (existing) {
+          throw new TRPCError({
+            code: 'CONFLICT',
+            message: 'Este correo ya está registrado en la lista de espera',
+          });
+        }
+        await db.createCourseWaitlistEntry(input);
+        return { success: true, message: 'Te has registrado exitosamente en la lista de espera' };
+      }),
+    // Admin endpoints for managing waitlist
+    list: adminProcedure.query(async () => {
+      return db.getAllCourseWaitlistEntries();
+    }),
+    update: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["pendiente", "contactado", "inscrito", "cancelado"]).optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        if (data.status === 'contactado') {
+          await db.updateCourseWaitlistEntry(id, { ...data, contactedAt: new Date() });
+        } else {
+          await db.updateCourseWaitlistEntry(id, data);
+        }
+        return { success: true };
+      }),
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteCourseWaitlistEntry(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // ============================================
   // VOICE TRANSCRIPTION
   // ============================================
   voice: router({
