@@ -116,6 +116,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mission Banner */}
+      <section className="bg-[#368A45] py-6">
+        <div className="container">
+          <p className="text-center text-white text-lg md:text-xl font-semibold">
+            Nuestra Misión: Reparar la Industria del Transporte a través de la Educación
+          </p>
+        </div>
+      </section>
+
       {/* City Selector - Main Focus */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="container">
