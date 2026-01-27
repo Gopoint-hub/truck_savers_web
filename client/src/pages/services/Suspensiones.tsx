@@ -19,7 +19,7 @@ export default function Suspensiones() {
       {
         question: "¿Cuáles son los signos de problemas en la suspensión?",
         answer:
-          "Algunos signos incluyen: ruidos al pasar por baches, inclinación del vehículo, manejo inestable, desgaste irregular de llantas y dificultad para controlar el camión.",
+          "Algunos signos incluyen: ruidos al pasar por baches o al girar, vibraciones excesivas en el volante, inclinación del vehículo, manejo inestable, desgaste irregular de llantas y dificultad para controlar el camión.",
       },
       {
         question: "¿Cuál es el costo aproximado de una reparación?",
