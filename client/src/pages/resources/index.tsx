@@ -87,7 +87,7 @@ export default function ResourcesHub() {
             Recursos y Contenido
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl">
-            Más de 20 años de experiencia mecánica compartida. Aprende a ahorrar y prevenir daños costosos con nuestros consejos prácticos.
+            Más de 24 años de experiencia mecánica compartida. Aprende a ahorrar y prevenir daños costosos con nuestros consejos prácticos.
           </p>
         </div>
       </section>
