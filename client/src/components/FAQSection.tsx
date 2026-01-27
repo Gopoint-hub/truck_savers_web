@@ -160,7 +160,7 @@ export const monterreyFAQs: FAQ[] = [
 export const generalFAQs: FAQ[] = [
   {
     question: "¿Qué es la inspección 'La Bailada'?",
-    answer: "La Bailada es nuestra inspección gratuita exclusiva que utiliza un simulador de camino para detectar problemas en la suspensión, dirección y más de 100 puntos de seguridad de tu camión mientras está en movimiento."
+    answer: "La Bailada es nuestra inspección gratuita exclusiva que utiliza un simulador para detectar posibles problemas en más de 100 puntos en tu camión y remolque de una manera dinámica, permitiendo lograr un diagnóstico sin comparación en la industria del transporte."
   },
   {
     question: "¿Cuántos años de experiencia tiene The Truck Savers?",
