@@ -164,7 +164,7 @@ export const generalFAQs: FAQ[] = [
   },
   {
     question: "¿Cuántos años de experiencia tiene The Truck Savers?",
-    answer: "The Truck Savers tiene más de 24 años de experiencia en reparación y mantenimiento de camiones y trailers, sirviendo a la comunidad de transportistas en Texas y México."
+    answer: "The Truck Savers tiene más de 24 años de experiencia en reparación y mantenimiento de camiones y trailers, sirviendo a la comunidad de transportistas en Estados Unidos y México."
   },
   {
     question: "¿Qué formas de pago aceptan?",
