@@ -63,6 +63,7 @@ import CmsRoadmap from "./pages/cms/Roadmap";
 import CmsSeoChecklist from "./pages/cms/SeoChecklist";
 import CmsSetPassword from "./pages/cms/SetPassword";
 import CmsChangePassword from "./pages/cms/ChangePassword";
+import CmsCourseWaitlist from "./pages/cms/CourseWaitlist";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -108,6 +109,7 @@ function CmsRouter() {
             <Route path="/cms/users" component={CmsUsers} />
             <Route path="/cms/roadmap" component={CmsRoadmap} />
             <Route path="/cms/seo" component={CmsSeoChecklist} />
+            <Route path="/cms/course-waitlist" component={CmsCourseWaitlist} />
             <Route path="/cms/change-password" component={CmsChangePassword} />
             <Route component={CmsDashboard} />
           </Switch>

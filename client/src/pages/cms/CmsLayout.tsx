@@ -41,7 +41,8 @@ import {
   ClipboardCheck,
   BarChart3,
   MessageSquare,
-  Shield
+  Shield,
+  GraduationCap
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -85,6 +86,7 @@ const menuAreas = [
       { icon: ClipboardCheck, label: "SEO", path: "/cms/seo" },
       { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
       { icon: Mail, label: "Newsletter", path: "/cms/newsletters" },
+      { icon: GraduationCap, label: "Cursos", path: "/cms/course-waitlist" },
       { icon: MessageSquare, label: "WhatsApp", path: "/cms/whatsapp", disabled: true },
     ],
   },
