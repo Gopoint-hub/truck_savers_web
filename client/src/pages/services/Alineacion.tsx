@@ -8,7 +8,7 @@ export default function Alineacion() {
     description:
       "Ofrecemos servicios profesionales de alineación para camiones y trailers. Una alineación correcta es esencial para la seguridad, el rendimiento y la economía de combustible de tu vehículo. Utilizamos equipos de última generación para garantizar una alineación precisa que cumple con los estándares de la industria.",
     features: [
-      "Alineación de precisión computerizada",
+      "Alineación de precisión computarizada",
       "Inspección completa de dirección",
       "Ajuste de ángulos de rueda",
       "Diagnóstico de problemas de dirección",
