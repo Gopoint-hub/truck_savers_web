@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { BookOpen, Podcast, Lightbulb, ChevronRight } from 'lucide-react';
+import { BookOpen, Podcast, Lightbulb, ChevronRight, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
@@ -202,8 +202,41 @@ export default function ResourcesHub() {
         </div>
       </section>
 
+      {/* Cursos en Línea Section */}
+      <section className="py-16 bg-white">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <a 
+              href="https://cursos.thetrucksavers.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <div className="bg-gradient-to-r from-[#368A45] to-[#2D6E39] rounded-2xl p-8 md:p-12 text-white hover:shadow-2xl transition-all">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="w-12 h-12 text-white" />
+                  </div>
+                  <div className="text-center md:text-left flex-1">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                      Cursos en Línea
+                    </h2>
+                    <p className="text-white/90 text-lg mb-6 leading-relaxed">
+                      Si te interesa aprender la normativa del DOT, a realizar inspecciones, a alinear y diagnosticar el problema de desgaste irregular de llantas, únete a nuestros cursos en línea. También puedes registrarte en una lista de espera para futuros cursos presenciales.
+                    </p>
+                    <span className="inline-flex items-center bg-white text-[#368A45] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                      Explorar Cursos <ChevronRight className="w-5 h-5 ml-2" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Social Media Section */}
-      <section className="py-16 bg-white border-t">
+      <section className="py-16 bg-gray-50 border-t">
         <div className="container">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
