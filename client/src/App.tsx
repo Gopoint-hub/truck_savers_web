@@ -35,6 +35,7 @@ import InspeccionBailadaMonterrey from "./pages/monterrey/InspeccionBailada";
 // Resources Pages
 import ResourcesHub from "./pages/resources/index";
 import PodcastsPage from "./pages/resources/Podcasts";
+import CursosPage from "./pages/resources/Cursos";
 import Blog from "./pages/blog/Blog";
 
 // Blog Articles
@@ -151,6 +152,7 @@ function Router() {
       {/* Resources */}
       <Route path="/resources" component={ResourcesHub} />
       <Route path="/resources/podcasts" component={PodcastsPage} />
+      <Route path="/resources/cursos" component={CursosPage} />
       <Route path="/resources/blog" component={Blog} />
       
       {/* Blog Articles */}

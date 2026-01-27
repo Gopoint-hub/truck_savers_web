@@ -206,10 +206,8 @@ export default function ResourcesHub() {
       <section className="py-16 bg-white">
         <div className="container">
           <div className="max-w-4xl mx-auto">
-            <a 
-              href="https://cursos.thetrucksavers.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <Link 
+              href="/resources/cursos"
               className="block"
             >
               <div className="bg-gradient-to-r from-[#368A45] to-[#2D6E39] rounded-2xl p-8 md:p-12 text-white hover:shadow-2xl transition-all">
@@ -230,7 +228,7 @@ export default function ResourcesHub() {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
