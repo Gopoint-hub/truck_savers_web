@@ -9,7 +9,7 @@ const BRAND_CONFIG = {
   secondaryColor: "#1f2937",
   accentColor: "#22c55e",
   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-  tagline: "Taller mecánico de camiones y trailers con más de 21 años de experiencia",
+  tagline: "Taller mecánico de camiones y trailers con más de 24 años de experiencia",
   website: "https://thetrucksavers.com",
   phone: "713-455-5566",
   whatsapp: "17134555566",

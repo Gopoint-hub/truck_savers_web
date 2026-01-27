@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">The Truck Savers</h3>
             <p className="text-white/80 text-sm mb-4">
-              Taller mecánico especializado en camiones diésel con 21 años de experiencia en Houston.
+              Taller mecánico especializado en camiones diésel con 24 años de experiencia en Houston.
             </p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-primary transition-colors">

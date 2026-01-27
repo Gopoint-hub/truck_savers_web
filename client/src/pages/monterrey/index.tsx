@@ -40,7 +40,7 @@ export default function MonterreyHub() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones en Monterrey, N.L."
-        description="Taller mecánico de camiones y trailers en Monterrey, Nuevo León. Más de 21 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en Libramiento Noreste KM 33.5."
+        description="Taller mecánico de camiones y trailers en Monterrey, Nuevo León. Más de 24 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en Libramiento Noreste KM 33.5."
         keywords="taller mecánico camiones Monterrey, reparación trailers Nuevo León, alineación camiones Monterrey, suspensión camiones Monterrey, frenos camiones Monterrey, taller diésel Monterrey"
         canonical="/monterrey"
         structuredData={monterreyPageSchema}
@@ -61,7 +61,7 @@ export default function MonterreyHub() {
               Taller Mecánico de Camiones en Monterrey
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Más de 21 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
+              Más de 24 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a

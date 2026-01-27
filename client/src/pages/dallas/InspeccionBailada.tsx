@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight, MessageCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import SEO from "@/components/SEO";
 
-export default function InspeccionBailada() {
+export default function InspeccionBailadaDallas() {
   const [showFloatingCTA, setShowFloatingCTA] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
@@ -14,7 +15,6 @@ export default function InspeccionBailada() {
       const footerRect = footerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Ocultar el botón flotante si está cerca del footer
       if (footerRect.top < windowHeight) {
         setShowFloatingCTA(false);
       } else {
@@ -27,45 +27,52 @@ export default function InspeccionBailada() {
   }, []);
 
   const whatsappMessage = encodeURIComponent(
-    "Hola The Truck Savers, me gustaría agendar una inspección La Bailada. ¿Cuál es la disponibilidad?"
+    "Hola The Truck Savers Dallas, quiero programar una inspección La Bailada para mi camión. ¿Tienen disponibilidad?"
   );
-  const whatsappLink = `https://wa.me/17134555566?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/14697759715?text=${whatsappMessage}`;
 
   const features = [
-    "Inspección de más de 100 puntos de seguridad",
-    "Simulador de camino (La Bailada)",
-    "Diagnóstico de suspensión",
-    "Evaluación de dirección",
-    "Inspección de frenos",
-    "Reporte detallado de hallazgos",
+    "Diagnóstico completo de más de 100 componentes",
+    "Prueba en simulador de carretera (La Bailada)",
+    "Análisis de sistema de suspensión",
+    "Verificación de sistema de dirección",
+    "Revisión integral de frenos",
+    "Informe técnico detallado con recomendaciones",
   ];
 
   const faqs = [
     {
-      question: "¿Cuánto cuesta la inspección La Bailada?",
+      question: "¿La inspección La Bailada tiene algún costo en Dallas?",
       answer:
-        "¡Es completamente GRATIS! Creemos que todo camionero merece saber el estado de su vehículo sin costo alguno.",
+        "No, la inspección es totalmente GRATUITA. En The Truck Savers creemos que conocer el estado de tu camión no debería costarte nada.",
     },
     {
-      question: "¿Qué es exactamente La Bailada?",
+      question: "¿Cómo funciona el simulador La Bailada?",
       answer:
-        "Es un simulador de camino que hace que tu camión 'baile' controladamente, permitiéndonos detectar problemas en suspensión, dirección y otros componentes sin estar en carretera.",
+        "Nuestro simulador reproduce las condiciones de manejo en carretera, haciendo que el camión se mueva de forma controlada para detectar desgastes, holguras y problemas en suspensión, dirección y otros sistemas.",
     },
     {
-      question: "¿Cuánto tiempo tarda la inspección?",
+      question: "¿Cuánto dura el proceso de inspección?",
       answer:
-        "La inspección completa tarda aproximadamente 30 a 45 minutos. Puedes esperar cómodamente en nuestras instalaciones.",
+        "El diagnóstico completo toma entre 30 y 45 minutos. Contamos con área de espera cómoda mientras revisamos tu vehículo.",
     },
     {
-      question: "¿Qué información recibo después?",
+      question: "¿Qué obtengo al finalizar la inspección?",
       answer:
-        "Recibirás un reporte detallado con todos los hallazgos, recomendaciones de reparación y presupuestos para cualquier trabajo necesario.",
+        "Te entregamos un reporte técnico completo con los hallazgos, nivel de urgencia de cada reparación y cotización sin compromiso para los trabajos necesarios.",
     },
   ];
 
   return (
     <div className="min-h-screen bg-white" ref={containerRef}>
-      {/* Floating WhatsApp CTA - Mobile (oculto cuando se acerca al footer) */}
+      <SEO
+        title="Inspección La Bailada en Dallas, TX | The Truck Savers"
+        description="Inspección mecánica GRATIS para camiones en Dallas. Simulador de carretera La Bailada detecta problemas en suspensión, frenos y dirección. 24 años de experiencia."
+        keywords="inspección camiones Dallas, La Bailada Dallas, taller camiones Dallas TX, diagnóstico suspensión camiones"
+        canonical="https://thetrucksavers.com/dallas/inspeccion-la-bailada"
+      />
+
+      {/* Floating WhatsApp CTA - Mobile */}
       {showFloatingCTA && (
         <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden animate-in fade-in">
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
@@ -81,16 +88,17 @@ export default function InspeccionBailada() {
       <div className="relative h-96 overflow-hidden bg-gray-900">
         <img
           src="/bailada-header.jpg"
-          alt="La Bailada - Inspección Mecánica"
+          alt="La Bailada - Inspección Mecánica de Camiones en Dallas"
           className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex items-center">
           <div className="container">
+            <p className="text-green-400 font-semibold mb-2">Dallas, TX</p>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Inspección Mecánica La Bailada
+              Inspección La Bailada
             </h1>
             <p className="text-xl text-gray-200 mb-6">
-              Simulador de camino para detección completa de problemas
+              Diagnóstico avanzado con simulador de carretera
             </p>
             <div className="hidden md:flex gap-4">
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
@@ -99,9 +107,11 @@ export default function InspeccionBailada() {
                   Agendar por WhatsApp
                 </Button>
               </a>
-              <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-3 px-8">
-                Llamar: 713-455-5566
-              </Button>
+              <a href="tel:+14697759715">
+                <Button className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-3 px-8">
+                  Llamar: 469-775-9715
+                </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -115,20 +125,20 @@ export default function InspeccionBailada() {
             {/* Description */}
             <section className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                ¿Por Qué La Bailada es Importante?
+                Tecnología de Diagnóstico Avanzada en Dallas
               </h2>
               <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                La Bailada es nuestro exclusivo simulador de camino que permite detectar problemas en tu camión sin necesidad de estar en carretera. Este servicio revolucionario inspecciona más de 100 puntos de seguridad de tu vehículo, incluyendo suspensión, dirección, frenos y componentes críticos.
+                En The Truck Savers Dallas contamos con La Bailada, un innovador simulador de carretera que reproduce las condiciones reales de manejo. Esta tecnología nos permite identificar problemas ocultos en tu camión que no se detectan en una inspección visual tradicional.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Es completamente GRATIS para todos nuestros clientes. Sabemos que tu camión es tu negocio, y queremos asegurarnos de que esté en perfectas condiciones.
+                Con más de 24 años de experiencia en el área de Dallas-Fort Worth, nuestros técnicos certificados analizan más de 100 puntos críticos de tu vehículo. Y lo mejor: esta inspección es completamente GRATIS.
               </p>
             </section>
 
             {/* Features */}
             <section className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                ¿Qué Incluye La Inspección?
+                ¿Qué Revisamos en Tu Camión?
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {features.map((feature, idx) => (
@@ -146,31 +156,31 @@ export default function InspeccionBailada() {
             {/* Benefits */}
             <section className="mb-12 bg-blue-50 p-8 rounded-lg border border-blue-200">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Beneficios de La Bailada
+                Ventajas de Inspeccionar Tu Camión con Nosotros
               </h2>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold mt-1">✓</span>
                   <span>
-                    <strong>Detección temprana:</strong> Identifica problemas antes de que se conviertan en costosas reparaciones
+                    <strong>Prevención inteligente:</strong> Detectamos fallas antes de que te dejen varado en la carretera
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold mt-1">✓</span>
                   <span>
-                    <strong>Ahorro de dinero:</strong> Previene daños mayores y extiende la vida útil de tu camión
+                    <strong>Protege tu inversión:</strong> Evita reparaciones costosas con mantenimiento preventivo
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold mt-1">✓</span>
                   <span>
-                    <strong>Seguridad:</strong> Asegura que tu vehículo cumple con los estándares de seguridad DOT
+                    <strong>Cumple con DOT:</strong> Asegura que tu camión pase las inspecciones federales
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold mt-1">✓</span>
                   <span>
-                    <strong>Tranquilidad:</strong> Conduce con confianza sabiendo que tu camión está en óptimas condiciones
+                    <strong>Viaja seguro:</strong> Protege tu vida y la de otros conductores en la carretera
                   </span>
                 </li>
               </ul>
@@ -198,14 +208,13 @@ export default function InspeccionBailada() {
             </section>
           </div>
 
-          {/* Right Column - Sidebar (no sticky en mobile) */}
+          {/* Right Column - Sidebar */}
           <div className="lg:col-span-1">
-            {/* CTA Box - Sticky solo en desktop */}
             <div className="hidden lg:block lg:sticky lg:top-20">
               <div className="bg-gradient-to-br from-green-500 to-green-600 text-white p-8 rounded-lg shadow-lg mb-8">
-                <h3 className="text-2xl font-bold mb-4">¿Listo para Inspeccionar tu Camión?</h3>
+                <h3 className="text-2xl font-bold mb-4">Agenda Tu Inspección GRATIS</h3>
                 <p className="text-green-100 mb-6">
-                  Agenda tu inspección La Bailada GRATIS hoy mismo. Nuestro equipo te atenderá rápidamente.
+                  Nuestro equipo en Dallas está listo para revisar tu camión. Sin costo, sin compromiso.
                 </p>
 
                 <a
@@ -220,41 +229,39 @@ export default function InspeccionBailada() {
                   </Button>
                 </a>
 
-                <a href="tel:+17134555566" className="block">
+                <a href="tel:+14697759715" className="block">
                   <Button className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3">
-                    Llamar: 713-455-5566
+                    Llamar: 469-775-9715
                   </Button>
                 </a>
 
                 <div className="mt-6 pt-6 border-t border-green-400 space-y-3">
                   <div>
-                    <p className="text-sm text-green-100">Disponibilidad</p>
-                    <p className="font-semibold">Lun-Vie: 8am - 6pm | Sáb: 8am - 3pm</p>
+                    <p className="text-sm text-green-100">Horario de Atención</p>
+                    <p className="font-semibold">Lun-Vie: 8am - 6pm</p>
                   </div>
                   <div>
-                    <p className="text-sm text-green-100">Duración</p>
+                    <p className="text-sm text-green-100">Tiempo de Inspección</p>
                     <p className="font-semibold">30 a 45 minutos</p>
                   </div>
                   <div>
-                    <p className="text-sm text-green-100">Costo</p>
-                    <p className="font-semibold">¡COMPLETAMENTE GRATIS!</p>
+                    <p className="text-sm text-green-100">Precio</p>
+                    <p className="font-semibold">¡GRATIS!</p>
                   </div>
                 </div>
               </div>
 
               {/* Info Box */}
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-4">📍 Ubicación</h3>
+                <h3 className="font-bold text-gray-900 mb-4">📍 Nuestra Ubicación en Dallas</h3>
                 <p className="text-gray-700 mb-4">
-                  1362 Sheffield Blvd
-                  <br />
-                  Houston, TX 77020
+                  Dallas, TX
                 </p>
                 <p className="text-sm text-gray-600 mb-4">
-                  Estacionamiento para 50+ vehículos
+                  Amplio estacionamiento para camiones
                 </p>
                 <a
-                  href="tel:+17134555566"
+                  href="tel:+14697759715"
                   className="text-green-600 hover:text-green-700 font-semibold flex items-center gap-2"
                 >
                   📞 Llamar ahora
@@ -262,12 +269,12 @@ export default function InspeccionBailada() {
               </div>
             </div>
 
-            {/* Mobile Version - No Sticky */}
+            {/* Mobile Version */}
             <div className="lg:hidden space-y-6 mt-12">
               <div className="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-xl font-bold mb-3">¿Listo para Inspeccionar tu Camión?</h3>
+                <h3 className="text-xl font-bold mb-3">Agenda Tu Inspección GRATIS</h3>
                 <p className="text-green-100 mb-4 text-sm">
-                  Agenda tu inspección La Bailada GRATIS hoy mismo.
+                  Revisamos tu camión sin costo en Dallas.
                 </p>
 
                 <a
@@ -282,46 +289,19 @@ export default function InspeccionBailada() {
                   </Button>
                 </a>
 
-                <a href="tel:+17134555566" className="block">
+                <a href="tel:+14697759715" className="block">
                   <Button className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 text-sm">
-                    Llamar: 713-455-5566
+                    Llamar: 469-775-9715
                   </Button>
-                </a>
-
-                <div className="mt-4 pt-4 border-t border-green-400 space-y-2">
-                  <div>
-                    <p className="text-xs text-green-100">Disponibilidad</p>
-                    <p className="font-semibold text-sm">Lunes a Viernes, 8am - 6pm</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-green-100">Costo</p>
-                    <p className="font-semibold text-sm">¡COMPLETAMENTE GRATIS!</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Info Box Mobile */}
-              <div ref={footerRef} className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-4">📍 Ubicación</h3>
-                <p className="text-gray-700 mb-4">
-                  1362 Sheffield Blvd
-                  <br />
-                  Houston, TX 77020
-                </p>
-                <p className="text-sm text-gray-600 mb-4">
-                  Estacionamiento para 50+ vehículos
-                </p>
-                <a
-                  href="tel:+17134555566"
-                  className="text-green-600 hover:text-green-700 font-semibold flex items-center gap-2"
-                >
-                  📞 Llamar ahora
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer Reference for Floating CTA */}
+      <div ref={footerRef} />
     </div>
   );
 }

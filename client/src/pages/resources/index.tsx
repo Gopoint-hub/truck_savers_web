@@ -176,7 +176,7 @@ export default function ResourcesHub() {
 
           <div className="max-w-3xl mx-auto">
             <a 
-              href="https://www.youtube.com/@TheTruckSavers" 
+              href="https://www.youtube.com/@LosTruckSavers" 
               target="_blank" 
               rel="noopener noreferrer"
               className="block"
@@ -188,7 +188,7 @@ export default function ResourcesHub() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  The Truck Savers en YouTube
+                  Los Truck Savers en YouTube
                 </h3>
                 <p className="text-gray-600 mb-4">
                   Suscríbete para más contenido sobre camiones

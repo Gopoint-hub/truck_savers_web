@@ -110,7 +110,7 @@ export default function Blog() {
             Blog
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl">
-            Consejos prácticos y conocimientos de más de 21 años de experiencia en reparación de camiones.
+            Consejos prácticos y conocimientos de más de 24 años de experiencia en reparación de camiones.
           </p>
         </div>
       </section>

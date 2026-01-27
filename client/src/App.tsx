@@ -25,10 +25,12 @@ import Neumaticos from "./pages/services/Neumaticos";
 // Dallas Pages
 import DallasHub from "./pages/dallas/index";
 import DallasContact from "./pages/dallas/Contact";
+import InspeccionBailadaDallas from "./pages/dallas/InspeccionBailada";
 
 // Monterrey Pages
 import MonterreyHub from "./pages/monterrey/index";
 import MonterreyContact from "./pages/monterrey/Contact";
+import InspeccionBailadaMonterrey from "./pages/monterrey/InspeccionBailada";
 
 // Resources Pages
 import ResourcesHub from "./pages/resources/index";
@@ -138,10 +140,12 @@ function Router() {
       {/* Dallas City Hub */}
       <Route path="/dallas" component={DallasHub} />
       <Route path="/dallas/contact" component={DallasContact} />
+      <Route path="/dallas/inspeccion-la-bailada" component={InspeccionBailadaDallas} />
       
       {/* Monterrey City Hub */}
       <Route path="/monterrey" component={MonterreyHub} />
       <Route path="/monterrey/contact" component={MonterreyContact} />
+      <Route path="/monterrey/inspeccion-la-bailada" component={InspeccionBailadaMonterrey} />
       
       {/* Resources */}
       <Route path="/resources" component={ResourcesHub} />

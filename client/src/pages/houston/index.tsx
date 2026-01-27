@@ -47,7 +47,7 @@ export default function HoustonHub() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones en Houston, TX"
-        description="Taller mecánico de camiones y trailers en Houston, Texas. Más de 21 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 1362 Sheffield Blvd."
+        description="Taller mecánico de camiones y trailers en Houston, Texas. Más de 24 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 1362 Sheffield Blvd."
         keywords="taller mecánico camiones Houston, truck repair Houston TX, semi truck mechanic Houston, alineación camiones Houston, suspensión camiones Houston, frenos camiones Houston"
         canonical="/houston"
         structuredData={houstonPageSchema}
@@ -68,7 +68,7 @@ export default function HoustonHub() {
               Taller Mecánico de Camiones en Houston
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Más de 21 años de experiencia en reparación y mantenimiento de camiones diésel. 
+              Más de 24 años de experiencia en reparación y mantenimiento de camiones diésel. 
               Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -121,7 +121,7 @@ export default function HoustonHub() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">Horario</p>
-                <p className="text-gray-600">Lunes a Viernes: 8am - 6pm</p>
+                <p className="text-gray-600">Lun-Vie: 8am - 6pm | Sáb: 8am - 3pm</p>
               </div>
             </div>
           </div>

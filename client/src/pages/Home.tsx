@@ -67,7 +67,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones y Trailers - 21 Años en Houston"
-        description="Taller mecánico especializado en camiones y trailers con más de 21 años de experiencia. Inspección gratuita, alineación, suspensión, frenos y más. Ubicaciones en Houston, Dallas y Monterrey."
+        description="Taller mecánico especializado en camiones y trailers con más de 24 años de experiencia. Inspección gratuita, alineación, suspensión, frenos y más. Ubicaciones en Houston, Dallas y Monterrey."
         keywords="taller mecánico camiones Houston, reparación trailers Texas, alineación camiones, suspensión camiones, frenos camiones, cambio aceite diésel, The Truck Savers"
         canonical="/"
         structuredData={homePageSchema}
@@ -92,7 +92,7 @@ export default function Home() {
             The Truck Savers
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Taller mecánico de camiones y trailers con más de 21 años de experiencia. 
+            Taller mecánico de camiones y trailers con más de 24 años de experiencia. 
             Inspección gratuita "La Bailada" disponible.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

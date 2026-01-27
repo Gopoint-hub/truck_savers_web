@@ -108,7 +108,7 @@ export default function HoustonContact() {
                     <h3 className="font-semibold text-gray-900 mb-1">Horario de Atención</h3>
                     <div className="text-gray-600 space-y-1">
                       <p><span className="font-medium">Lunes a Viernes:</span> 8:00 AM - 6:00 PM</p>
-                      <p><span className="font-medium">Sábado:</span> 8:00 AM - 2:00 PM</p>
+                      <p><span className="font-medium">Sábado:</span> 8:00 AM - 3:00 PM</p>
                       <p><span className="font-medium">Domingo:</span> Cerrado</p>
                     </div>
                   </div>

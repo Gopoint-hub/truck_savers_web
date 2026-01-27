@@ -12,7 +12,7 @@ interface SEOProps {
 }
 
 const DEFAULT_TITLE = "The Truck Savers | Taller Mecánico de Camiones y Trailers";
-const DEFAULT_DESCRIPTION = "Taller mecánico especializado en camiones y trailers con más de 21 años de experiencia. Servicios de alineación, suspensión, frenos, cambio de aceite y más. Ubicaciones en Houston, Dallas y Monterrey.";
+const DEFAULT_DESCRIPTION = "Taller mecánico especializado en camiones y trailers con más de 24 años de experiencia. Servicios de alineación, suspensión, frenos, cambio de aceite y más. Ubicaciones en Houston, Dallas y Monterrey.";
 const DEFAULT_KEYWORDS = "taller mecánico camiones, reparación trailers, alineación camiones, suspensión camiones, frenos camiones, cambio aceite camiones, Houston, Dallas, Monterrey";
 const DEFAULT_OG_IMAGE = "https://thetrucksavers.com/og-image.jpg";
 const SITE_URL = "https://thetrucksavers.com";
@@ -82,7 +82,7 @@ export const organizationSchema = {
   "alternateName": "TheTruckSavers",
   "url": "https://thetrucksavers.com",
   "logo": "https://thetrucksavers.com/logo.png",
-  "description": "Taller mecánico especializado en camiones y trailers con más de 21 años de experiencia en Houston, Dallas y Monterrey.",
+  "description": "Taller mecánico especializado en camiones y trailers con más de 24 años de experiencia en Houston, Dallas y Monterrey.",
   "foundingDate": "2004",
   "contactPoint": [
     {
