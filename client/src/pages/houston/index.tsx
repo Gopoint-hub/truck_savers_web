@@ -40,7 +40,7 @@ const houstonPageSchema = {
 };
 
 export default function HoustonHub() {
-  const whatsappNumber = "17134555566";
+  const whatsappNumber = "17134555572";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Houston");
 
   return (
