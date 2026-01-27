@@ -19,12 +19,12 @@ export default function CambioAceite() {
       {
         question: "¿Cada cuánto tiempo debo cambiar el aceite?",
         answer:
-          "Recomendamos cambiar el aceite cada 10,000 a 15,000 km o según las especificaciones del fabricante de tu camión. El cambio regular de aceite previene el desgaste prematuro del motor.",
+          "Recomendamos cambiar el aceite mínimo cada 10,000 millas o 15,000 km, o según las especificaciones del fabricante. También recomendamos realizar análisis de aceite usado para definir la frecuencia adecuada para cada motor.",
       },
       {
         question: "¿Qué tipo de aceite utilizan?",
         answer:
-          "Utilizamos aceites sintéticos de calidad premium que cumplen con las especificaciones de los motores diésel modernos. Nuestros productos son de marcas reconocidas en la industria.",
+          "Utilizamos aceites sintéticos y semi sintéticos de calidad premium que cumplen con las especificaciones de los motores diésel modernos. Nuestros productos son de marcas reconocidas en la industria.",
       },
       {
         question: "¿Cuánto tiempo tarda el servicio?",
@@ -32,9 +32,9 @@ export default function CambioAceite() {
           "El cambio de aceite generalmente tarda entre 30 a 45 minutos, dependiendo del modelo de tu camión. Puedes esperar cómodamente en nuestras instalaciones.",
       },
       {
-        question: "¿Incluye inspección adicional?",
+        question: "¿Qué incluye el cambio de aceite?",
         answer:
-          "Sí, durante el cambio de aceite realizamos una inspección visual de otros componentes importantes como correas, mangueras y niveles de otros fluidos.",
+          "El cambio de aceite incluye además el engrasado de todos los puntos requeridos en la dirección, suspensión, frenos y barra cardán. También se revisan visualmente más de 100 puntos de dirección, suspensión, frenos, barra cardán y rueda. Se inspecciona el nivel y calidad de aceites de transmisión y diferenciales.",
       },
     ],
     relatedServices: [
