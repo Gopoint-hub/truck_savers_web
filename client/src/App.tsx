@@ -65,6 +65,9 @@ import Colaboraciones from "./pages/Colaboraciones";
 import ResourcesHub from "./pages/resources/index";
 import PodcastsPage from "./pages/resources/Podcasts";
 import CursosPage from "./pages/resources/Cursos";
+import AhorroHub from "./pages/resources/Ahorro";
+import AhorroDiesel from "./pages/resources/AhorroDiesel";
+import AhorroLlantas from "./pages/resources/AhorroLlantas";
 import Blog from "./pages/blog/Blog";
 
 // Blog Articles
@@ -212,6 +215,9 @@ function Router() {
       <Route path="/resources/podcasts" component={PodcastsPage} />
       <Route path="/resources/cursos" component={CursosPage} />
       <Route path="/resources/blog" component={Blog} />
+      <Route path="/resources/ahorro" component={AhorroHub} />
+      <Route path="/resources/ahorro/diesel" component={AhorroDiesel} />
+      <Route path="/resources/ahorro/llantas" component={AhorroLlantas} />
       
       {/* Blog Articles */}
       <Route path="/blog/go-green-apu-ahorro-diesel" component={GoGreenApuArticle} />
