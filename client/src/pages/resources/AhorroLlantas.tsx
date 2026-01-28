@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Shield, Scale, Scissors } from 'lucide-react';
+import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Scale, Scissors } from 'lucide-react';
 
 /**
  * Ahorro en Llantas - Soluciones para Extender la Durabilidad de Neumáticos
@@ -136,25 +136,6 @@ export default function AhorroLlantas() {
                 </div>
               </div>
 
-              {/* Bearings Section */}
-              <div className="bg-[#368A45]/10 rounded-xl p-8 mb-12 border border-[#368A45]/20">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#368A45] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">
-                      Baleros de Rueda con Garantía de por Vida
-                    </h3>
-                    <p className="text-gray-600">
-                      Es crucial asegurar que los baleros de rueda (también conocidos como mazas) estén en buen estado. Un balero desgastado puede generar fricción excesiva, resultando en resistencia al rodamiento.
-                    </p>
-                    <p className="text-gray-600 mt-3">
-                      Realizamos inspecciones exhaustivas de baleros y ofrecemos baleros de la más alta calidad marca <strong>Ferce</strong>, respaldados con <strong>garantía de por vida</strong>. Es esencial que los nuevos baleros se instalen con los estándares y especificaciones de torque correctos.
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
