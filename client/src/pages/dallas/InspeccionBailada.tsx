@@ -67,7 +67,7 @@ export default function InspeccionBailadaDallas() {
     <div className="min-h-screen bg-white" ref={containerRef}>
       <SEO
         title="Inspección La Bailada en Dallas, TX | The Truck Savers"
-        description="Inspección mecánica GRATIS para camiones en Dallas. Simulador de carretera La Bailada detecta problemas en suspensión, frenos y dirección. 24 años de experiencia."
+        description="Inspección mecánica GRATIS para camiones en Dallas. Simulador de carretera La Bailada detecta problemas en suspensión, frenos y dirección. Con más de 24 años de experiencia ahora también llegamos a Dallas."
         keywords="inspección camiones Dallas, La Bailada Dallas, taller camiones Dallas TX, diagnóstico suspensión camiones"
         canonical="https://thetrucksavers.com/dallas/inspeccion-la-bailada"
       />
@@ -131,7 +131,7 @@ export default function InspeccionBailadaDallas() {
                 En The Truck Savers Dallas contamos con La Bailada, un innovador simulador de carretera que reproduce las condiciones reales de manejo. Esta tecnología nos permite identificar problemas ocultos en tu camión que no se detectan en una inspección visual tradicional.
               </p>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Con más de 24 años de experiencia en el área de Dallas-Fort Worth, nuestros técnicos certificados analizan más de 100 puntos críticos de tu vehículo. Y lo mejor: esta inspección es completamente GRATIS.
+                Con más de 24 años de experiencia, ahora también llegamos a Dallas-Fort Worth. Nuestros técnicos certificados analizan más de 100 puntos críticos de tu vehículo. Y lo mejor: esta inspección es completamente GRATIS.
               </p>
             </section>
 

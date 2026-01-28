@@ -40,7 +40,7 @@ export default function DallasHub() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones en Dallas, TX"
-        description="Taller mecánico de camiones y trailers en Dallas, Texas. Más de 24 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 4739 Lucky Ln."
+        description="Taller mecánico de camiones y trailers en Dallas, Texas. Con más de 24 años de experiencia ahora también llegamos a Dallas. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 4739 Lucky Ln."
         keywords="taller mecánico camiones Dallas, truck repair Dallas TX, semi truck mechanic Dallas, alineación camiones Dallas, suspensión camiones Dallas, frenos camiones Dallas"
         canonical="/dallas"
         structuredData={dallasPageSchema}
@@ -61,7 +61,7 @@ export default function DallasHub() {
               Taller Mecánico de Camiones en Dallas
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Más de 24 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
+              Con más de 24 años de experiencia en reparación y mantenimiento de camiones diésel, ahora también llegamos a Dallas. Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
