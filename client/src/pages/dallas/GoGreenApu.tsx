@@ -3,7 +3,7 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 export default function GoGreenApuDallas() {
   const serviceData = {
     title: "Instalación de APU para Camión en Dallas, TX",
-    subtitle: "Go Green APU - Ahorra hasta $5,000 al año en combustible",
+    subtitle: "Go Green APU - Ahorra hasta $14,000 al año en combustible y mantenimiento de motor",
     heroImage: "/images/thetrucksavers-4.webp",
     description:
       "En The Truck Savers Dallas, el Go Green APU es una unidad compacta y eficiente que proporciona aire acondicionado, calefacción y energía eléctrica a tu camión cuando está estacionado, sin necesidad de dejar el motor principal encendido. Mientras un camión en ralentí gasta hasta 3.75 litros de diésel por hora, el Go Green APU solo consume 0.75 litros por hora, lo que representa un ahorro de hasta 80% en combustible. Con más de 24 años de experiencia, ahora también llegamos a Dallas-Fort Worth.",

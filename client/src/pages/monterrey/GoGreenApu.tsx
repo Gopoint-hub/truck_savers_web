@@ -3,7 +3,7 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 export default function GoGreenApuMonterrey() {
   const serviceData = {
     title: "Instalación de APU para Camión en Monterrey, N.L.",
-    subtitle: "Go Green APU - Ahorra hasta $5,000 al año en combustible",
+    subtitle: "Go Green APU - Ahorra hasta $14,000 al año en combustible y mantenimiento de motor",
     heroImage: "/images/thetrucksavers-4.webp",
     description:
       "En The Truck Savers Monterrey, el Go Green APU es una unidad compacta y eficiente que proporciona aire acondicionado, calefacción y energía eléctrica a tu camión cuando está estacionado, sin necesidad de dejar el motor principal encendido. Tecnología de punta y más de 24 años de experiencia ahora disponibles en Monterrey, Nuevo León. Mientras un camión en ralentí gasta hasta 3.75 litros de diésel por hora, el Go Green APU solo consume 0.75 litros por hora.",
