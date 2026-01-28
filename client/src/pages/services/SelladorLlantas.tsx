@@ -55,6 +55,7 @@ export default function SelladorLlantas() {
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
     ],
     ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

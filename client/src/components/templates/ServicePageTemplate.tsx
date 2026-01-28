@@ -21,7 +21,27 @@ interface ServicePageTemplateProps {
   faqs: FAQ[];
   relatedServices: RelatedService[];
   ctaText?: string;
+  location?: string;
 }
+
+// Configuración de WhatsApp por ubicación
+const locationConfig: Record<string, { phone: string; displayPhone: string; locationName: string }> = {
+  houston: {
+    phone: "17134555566",
+    displayPhone: "713-455-5566",
+    locationName: "Houston, TX"
+  },
+  dallas: {
+    phone: "17134555566",
+    displayPhone: "713-455-5566",
+    locationName: "Dallas, TX"
+  },
+  monterrey: {
+    phone: "528180232466",
+    displayPhone: "+52 81 8023 2466",
+    locationName: "Monterrey, N.L."
+  }
+};
 
 export default function ServicePageTemplate({
   title,
@@ -32,7 +52,17 @@ export default function ServicePageTemplate({
   faqs,
   relatedServices,
   ctaText = "Agendar Cita",
+  location = "houston",
 }: ServicePageTemplateProps) {
+  // Obtener configuración de la ubicación
+  const config = locationConfig[location] || locationConfig.houston;
+  
+  // Crear mensaje de WhatsApp personalizado con servicio y ubicación
+  const whatsappMessage = encodeURIComponent(
+    `Hola, me interesa el servicio de ${title} en ${config.locationName}. ¿Podrían darme más información?`
+  );
+  const whatsappUrl = `https://wa.me/${config.phone}?text=${whatsappMessage}`;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -119,20 +149,22 @@ export default function ServicePageTemplate({
               <p className="text-green-100 mb-6">
                 Contáctanos hoy para agendar tu cita o resolver tus dudas.
               </p>
-              <Button
-                className="w-full bg-white text-green-600 hover:bg-gray-100 font-semibold"
-                size="lg"
-              >
-                {ctaText}
-              </Button>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <Button
+                  className="w-full bg-white text-green-600 hover:bg-gray-100 font-semibold"
+                  size="lg"
+                >
+                  {ctaText}
+                </Button>
+              </a>
               <div className="mt-6 pt-6 border-t border-green-500 space-y-3">
                 <div>
                   <p className="text-sm text-green-100">Teléfono</p>
                   <a
-                    href="tel:+17134555566"
+                    href={`tel:+${config.phone}`}
                     className="text-lg font-semibold hover:underline"
                   >
-                    713-455-5566
+                    {config.displayPhone}
                   </a>
                 </div>
                 <div>

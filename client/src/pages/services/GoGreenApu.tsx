@@ -60,6 +60,7 @@ export default function GoGreenApu() {
       { title: "Sistema de Escape", slug: "sistema-de-escape" },
     ],
     ctaText: "Cotizar APU",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

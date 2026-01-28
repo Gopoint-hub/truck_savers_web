@@ -60,6 +60,7 @@ export default function SellosRueda() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
     ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

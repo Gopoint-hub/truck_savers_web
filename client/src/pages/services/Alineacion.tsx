@@ -42,6 +42,8 @@ export default function Alineacion() {
       { title: "Reparación de Neumáticos", slug: "neumaticos" },
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
     ],
+    ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

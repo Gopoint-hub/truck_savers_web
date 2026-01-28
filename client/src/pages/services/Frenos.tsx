@@ -50,6 +50,7 @@ export default function Frenos() {
       { title: "Alineación de Camiones", slug: "alineacion" },
     ],
     ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

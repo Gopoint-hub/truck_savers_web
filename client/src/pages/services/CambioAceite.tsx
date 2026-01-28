@@ -42,6 +42,8 @@ export default function CambioAceite() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Reparación de Frenos", slug: "frenos" },
     ],
+    ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

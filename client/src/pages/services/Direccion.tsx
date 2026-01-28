@@ -50,6 +50,7 @@ export default function Direccion() {
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
     ],
     ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

@@ -42,6 +42,8 @@ export default function Suspensiones() {
       { title: "Alineación de Camiones", slug: "alineacion" },
       { title: "Cambio de Aceite", slug: "cambio-aceite" },
     ],
+    ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;

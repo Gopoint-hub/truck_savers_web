@@ -42,6 +42,8 @@ export default function Neumaticos() {
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
+    ctaText: "Agendar Cita",
+    location: "houston",
   };
 
   return <ServicePageTemplate {...serviceData} />;
