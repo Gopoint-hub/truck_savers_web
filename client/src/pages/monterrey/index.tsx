@@ -12,12 +12,16 @@ import GoogleMap from '@/components/GoogleMap';
  */
 
 const monterreyServices = [
-  { slug: 'inspeccion-la-bailada', title: 'Inspección "La Bailada"', description: 'Simulador de camino para detectar problemas en suspensión, dirección y componentes críticos.' },
-  { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones', description: 'Alineación de precisión para camiones y trailers con equipos de última generación.' },
-  { slug: 'suspensiones', title: 'Taller de Suspensiones', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores.' },
-  { slug: 'frenos', title: 'Taller de Frenos', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos para camiones.' },
-  { slug: 'direccion-hidraulica', title: 'Dirección', description: 'Reparación de sistemas de dirección para camiones.' },
-  { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
+  { slug: 'inspeccion-la-bailada', title: 'Inspección "La Bailada" en Monterrey', description: 'Tecnología de punta llega a Monterrey: simulador de carretera para detectar problemas ocultos en suspensión, dirección y componentes críticos.' },
+  { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones en Monterrey', description: 'Más de 24 años de experiencia en alineación de precisión para camiones y trailers ahora en Monterrey, N.L.' },
+  { slug: 'suspensiones', title: 'Taller de Suspensiones en Monterrey', description: 'Reparación y mantenimiento especializado de sistemas de suspensión para camiones en Monterrey.' },
+  { slug: 'frenos', title: 'Taller de Frenos en Monterrey', description: 'Especialistas en reparación de sistemas de frenos de aire para camiones en Monterrey, Nuevo León.' },
+  { slug: 'direccion', title: 'Dirección Hidráulica en Monterrey', description: 'Reparación profesional de sistemas de dirección hidráulica para camiones comerciales en Monterrey.' },
+  { slug: 'balanceo-de-llantas', title: 'Balanceo de Llantas en Monterrey', description: 'Servicio de balanceo profesional para tus morenas. Tecnología de punta llega a Monterrey.' },
+  { slug: 'depilada-de-llantas', title: 'Depilada de Llantas en Monterrey', description: 'Reparación profesional de neumáticos para camiones y trailers en Monterrey, N.L.' },
+  { slug: 'reparacion-de-cardanes', title: 'Reparación de Cardanes en Monterrey', description: 'Servicio especializado en reparación y balanceo de cardanes para camiones en Monterrey.' },
+  { slug: 'sellos-de-rueda', title: 'Sellos de Rueda en Monterrey', description: 'Cambio profesional de sellos de rueda para proteger los baleros de tu camión en Monterrey.' },
+  { slug: 'go-green-apu', title: 'Go Green APU en Monterrey', description: 'Instalación de APU para ahorro de diésel. Más de 24 años de experiencia ahora en Monterrey.' },
 ];
 
 // Schema combinado para Monterrey
@@ -40,7 +44,7 @@ export default function MonterreyHub() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones en Monterrey, N.L."
-        description="Taller mecánico de camiones y trailers en Monterrey, Nuevo León. Más de 24 años de experiencia. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en Libramiento Noreste KM 33.5."
+        description="Taller mecánico de camiones y trailers en Monterrey, Nuevo León. Tecnología de punta y más de 24 años de experiencia llegan a Monterrey. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, balanceo, Go Green APU. Ubicados en Libramiento Noreste KM 33.5."
         keywords="taller mecánico camiones Monterrey, reparación trailers Nuevo León, alineación camiones Monterrey, suspensión camiones Monterrey, frenos camiones Monterrey, taller diésel Monterrey"
         canonical="/monterrey"
         structuredData={monterreyPageSchema}
@@ -61,7 +65,7 @@ export default function MonterreyHub() {
               Taller Mecánico de Camiones en Monterrey
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Más de 24 años de experiencia en reparación y mantenimiento de camiones diésel. Inspección gratuita "La Bailada" disponible.
+              Tecnología de punta y más de 24 años de experiencia en reparación de camiones diésel llegan a Monterrey. Inspección gratuita "La Bailada" disponible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a

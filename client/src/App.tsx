@@ -47,6 +47,15 @@ import GoGreenApuDallas from "./pages/dallas/GoGreenApu";
 import MonterreyHub from "./pages/monterrey/index";
 import MonterreyContact from "./pages/monterrey/Contact";
 import InspeccionBailadaMonterrey from "./pages/monterrey/InspeccionBailada";
+import AlineacionMonterrey from "./pages/monterrey/Alineacion";
+import SuspensionesMonterrey from "./pages/monterrey/Suspensiones";
+import FrenosMonterrey from "./pages/monterrey/Frenos";
+import DireccionMonterrey from "./pages/monterrey/Direccion";
+import BalanceoMonterrey from "./pages/monterrey/Balanceo";
+import DepiladaLlantasMonterrey from "./pages/monterrey/DepiladaLlantas";
+import CardanesMonterrey from "./pages/monterrey/Cardanes";
+import SellosRuedaMonterrey from "./pages/monterrey/SellosRueda";
+import GoGreenApuMonterrey from "./pages/monterrey/GoGreenApu";
 
 // Resources Pages
 import ResourcesHub from "./pages/resources/index";
@@ -184,6 +193,15 @@ function Router() {
       <Route path="/monterrey" component={MonterreyHub} />
       <Route path="/monterrey/contact" component={MonterreyContact} />
       <Route path="/monterrey/inspeccion-la-bailada" component={InspeccionBailadaMonterrey} />
+      <Route path="/monterrey/alineacion-de-camiones" component={AlineacionMonterrey} />
+      <Route path="/monterrey/suspensiones" component={SuspensionesMonterrey} />
+      <Route path="/monterrey/frenos" component={FrenosMonterrey} />
+      <Route path="/monterrey/direccion" component={DireccionMonterrey} />
+      <Route path="/monterrey/balanceo-de-llantas" component={BalanceoMonterrey} />
+      <Route path="/monterrey/depilada-de-llantas" component={DepiladaLlantasMonterrey} />
+      <Route path="/monterrey/reparacion-de-cardanes" component={CardanesMonterrey} />
+      <Route path="/monterrey/sellos-de-rueda" component={SellosRuedaMonterrey} />
+      <Route path="/monterrey/go-green-apu" component={GoGreenApuMonterrey} />
       
       {/* Resources */}
       <Route path="/resources" component={ResourcesHub} />
