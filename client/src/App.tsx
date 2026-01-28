@@ -57,6 +57,10 @@ import CardanesMonterrey from "./pages/monterrey/Cardanes";
 import SellosRuedaMonterrey from "./pages/monterrey/SellosRueda";
 import GoGreenApuMonterrey from "./pages/monterrey/GoGreenApu";
 
+// Hidden Pages
+import Inversionistas from "./pages/Inversionistas";
+import Colaboraciones from "./pages/Colaboraciones";
+
 // Resources Pages
 import ResourcesHub from "./pages/resources/index";
 import PodcastsPage from "./pages/resources/Podcasts";
@@ -221,6 +225,10 @@ function Router() {
       {/* Store */}
       <Route path="/store" component={StoreHub} />
       <Route path="/tienda" component={StoreHub} />
+      
+      {/* Hidden Pages */}
+      <Route path="/inversionistas" component={Inversionistas} />
+      <Route path="/colaboraciones" component={Colaboraciones} />
       
       {/* Legacy Redirects (301) */}
       <Route path="/contacto">

@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Youtube, MessageCircle } from 'lucide-react';
+import { Link } from 'wouter';
 
 export default function Footer() {
   return (
@@ -13,16 +14,16 @@ export default function Footer() {
               Taller mecánico especializado en camiones diésel con 24 años de experiencia en Houston.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://www.facebook.com/thetrucksavers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://www.instagram.com/thetrucksavers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://www.youtube.com/@thetrucksavers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
                 <Youtube className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://wa.me/17134555566" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
                 <MessageCircle className="w-5 h-5" />
               </a>
             </div>
@@ -32,10 +33,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Servicios</h4>
             <ul className="space-y-2 text-sm text-white/80">
-              <li><a href="#" className="hover:text-primary transition-colors">Inspección Gratis</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Alineación</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Suspensión</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Cambio de Aceite</a></li>
+              <li><Link href="/servicios/inspeccion-la-bailada" className="hover:text-primary transition-colors">Inspección Gratis</Link></li>
+              <li><Link href="/servicios/alineacion" className="hover:text-primary transition-colors">Alineación</Link></li>
+              <li><Link href="/servicios/suspensiones" className="hover:text-primary transition-colors">Suspensión</Link></li>
+              <li><Link href="/servicios/cambio-aceite" className="hover:text-primary transition-colors">Cambio de Aceite</Link></li>
             </ul>
           </div>
 
@@ -43,10 +44,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Recursos</h4>
             <ul className="space-y-2 text-sm text-white/80">
-              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Videos</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Tienda</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Ubicaciones</a></li>
+              <li><a href="https://www.youtube.com/@thetrucksavers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Videos</a></li>
+              <li><a href="https://thetrucksavers.com/tienda" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Tienda</a></li>
+              <li><Link href="/ubicaciones" className="hover:text-primary transition-colors">Ubicaciones</Link></li>
             </ul>
           </div>
 
@@ -78,9 +78,8 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70">
             <p>© 2026 The Truck Savers. Todos los derechos reservados.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-primary transition-colors">Privacidad</a>
-              <a href="#" className="hover:text-primary transition-colors">Términos</a>
-              <a href="#" className="hover:text-primary transition-colors">Sitemap</a>
+              <Link href="/inversionistas" className="hover:text-primary transition-colors">Socios Inversionistas</Link>
+              <Link href="/colaboraciones" className="hover:text-primary transition-colors">Colaboraciones</Link>
             </div>
           </div>
 
