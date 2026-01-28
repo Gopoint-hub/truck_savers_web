@@ -20,7 +20,7 @@ const dallasServices = [
   { slug: 'sistema-de-escape', title: 'Sistema de Escape en Dallas', description: 'Reparación y mantenimiento de mofles y sistemas de escape para camiones en Dallas.' },
   { slug: 'sellos-de-rueda', title: 'Sellos de Rueda en Dallas', description: 'Cambio profesional de sellos de rueda para proteger los baleros de tu camión en Dallas.' },
   { slug: 'sellador-de-llantas', title: 'Sellador de Llantas Salvamorenas en Dallas', description: 'Protección preventiva para tus morenas con nuestro sellador profesional Salvamorenas en Dallas.' },
-  { slug: 'go-green-apu', title: 'Go Green APU en Dallas', description: 'Instalación de APU para ahorro de diésel y mayor eficiencia en tu camión. Ahorra hasta $5,000 al año.' },
+  { slug: 'go-green-apu', title: 'Instalación de APU para Camión en Dallas', description: 'Go Green APU para ahorro de diésel y mayor eficiencia. Ahorra hasta $5,000 al año en combustible.' },
 ];
 
 // Schema combinado para Dallas
