@@ -51,6 +51,9 @@ export default function SistemaEscapeDallas() {
     ],
     ctaText: "Agendar Cita",
     location: "dallas",
+    youtubePlaylist: "https://youtu.be/H2K0ZtR4Tmo?si=au0qp77pKVsa2iu6",
+    youtubeTitle: "Video de Sistema de Escape",
+    youtubeDescription: "Conoce cómo funciona el sistema de escape de tu camión y la importancia de mantenerlo en buen estado.",
   };
 
   return <ServicePageTemplate {...serviceData} />;
