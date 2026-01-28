@@ -23,7 +23,7 @@ const houstonServices = [
   { slug: 'reparacion-de-cardanes', title: 'Reparación de Cardanes', description: 'Servicio especializado en reparación de barra cardán.' },
   { slug: 'sistema-de-escape', title: 'Sistema de Escape', description: 'Reparación y reemplazo de sistemas de escape para camiones.' },
   { slug: 'sellos-de-rueda', title: 'Sellos de Rueda', description: 'Servicio de sellos de rueda para camiones y remolques.' },
-  { slug: 'sellador-de-llantas', title: 'Sellador de Llantas', description: 'Protección preventiva para tus llantas con sellador profesional.' },
+  { slug: 'sellador-de-llantas', title: 'Sellador de Llantas Salvamorenas', description: 'Protección preventiva para tus morenas con nuestro sellador profesional Salvamorenas.' },
   { slug: 'go-green-apu', title: 'Go Green APU', description: 'Instalación de APU para ahorro de diésel y mayor eficiencia.' },
 ];
 

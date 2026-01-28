@@ -27,6 +27,7 @@ import Balanceo from "./pages/services/Balanceo";
 import Cardanes from "./pages/services/Cardanes";
 import SistemaEscape from "./pages/services/SistemaEscape";
 import SellosRueda from "./pages/services/SellosRueda";
+import SelladorLlantas from "./pages/services/SelladorLlantas";
 
 // Dallas Pages
 import DallasHub from "./pages/dallas/index";
@@ -154,6 +155,7 @@ function Router() {
       <Route path="/houston/reparacion-de-cardanes" component={Cardanes} />
       <Route path="/houston/sistema-de-escape" component={SistemaEscape} />
       <Route path="/houston/sellos-de-rueda" component={SellosRueda} />
+      <Route path="/houston/sellador-de-llantas" component={SelladorLlantas} />
       
       {/* Dallas City Hub */}
       <Route path="/dallas" component={DallasHub} />
