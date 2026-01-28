@@ -63,7 +63,7 @@ import { Badge } from "@/components/ui/badge";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useToast } from "@/hooks/useToast";
+import { toast } from "sonner";
 
 const reportSchema = z.object({
   date: z.date(),
@@ -81,7 +81,7 @@ type ReportFormValues = z.infer<typeof reportSchema>;
 
 export default function CmsBailadaReports() {
   const { user } = useAuth();
-  const { toast } = useToast();
+
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -92,29 +92,19 @@ export default function CmsBailadaReports() {
   const createMutation = trpc.bailadaReports.create.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries([["bailadaReports", "list"]]);
-      toast({
-        title: "Reporte guardado",
-        description: "El reporte de bailada ha sido registrado exitosamente.",
-      });
+      toast.success("Reporte guardado");
       setIsDialogOpen(false);
       form.reset();
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message || "No se pudo guardar el reporte.",
-        variant: "destructive",
-      });
+      toast.error(error.message || "No se pudo guardar el reporte.");
     },
   });
 
   const deleteMutation = trpc.bailadaReports.delete.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries([["bailadaReports", "list"]]);
-      toast({
-        title: "Reporte eliminado",
-        description: "El reporte ha sido eliminado correctamente.",
-      });
+      toast.success("Reporte eliminado");
     },
   });
 
