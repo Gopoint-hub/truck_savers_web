@@ -61,6 +61,9 @@ export default function GoGreenApuDallas() {
     ],
     ctaText: "Cotizar APU",
     location: "dallas",
+    youtubePlaylist: "https://youtu.be/bQxRJUHde-M?si=zDedtLaCHCanNZ5H",
+    youtubeTitle: "Video Go Green APU",
+    youtubeDescription: "Conoce cómo funciona el Go Green APU y cómo puede ayudarte a ahorrar hasta $14,000 al año en combustible y mantenimiento.",
   };
 
   return <ServicePageTemplate {...serviceData} />;
