@@ -42,7 +42,7 @@ export default function SuspensionesMonterrey() {
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
       { title: "Taller de Frenos", slug: "frenos" },
     ],
-    ctaText: "Agendar Reparación en Monterrey",
+    ctaText: "Agendar Cita",
     location: "monterrey",
   };
 

@@ -54,7 +54,7 @@ export default function SelladorLlantasDallas() {
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Aplicación Salvamorenas en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

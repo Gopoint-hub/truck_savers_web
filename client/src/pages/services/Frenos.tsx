@@ -49,7 +49,7 @@ export default function Frenos() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Alineación de Camiones", slug: "alineacion" },
     ],
-    ctaText: "Agendar Inspección de Frenos",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

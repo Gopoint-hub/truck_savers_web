@@ -49,7 +49,7 @@ export default function Direccion() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
     ],
-    ctaText: "Agendar Revisión de Dirección",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

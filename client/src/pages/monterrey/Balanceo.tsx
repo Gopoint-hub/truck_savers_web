@@ -49,7 +49,7 @@ export default function BalanceoMonterrey() {
       { title: "Depilada de Llantas", slug: "depilada-de-llantas" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Balanceo en Monterrey",
+    ctaText: "Agendar Cita",
     location: "monterrey",
   };
 

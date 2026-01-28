@@ -59,7 +59,7 @@ export default function SellosRuedaDallas() {
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Cambio de Sellos en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

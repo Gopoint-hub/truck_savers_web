@@ -42,7 +42,7 @@ export default function SuspensionesDallas() {
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
       { title: "Taller de Frenos", slug: "frenos" },
     ],
-    ctaText: "Agendar Reparación en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

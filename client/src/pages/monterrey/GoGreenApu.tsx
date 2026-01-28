@@ -59,7 +59,7 @@ export default function GoGreenApuMonterrey() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Taller de Frenos", slug: "frenos" },
     ],
-    ctaText: "Cotizar Go Green APU en Monterrey",
+    ctaText: "Cotizar APU",
     location: "monterrey",
   };
 

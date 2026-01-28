@@ -59,7 +59,7 @@ export default function GoGreenApuDallas() {
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Cotizar Go Green APU en Dallas",
+    ctaText: "Cotizar APU",
     location: "dallas",
   };
 

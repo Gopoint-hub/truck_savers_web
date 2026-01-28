@@ -49,7 +49,7 @@ export default function SistemaEscapeDallas() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Go Green APU", slug: "go-green-apu" },
     ],
-    ctaText: "Agendar Inspección de Escape en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

@@ -49,7 +49,7 @@ export default function DireccionMonterrey() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
     ],
-    ctaText: "Agendar Revisión de Dirección en Monterrey",
+    ctaText: "Agendar Cita",
     location: "monterrey",
   };
 

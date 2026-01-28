@@ -49,7 +49,7 @@ export default function Cardanes() {
       { title: "Cambio de Aceite", slug: "cambio-aceite" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Revisión de Cardán",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

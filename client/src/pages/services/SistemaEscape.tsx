@@ -49,7 +49,7 @@ export default function SistemaEscape() {
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Inspección de Escape",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

@@ -42,7 +42,7 @@ export default function AlineacionMonterrey() {
       { title: "Balanceo de Llantas", slug: "balanceo-de-llantas" },
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
     ],
-    ctaText: "Agendar Alineación en Monterrey",
+    ctaText: "Agendar Cita",
     location: "monterrey",
   };
 

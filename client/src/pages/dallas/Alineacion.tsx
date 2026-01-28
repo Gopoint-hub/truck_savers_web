@@ -42,7 +42,7 @@ export default function AlineacionDallas() {
       { title: "Dirección Hidráulica", slug: "direccion" },
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
     ],
-    ctaText: "Agendar Alineación en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

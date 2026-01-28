@@ -59,7 +59,7 @@ export default function SellosRueda() {
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-la-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Cambio de Sellos",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

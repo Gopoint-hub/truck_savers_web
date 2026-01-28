@@ -54,7 +54,7 @@ export default function SelladorLlantas() {
       { title: "Depilada de Llantas", slug: "reparacion-de-neumaticos" },
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
     ],
-    ctaText: "Agendar Aplicación Salvamorenas",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

@@ -49,7 +49,7 @@ export default function CardanesMonterrey() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Taller de Frenos", slug: "frenos" },
     ],
-    ctaText: "Agendar Revisión de Cardán en Monterrey",
+    ctaText: "Agendar Cita",
     location: "monterrey",
   };
 

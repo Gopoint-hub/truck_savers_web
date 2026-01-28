@@ -49,7 +49,7 @@ export default function Balanceo() {
       { title: "Depilada de Llantas", slug: "neumaticos" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
-    ctaText: "Agendar Balanceo",
+    ctaText: "Agendar Cita",
   };
 
   return <ServicePageTemplate {...serviceData} />;

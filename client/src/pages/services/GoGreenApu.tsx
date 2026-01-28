@@ -59,7 +59,7 @@ export default function GoGreenApu() {
       { title: "Inspección Mecánica La Bailada", slug: "inspeccion-la-bailada" },
       { title: "Sistema de Escape", slug: "sistema-de-escape" },
     ],
-    ctaText: "Cotizar Go Green APU",
+    ctaText: "Cotizar APU",
   };
 
   return <ServicePageTemplate {...serviceData} />;

@@ -49,7 +49,7 @@ export default function FrenosDallas() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Alineación de Camiones", slug: "alineacion-de-camiones" },
     ],
-    ctaText: "Agendar Inspección de Frenos en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 

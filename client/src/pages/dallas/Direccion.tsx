@@ -49,7 +49,7 @@ export default function DireccionDallas() {
       { title: "Taller de Suspensiones", slug: "suspensiones" },
       { title: "Inspección La Bailada", slug: "inspeccion-la-bailada" },
     ],
-    ctaText: "Agendar Revisión de Dirección en Dallas",
+    ctaText: "Agendar Cita",
     location: "dallas",
   };
 
