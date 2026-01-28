@@ -12,12 +12,15 @@ import GoogleMap from '@/components/GoogleMap';
  */
 
 const dallasServices = [
-  { slug: 'inspeccion-la-bailada', title: 'Inspección "La Bailada"', description: 'Simulador de camino para detectar problemas en suspensión, dirección y componentes críticos.' },
-  { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones', description: 'Alineación de precisión para camiones y trailers con equipos de última generación.' },
-  { slug: 'suspensiones', title: 'Taller de Suspensiones', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores.' },
-  { slug: 'frenos', title: 'Taller de Frenos', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos para camiones.' },
-  { slug: 'direccion-hidraulica', title: 'Dirección', description: 'Reparación de sistemas de dirección para camiones.' },
-  { slug: 'cambio-de-aceite', title: 'Cambio de Aceite', description: 'Mantenimiento rutinario con productos de calidad para motores diésel.' },
+  { slug: 'inspeccion-la-bailada', title: 'Inspección "La Bailada" en Dallas', description: 'Simulador de carretera para detectar problemas ocultos en suspensión, dirección y componentes críticos de tu camión en Dallas.' },
+  { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones en Dallas', description: 'Servicio de alineación de precisión para camiones y trailers en el área de Dallas-Fort Worth.' },
+  { slug: 'suspensiones', title: 'Taller de Suspensiones en Dallas', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores para camiones en Dallas, TX.' },
+  { slug: 'frenos', title: 'Taller de Frenos en Dallas', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos de aire para camiones en Dallas.' },
+  { slug: 'direccion', title: 'Dirección Hidráulica en Dallas', description: 'Reparación de sistemas de dirección hidráulica para camiones comerciales en Dallas, TX.' },
+  { slug: 'sistema-de-escape', title: 'Sistema de Escape en Dallas', description: 'Reparación y mantenimiento de mofles y sistemas de escape para camiones en Dallas.' },
+  { slug: 'sellos-de-rueda', title: 'Sellos de Rueda en Dallas', description: 'Cambio profesional de sellos de rueda para proteger los baleros de tu camión en Dallas.' },
+  { slug: 'sellador-de-llantas', title: 'Sellador de Llantas Salvamorenas en Dallas', description: 'Protección preventiva para tus morenas con nuestro sellador profesional Salvamorenas en Dallas.' },
+  { slug: 'go-green-apu', title: 'Go Green APU en Dallas', description: 'Instalación de APU para ahorro de diésel y mayor eficiencia en tu camión. Ahorra hasta $5,000 al año.' },
 ];
 
 // Schema combinado para Dallas
@@ -40,7 +43,7 @@ export default function DallasHub() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Taller Mecánico de Camiones en Dallas, TX"
-        description="Taller mecánico de camiones y trailers en Dallas, Texas. Con más de 24 años de experiencia ahora también llegamos a Dallas. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, cambio de aceite. Ubicados en 4739 Lucky Ln."
+        description="Taller mecánico de camiones y trailers en Dallas, Texas. Con más de 24 años de experiencia ahora también llegamos a Dallas. Inspección gratuita 'La Bailada', alineación, suspensión, frenos, sistema de escape, Go Green APU. Ubicados en 4739 Lucky Ln."
         keywords="taller mecánico camiones Dallas, truck repair Dallas TX, semi truck mechanic Dallas, alineación camiones Dallas, suspensión camiones Dallas, frenos camiones Dallas"
         canonical="/dallas"
         structuredData={dallasPageSchema}

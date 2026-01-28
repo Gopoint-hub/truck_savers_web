@@ -34,6 +34,14 @@ import GoGreenApu from "./pages/services/GoGreenApu";
 import DallasHub from "./pages/dallas/index";
 import DallasContact from "./pages/dallas/Contact";
 import InspeccionBailadaDallas from "./pages/dallas/InspeccionBailada";
+import AlineacionDallas from "./pages/dallas/Alineacion";
+import SuspensionesDallas from "./pages/dallas/Suspensiones";
+import FrenosDallas from "./pages/dallas/Frenos";
+import DireccionDallas from "./pages/dallas/Direccion";
+import SistemaEscapeDallas from "./pages/dallas/SistemaEscape";
+import SellosRuedaDallas from "./pages/dallas/SellosRueda";
+import SelladorLlantasDallas from "./pages/dallas/SelladorLlantas";
+import GoGreenApuDallas from "./pages/dallas/GoGreenApu";
 
 // Monterrey Pages
 import MonterreyHub from "./pages/monterrey/index";
@@ -163,6 +171,14 @@ function Router() {
       <Route path="/dallas" component={DallasHub} />
       <Route path="/dallas/contact" component={DallasContact} />
       <Route path="/dallas/inspeccion-la-bailada" component={InspeccionBailadaDallas} />
+      <Route path="/dallas/alineacion-de-camiones" component={AlineacionDallas} />
+      <Route path="/dallas/suspensiones" component={SuspensionesDallas} />
+      <Route path="/dallas/frenos" component={FrenosDallas} />
+      <Route path="/dallas/direccion" component={DireccionDallas} />
+      <Route path="/dallas/sistema-de-escape" component={SistemaEscapeDallas} />
+      <Route path="/dallas/sellos-de-rueda" component={SellosRuedaDallas} />
+      <Route path="/dallas/sellador-de-llantas" component={SelladorLlantasDallas} />
+      <Route path="/dallas/go-green-apu" component={GoGreenApuDallas} />
       
       {/* Monterrey City Hub */}
       <Route path="/monterrey" component={MonterreyHub} />
