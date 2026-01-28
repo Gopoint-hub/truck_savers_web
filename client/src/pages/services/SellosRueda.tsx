@@ -3,15 +3,15 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 export default function SellosRueda() {
   const serviceData = {
     title: "Sellos de Rueda para Camiones y Trailers",
-    subtitle: "Cambio profesional de retenes de maza",
+    subtitle: "Cambio profesional de sellos de rueda",
     heroImage: "/images/thetrucksavers-4.webp",
     description:
-      "El sello de rueda (retén de maza) es un componente esencial que protege los rodamientos de la rueda, evitando fugas de lubricante y la entrada de contaminantes. En nuestro taller seguimos un procedimiento estructurado para asegurar la calidad del servicio, desde la inspección inicial hasta las pruebas finales. Un sello de rueda en mal estado puede causar daños costosos a los cojinetes y comprometer la seguridad del vehículo.",
+      "El sello de rueda es un componente esencial que protege los baleros de la rueda, evitando fugas de lubricante y la entrada de contaminantes. En nuestro taller seguimos un procedimiento estructurado para asegurar la calidad del servicio, desde la inspección inicial hasta las pruebas finales. Un sello de rueda en mal estado puede causar daños costosos a los rodamientos y comprometer la seguridad del vehículo.",
     features: [
-      "Inspección detallada del retén de maza",
+      "Inspección detallada del sello de rueda",
       "Verificación de fugas y desgaste",
       "Desmontaje y limpieza de componentes",
-      "Evaluación de eje y cojinetes",
+      "Evaluación de eje y baleros",
       "Instalación de nuevo sello de rueda",
       "Aplicación de lubricante adecuado",
       "Prueba y verificación final",
@@ -19,9 +19,9 @@ export default function SellosRueda() {
     ],
     faqs: [
       {
-        question: "¿Qué es un sello de rueda (retén de maza)?",
+        question: "¿Qué es un sello de rueda?",
         answer:
-          "El sello de rueda es un componente que sella la maza de la rueda para evitar fugas de lubricante y la entrada de contaminantes al sistema de rodamientos. Es esencial para proteger los cojinetes y mantener el funcionamiento correcto de las ruedas.",
+          "El sello de rueda es un componente que sella la maza de la rueda para evitar fugas de lubricante y la entrada de contaminantes al sistema de rodamientos. Es esencial para proteger los baleros y mantener el funcionamiento correcto de las ruedas.",
       },
       {
         question: "¿Cómo sé si el sello de rueda necesita ser reemplazado?",
@@ -36,17 +36,17 @@ export default function SellosRueda() {
       {
         question: "¿Puedo seguir conduciendo si noto una fuga en el sello?",
         answer:
-          "No es recomendable. Una fuga puede provocar daño a los rodamientos por falta de lubricación, sobrecalentamiento de la maza, y eventualmente fallas más costosas o incluso peligrosas.",
+          "No es recomendable. Una fuga puede provocar daño a los baleros por falta de lubricación, sobrecalentamiento de la maza, y eventualmente fallas más costosas o incluso peligrosas.",
       },
       {
         question: "¿Qué sucede si el sello no se reemplaza a tiempo?",
         answer:
-          "Puede causar daño severo a los cojinetes, sobrecalentamiento de la maza, contaminación del sistema de frenos, y en casos extremos, falla de la rueda que puede resultar en accidentes.",
+          "Puede causar daño severo a los rodamientos, sobrecalentamiento de la maza, contaminación del sistema de frenos, y en casos extremos, falla de la rueda que puede resultar en accidentes.",
       },
       {
         question: "¿Cuánto tiempo tarda el reemplazo de un sello de rueda?",
         answer:
-          "El proceso generalmente toma entre 1-2 horas por rueda, dependiendo del estado del sistema y si se requieren reparaciones adicionales en los cojinetes o el eje.",
+          "El proceso generalmente toma entre 1-2 horas por rueda, dependiendo del estado del sistema y si se requieren reparaciones adicionales en los baleros o el eje.",
       },
       {
         question: "¿Debo reemplazar ambos sellos al mismo tiempo?",
@@ -55,8 +55,8 @@ export default function SellosRueda() {
       },
     ],
     relatedServices: [
-      { title: "Taller de Frenos", slug: "frenos" },
-      { title: "Inspección Mecánica La Bailada", slug: "inspeccion-bailada" },
+      { title: "Taller de Frenos", slug: "taller-de-frenos" },
+      { title: "Inspección Mecánica La Bailada", slug: "inspeccion-la-bailada" },
       { title: "Taller de Suspensiones", slug: "suspensiones" },
     ],
     ctaText: "Agendar Cambio de Sellos",
