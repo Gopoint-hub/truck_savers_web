@@ -28,6 +28,7 @@ import Cardanes from "./pages/services/Cardanes";
 import SistemaEscape from "./pages/services/SistemaEscape";
 import SellosRueda from "./pages/services/SellosRueda";
 import SelladorLlantas from "./pages/services/SelladorLlantas";
+import GoGreenApu from "./pages/services/GoGreenApu";
 
 // Dallas Pages
 import DallasHub from "./pages/dallas/index";
@@ -156,6 +157,7 @@ function Router() {
       <Route path="/houston/sistema-de-escape" component={SistemaEscape} />
       <Route path="/houston/sellos-de-rueda" component={SellosRueda} />
       <Route path="/houston/sellador-de-llantas" component={SelladorLlantas} />
+      <Route path="/houston/go-green-apu" component={GoGreenApu} />
       
       {/* Dallas City Hub */}
       <Route path="/dallas" component={DallasHub} />
