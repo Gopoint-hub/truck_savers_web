@@ -48,7 +48,7 @@ const sources = [
 const youtubeVideos = [
   {
     title: '¿Qué causa las vibraciones en un camión?',
-    url: 'https://www.youtube.com/watch?v=some-video-id',
+    url: 'https://youtu.be/wBb9SQ4Szew?si=jcVBnp_qsIrfo9jq',
   },
 ];
 
