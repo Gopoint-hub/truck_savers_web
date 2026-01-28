@@ -2,8 +2,8 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 
 export default function DireccionMonterrey() {
   const serviceData = {
-    title: "Dirección Hidráulica en Monterrey, N.L.",
-    subtitle: "Más de 24 años de experiencia en dirección hidráulica llegan a Monterrey",
+    title: "Dirección en Monterrey, N.L.",
+    subtitle: "Más de 24 años de experiencia en dirección llegan a Monterrey",
     heroImage: "/images/thetrucksavers-7.webp",
     description:
       "En The Truck Savers Monterrey, nuestro taller de dirección está especializado en el mantenimiento, reparación y diagnóstico de sistemas de dirección hidráulica para camiones de carga y trailers. La dirección hidráulica es uno de los sistemas más críticos en cualquier vehículo de carga. Tecnología de punta y más de 24 años de experiencia ahora disponibles en Monterrey, Nuevo León.",

@@ -16,7 +16,7 @@ const monterreyServices = [
   { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones en Monterrey', description: 'Más de 24 años de experiencia en alineación de precisión para camiones y trailers ahora en Monterrey, N.L.' },
   { slug: 'suspensiones', title: 'Taller de Suspensiones en Monterrey', description: 'Reparación y mantenimiento especializado de sistemas de suspensión para camiones en Monterrey.' },
   { slug: 'frenos', title: 'Taller de Frenos en Monterrey', description: 'Especialistas en reparación de sistemas de frenos de aire para camiones en Monterrey, Nuevo León.' },
-  { slug: 'direccion', title: 'Dirección Hidráulica en Monterrey', description: 'Reparación profesional de sistemas de dirección hidráulica para camiones comerciales en Monterrey.' },
+  { slug: 'direccion', title: 'Dirección en Monterrey', description: 'Reparación profesional de sistemas de dirección para camiones comerciales en Monterrey.' },
   { slug: 'balanceo-de-llantas', title: 'Balanceo de Llantas en Monterrey', description: 'Servicio de balanceo profesional para tus morenas. Tecnología de punta llega a Monterrey.' },
   { slug: 'depilada-de-llantas', title: 'Depilada de Llantas en Monterrey', description: 'Reparación profesional de neumáticos para camiones y trailers en Monterrey, N.L.' },
   { slug: 'reparacion-de-cardanes', title: 'Reparación de Cardanes en Monterrey', description: 'Servicio especializado en reparación y balanceo de cardanes para camiones en Monterrey.' },

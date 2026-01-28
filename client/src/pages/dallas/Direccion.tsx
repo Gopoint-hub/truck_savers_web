@@ -2,8 +2,8 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 
 export default function DireccionDallas() {
   const serviceData = {
-    title: "Dirección Hidráulica en Dallas, TX",
-    subtitle: "Más de 24 años reparando sistemas de dirección hidráulica - Ahora en Dallas",
+    title: "Dirección en Dallas, TX",
+    subtitle: "Más de 24 años reparando sistemas de dirección - Ahora en Dallas",
     heroImage: "/images/thetrucksavers-7.webp",
     description:
       "En The Truck Savers Dallas, nuestro taller de dirección está especializado en el mantenimiento, reparación y diagnóstico de sistemas de dirección hidráulica para camiones de carga y trailers. La dirección hidráulica es uno de los sistemas más críticos en cualquier vehículo de carga, ya que facilita el giro del volante permitiendo un manejo más seguro y menos agotador. Con más de 24 años de experiencia, ahora también llegamos a Dallas-Fort Worth.",

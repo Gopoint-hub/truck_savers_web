@@ -16,7 +16,7 @@ const dallasServices = [
   { slug: 'alineacion-de-camiones', title: 'Alineación de Camiones en Dallas', description: 'Servicio de alineación de precisión para camiones y trailers en el área de Dallas-Fort Worth.' },
   { slug: 'suspensiones', title: 'Taller de Suspensiones en Dallas', description: 'Reparación y mantenimiento de sistemas de suspensión y amortiguadores para camiones en Dallas, TX.' },
   { slug: 'frenos', title: 'Taller de Frenos en Dallas', description: 'Especialistas en reparación y mantenimiento de sistemas de frenos de aire para camiones en Dallas.' },
-  { slug: 'direccion', title: 'Dirección Hidráulica en Dallas', description: 'Reparación de sistemas de dirección hidráulica para camiones comerciales en Dallas, TX.' },
+  { slug: 'direccion', title: 'Dirección en Dallas', description: 'Reparación de sistemas de dirección para camiones comerciales en Dallas, TX.' },
   { slug: 'sistema-de-escape', title: 'Sistema de Escape en Dallas', description: 'Reparación y mantenimiento de mofles y sistemas de escape para camiones en Dallas.' },
   { slug: 'sellos-de-rueda', title: 'Sellos de Rueda en Dallas', description: 'Cambio profesional de sellos de rueda para proteger los baleros de tu camión en Dallas.' },
   { slug: 'sellador-de-llantas', title: 'Sellador de Llantas Salvamorenas en Dallas', description: 'Protección preventiva para tus morenas con nuestro sellador profesional Salvamorenas en Dallas.' },
