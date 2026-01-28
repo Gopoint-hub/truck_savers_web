@@ -41,7 +41,8 @@ export const appRouter = router({
       .input(z.object({ 
         email: z.string().email(), 
         name: z.string().optional(),
-        role: z.enum(["user", "admin"]) 
+        role: z.enum(["user", "admin", "cx_asesor"]),
+        userLocation: z.enum(["houston", "dallas", "monterrey"]).optional()
       }))
       .mutation(async ({ input, ctx }) => {
         // Check if user already exists
@@ -49,7 +50,7 @@ export const appRouter = router({
         if (existingUser) {
           throw new TRPCError({ code: 'CONFLICT', message: 'Ya existe un usuario con este email' });
         }
-        await db.createUser(input);
+        await db.createUserWithLocation(input);
         
         // Get the newly created user
         const newUser = await db.getUserByEmail(input.email);
@@ -109,9 +110,16 @@ export const appRouter = router({
         return { success: true, invitationSent: result.success };
       }),
     updateRole: adminProcedure
-      .input(z.object({ userId: z.number(), role: z.enum(["user", "admin"]) }))
+      .input(z.object({ 
+        userId: z.number(), 
+        role: z.enum(["user", "admin", "cx_asesor"]),
+        userLocation: z.enum(["houston", "dallas", "monterrey"]).optional().nullable()
+      }))
       .mutation(async ({ input }) => {
-        await db.updateUserRole(input.userId, input.role);
+        await db.updateUserWithLocation(input.userId, { 
+          role: input.role, 
+          userLocation: input.userLocation || null 
+        });
         return { success: true };
       }),
     delete: adminProcedure
@@ -944,6 +952,97 @@ export const appRouter = router({
         const filename = `voice/${Date.now()}-${Math.random().toString(36).substring(7)}.${extension}`;
         const { url } = await storagePut(filename, buffer, input.mimeType);
         return { url };
+      }),
+  }),
+
+  // ============================================
+  // BAILADA REPORTS (Reportes de Inspecciones)
+  // ============================================
+  bailadaReports: router({
+    list: protectedProcedure
+      .input(z.object({
+        location: z.enum(["houston", "dallas", "monterrey"]).optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getAllBailadaReports(input);
+      }),
+    stats: protectedProcedure
+      .input(z.object({
+        location: z.enum(["houston", "dallas", "monterrey"]).optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getBailadaReportsStats(input);
+      }),
+    create: protectedProcedure
+      .input(z.object({
+        date: z.date(),
+        workOrderNumber: z.string().min(1, "Número de orden es requerido"),
+        technician: z.string().min(1, "Técnico es requerido"),
+        quotedBy: z.number(),
+        quoteAmount: z.number().min(0, "Monto debe ser positivo"),
+        saleClosure: z.enum(["si", "no", "parcialmente"]),
+        authorizedAmount: z.number().default(0),
+        location: z.enum(["houston", "dallas", "monterrey"]),
+        objection: z.enum(["no_tengo_dinero", "no_tengo_tiempo", "carga_programada_regreso_luego", "otro"]).optional(),
+        objectionDetails: z.string().optional(),
+        partialReason: z.enum(["no_suficiente_dinero", "solo_trabajos_seguridad", "varias_etapas", "solo_trabajo_original", "otro"]).optional(),
+        partialDetails: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // Calculate authorizedAmount based on saleClosure
+        let authorizedAmount = input.authorizedAmount;
+        if (input.saleClosure === 'si') {
+          authorizedAmount = input.quoteAmount;
+        } else if (input.saleClosure === 'no') {
+          authorizedAmount = 0;
+        }
+        // For 'parcialmente', use the provided authorizedAmount
+        
+        await db.createBailadaReport({
+          ...input,
+          authorizedAmount,
+        });
+        return { success: true };
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        date: z.date().optional(),
+        workOrderNumber: z.string().optional(),
+        technician: z.string().optional(),
+        quoteAmount: z.number().optional(),
+        saleClosure: z.enum(["si", "no", "parcialmente"]).optional(),
+        authorizedAmount: z.number().optional(),
+        location: z.enum(["houston", "dallas", "monterrey"]).optional(),
+        objection: z.enum(["no_tengo_dinero", "no_tengo_tiempo", "carga_programada_regreso_luego", "otro"]).optional().nullable(),
+        objectionDetails: z.string().optional().nullable(),
+        partialReason: z.enum(["no_suficiente_dinero", "solo_trabajos_seguridad", "varias_etapas", "solo_trabajo_original", "otro"]).optional().nullable(),
+        partialDetails: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        
+        // Recalculate authorizedAmount if saleClosure changed
+        if (data.saleClosure && data.quoteAmount !== undefined) {
+          if (data.saleClosure === 'si') {
+            data.authorizedAmount = data.quoteAmount;
+          } else if (data.saleClosure === 'no') {
+            data.authorizedAmount = 0;
+          }
+        }
+        
+        await db.updateBailadaReport(id, data);
+        return { success: true };
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteBailadaReport(input.id);
+        return { success: true };
       }),
   }),
 });

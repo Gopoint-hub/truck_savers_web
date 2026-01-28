@@ -18,7 +18,9 @@ export const users = mysqlTable("users", {
   /** Hashed password for local authentication */
   passwordHash: varchar("passwordHash", { length: 255 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: mysqlEnum("role", ["user", "admin", "cx_asesor"]).default("user").notNull(),
+  /** Ubicación del usuario (para CX Asesores) */
+  userLocation: mysqlEnum("userLocation", ["houston", "dallas", "monterrey"]),
   /** Whether the user account is active */
   isActive: boolean("isActive").default(true).notNull(),
   /** Failed login attempts counter */
@@ -414,3 +416,55 @@ export const courseWaitlist = mysqlTable("course_waitlist", {
 
 export type CourseWaitlistEntry = typeof courseWaitlist.$inferSelect;
 export type InsertCourseWaitlistEntry = typeof courseWaitlist.$inferInsert;
+
+
+// ============================================
+// REPORTE DE BAILADAS (Inspecciones comerciales)
+// ============================================
+
+/**
+ * Reportes de inspecciones "La Bailada" con seguimiento comercial
+ */
+export const bailadaReports = mysqlTable("bailada_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Fecha y hora del reporte */
+  date: timestamp("date").notNull(),
+  /** Número de orden de trabajo */
+  workOrderNumber: varchar("workOrderNumber", { length: 50 }).notNull(),
+  /** Nombre del técnico que realizó la inspección */
+  technician: varchar("technician", { length: 200 }).notNull(),
+  /** ID del usuario que realizó la cotización */
+  quotedBy: int("quotedBy").references(() => users.id).notNull(),
+  /** Monto de la cotización en centavos (para evitar decimales) */
+  quoteAmount: int("quoteAmount").notNull(),
+  /** Cierre de venta */
+  saleClosure: mysqlEnum("saleClosure", ["si", "no", "parcialmente"]).notNull(),
+  /** Monto autorizado en centavos */
+  authorizedAmount: int("authorizedAmount").default(0),
+  /** Ubicación (Houston, Dallas, Monterrey) */
+  location: mysqlEnum("location", ["houston", "dallas", "monterrey"]).notNull(),
+  /** Objeción cuando saleClosure es "no" */
+  objection: mysqlEnum("objection", [
+    "no_tengo_dinero", 
+    "no_tengo_tiempo", 
+    "carga_programada_regreso_luego", 
+    "otro"
+  ]),
+  /** Detalles adicionales de la objeción */
+  objectionDetails: text("objectionDetails"),
+  /** Razón cuando saleClosure es "parcialmente" */
+  partialReason: mysqlEnum("partialReason", [
+    "no_suficiente_dinero", 
+    "solo_trabajos_seguridad", 
+    "varias_etapas", 
+    "solo_trabajo_original", 
+    "otro"
+  ]),
+  /** Detalles adicionales de la razón parcial */
+  partialDetails: text("partialDetails"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BailadaReport = typeof bailadaReports.$inferSelect;
+export type InsertBailadaReport = typeof bailadaReports.$inferInsert;

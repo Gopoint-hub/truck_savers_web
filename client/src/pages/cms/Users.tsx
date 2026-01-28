@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Users, Shield, User, Plus, Trash2, Mail, Send, CheckCircle2 } from "lucide-react";
+import { Users, Shield, User, Plus, Trash2, Mail, Send, CheckCircle2, Headphones, MapPin } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CmsUsers() {
@@ -32,7 +32,8 @@ export default function CmsUsers() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserName, setNewUserName] = useState("");
-  const [newUserRole, setNewUserRole] = useState<"user" | "admin">("admin");
+  const [newUserRole, setNewUserRole] = useState<"user" | "admin" | "cx_asesor">("admin");
+  const [newUserLocation, setNewUserLocation] = useState<"houston" | "dallas" | "monterrey">("houston");
   const [sendingInvitationTo, setSendingInvitationTo] = useState<number | null>(null);
   
   const createUser = trpc.users.create.useMutation({
@@ -47,6 +48,7 @@ export default function CmsUsers() {
       setNewUserEmail("");
       setNewUserName("");
       setNewUserRole("admin");
+      setNewUserLocation("houston");
     },
     onError: (error) => {
       toast.error("Error al crear usuario: " + error.message);
@@ -84,9 +86,18 @@ export default function CmsUsers() {
     },
   });
 
-  const handleRoleChange = (userId: number, newRole: "user" | "admin") => {
-    if (confirm(`¿Estás seguro de cambiar el rol a ${newRole === 'admin' ? 'Administrador' : 'Usuario'}?`)) {
-      updateRole.mutate({ userId, role: newRole });
+  const handleRoleChange = (userId: number, newRole: "user" | "admin" | "cx_asesor", currentLocation?: string) => {
+    const roleNames: Record<string, string> = {
+      admin: 'Administrador',
+      user: 'Usuario',
+      cx_asesor: 'CX Asesor'
+    };
+    if (confirm(`¿Estás seguro de cambiar el rol a ${roleNames[newRole]}?`)) {
+      updateRole.mutate({ 
+        userId, 
+        role: newRole,
+        userLocation: newRole === 'cx_asesor' ? (currentLocation as any || 'houston') : undefined
+      });
     }
   };
   
@@ -105,6 +116,7 @@ export default function CmsUsers() {
       email: newUserEmail,
       name: newUserName || undefined,
       role: newUserRole,
+      userLocation: newUserRole === 'cx_asesor' ? newUserLocation : undefined,
     });
   };
 
@@ -115,9 +127,36 @@ export default function CmsUsers() {
 
   const adminCount = users?.filter(u => u.role === 'admin').length || 0;
   const userCount = users?.filter(u => u.role === 'user').length || 0;
+  const cxAsesorCount = users?.filter(u => u.role === 'cx_asesor').length || 0;
 
   // Determinar si un usuario puede acceder (tiene contraseña configurada)
   const canAccess = (user: { passwordHash?: string | null }) => !!user.passwordHash;
+
+  const getRoleBadge = (role: string) => {
+    switch (role) {
+      case 'admin':
+        return <Badge className="text-[10px] px-1.5 py-0 font-semibold bg-[#368A45] text-white">Admin</Badge>;
+      case 'cx_asesor':
+        return <Badge className="text-[10px] px-1.5 py-0 font-semibold bg-blue-600 text-white">CX Asesor</Badge>;
+      default:
+        return <Badge className="text-[10px] px-1.5 py-0 font-semibold bg-gray-200 text-gray-700">Usuario</Badge>;
+    }
+  };
+
+  const getLocationBadge = (location?: string | null) => {
+    if (!location) return null;
+    const colors: Record<string, string> = {
+      houston: "bg-blue-100 text-blue-800",
+      dallas: "bg-purple-100 text-purple-800",
+      monterrey: "bg-orange-100 text-orange-800",
+    };
+    return (
+      <Badge className={`text-[10px] px-1.5 py-0 font-semibold ${colors[location] || "bg-gray-100 text-gray-700"}`}>
+        <MapPin className="h-2.5 w-2.5 mr-0.5" />
+        {location.charAt(0).toUpperCase() + location.slice(1)}
+      </Badge>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -166,16 +205,32 @@ export default function CmsUsers() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="role" className="text-gray-800 font-semibold">Rol</Label>
-                <Select value={newUserRole} onValueChange={(v) => setNewUserRole(v as "user" | "admin")}>
+                <Select value={newUserRole} onValueChange={(v) => setNewUserRole(v as "user" | "admin" | "cx_asesor")}>
                   <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200">
                     <SelectItem value="admin" className="text-gray-900">Administrador</SelectItem>
+                    <SelectItem value="cx_asesor" className="text-gray-900">CX Asesor</SelectItem>
                     <SelectItem value="user" className="text-gray-900">Usuario</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+              {newUserRole === 'cx_asesor' && (
+                <div className="grid gap-2">
+                  <Label htmlFor="location" className="text-gray-800 font-semibold">Ubicación *</Label>
+                  <Select value={newUserLocation} onValueChange={(v) => setNewUserLocation(v as "houston" | "dallas" | "monterrey")}>
+                    <SelectTrigger className="bg-white border-gray-300 text-gray-900">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-gray-200">
+                      <SelectItem value="houston" className="text-gray-900">Houston</SelectItem>
+                      <SelectItem value="dallas" className="text-gray-900">Dallas</SelectItem>
+                      <SelectItem value="monterrey" className="text-gray-900">Monterrey</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
             <DialogFooter>
               <Button
@@ -198,7 +253,7 @@ export default function CmsUsers() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         <Card className="bg-white border-gray-200 shadow-sm">
           <CardContent className="p-3">
             <div className="flex items-center gap-2">
@@ -217,6 +272,17 @@ export default function CmsUsers() {
               <div>
                 <div className="text-lg font-bold text-gray-900">{adminCount}</div>
                 <p className="text-[10px] text-gray-600 font-medium">Admins</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white border-gray-200 shadow-sm">
+          <CardContent className="p-3">
+            <div className="flex items-center gap-2">
+              <Headphones className="h-5 w-5 text-blue-600" />
+              <div>
+                <div className="text-lg font-bold text-gray-900">{cxAsesorCount}</div>
+                <p className="text-[10px] text-gray-600 font-medium">CX Asesores</p>
               </div>
             </div>
           </CardContent>
@@ -255,13 +321,15 @@ export default function CmsUsers() {
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <Avatar className="h-7 w-7 border border-gray-300">
                       <AvatarFallback className={`text-[10px] font-semibold ${
-                        user.role === 'admin' ? 'bg-[#368A45] text-white' : 'bg-gray-200 text-gray-700'
+                        user.role === 'admin' ? 'bg-[#368A45] text-white' : 
+                        user.role === 'cx_asesor' ? 'bg-blue-600 text-white' : 
+                        'bg-gray-200 text-gray-700'
                       }`}>
                         {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <p className="text-xs font-semibold text-gray-900 truncate">
                           {user.name || 'Sin nombre'}
                         </p>
@@ -272,6 +340,7 @@ export default function CmsUsers() {
                             Pendiente
                           </span>
                         )}
+                        {user.role === 'cx_asesor' && getLocationBadge((user as any).userLocation)}
                       </div>
                       <p className="text-[10px] text-gray-600 truncate">
                         {user.email || '-'}
@@ -279,12 +348,9 @@ export default function CmsUsers() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Badge
-                      variant={user.role === 'admin' ? "default" : "secondary"}
-                      className={`text-[10px] px-1.5 py-0 hidden sm:inline-flex font-semibold ${user.role === 'admin' ? "bg-[#368A45] text-white" : "bg-gray-200 text-gray-700"}`}
-                    >
-                      {user.role === 'admin' ? 'Admin' : 'Usuario'}
-                    </Badge>
+                    <span className="hidden sm:inline-flex">
+                      {getRoleBadge(user.role)}
+                    </span>
                     {!canAccess(user) && user.email && (
                       <Button
                         variant="outline"
@@ -308,14 +374,15 @@ export default function CmsUsers() {
                     )}
                     <Select
                       value={user.role}
-                      onValueChange={(value) => handleRoleChange(user.id, value as "user" | "admin")}
+                      onValueChange={(value) => handleRoleChange(user.id, value as "user" | "admin" | "cx_asesor", (user as any).userLocation)}
                     >
-                      <SelectTrigger className="w-[80px] sm:w-[100px] bg-white border-gray-300 text-xs h-7 text-gray-900">
+                      <SelectTrigger className="w-[90px] sm:w-[110px] bg-white border-gray-300 text-xs h-7 text-gray-900">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-white border-gray-200">
-                        <SelectItem value="user" className="text-xs text-gray-900">Usuario</SelectItem>
                         <SelectItem value="admin" className="text-xs text-gray-900">Admin</SelectItem>
+                        <SelectItem value="cx_asesor" className="text-xs text-gray-900">CX Asesor</SelectItem>
+                        <SelectItem value="user" className="text-xs text-gray-900">Usuario</SelectItem>
                       </SelectContent>
                     </Select>
                     <Button
@@ -341,7 +408,7 @@ export default function CmsUsers() {
       {/* Info Card */}
       <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="p-3 pb-2">
-          <CardTitle className="text-gray-900 text-sm font-bold">Información de Acceso</CardTitle>
+          <CardTitle className="text-gray-900 text-sm font-bold">Información de Roles</CardTitle>
         </CardHeader>
         <CardContent className="p-3 pt-0">
           <div className="space-y-2">
@@ -360,7 +427,16 @@ export default function CmsUsers() {
               <div>
                 <h4 className="text-gray-900 font-semibold text-xs">Administrador</h4>
                 <p className="text-[10px] text-gray-700">
-                  Acceso completo al CMS. Puede gestionar todo el contenido y usuarios.
+                  Acceso completo al CMS. Puede gestionar todo el contenido, usuarios y configuraciones.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2 p-2 bg-blue-50 rounded-md border border-blue-200">
+              <Headphones className="h-4 w-4 text-blue-600 mt-0.5" />
+              <div>
+                <h4 className="text-gray-900 font-semibold text-xs">CX Asesor</h4>
+                <p className="text-[10px] text-gray-700">
+                  Acceso al módulo de Reporte de Bailadas. Puede crear, editar y ver reportes de su ubicación asignada.
                 </p>
               </div>
             </div>

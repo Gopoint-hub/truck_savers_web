@@ -55,11 +55,13 @@ import { Button } from "@/components/ui/button";
 const dashboardItem = { icon: LayoutDashboard, label: "Dashboard", path: "/cms" };
 
 // Estructura del menú organizada por áreas
+// allowedRoles: roles que pueden ver esta área (si no se especifica, solo admin)
 const menuAreas = [
   {
     id: "proyecto",
     label: "Proyecto",
     icon: Map,
+    allowedRoles: ["admin"],
     items: [
       { icon: Map, label: "Roadmap", path: "/cms/roadmap" },
     ],
@@ -68,6 +70,7 @@ const menuAreas = [
     id: "negocio",
     label: "Negocio",
     icon: BarChart3,
+    allowedRoles: ["admin"],
     items: [
       { icon: Target, label: "Objetivos Comerciales", path: "/cms/objectives", disabled: true },
     ],
@@ -76,6 +79,7 @@ const menuAreas = [
     id: "operaciones",
     label: "Operaciones",
     icon: CheckSquare,
+    allowedRoles: ["admin"],
     items: [
       { icon: CheckSquare, label: "Pendientes", path: "/cms/tasks" },
     ],
@@ -84,6 +88,7 @@ const menuAreas = [
     id: "cx",
     label: "CX",
     icon: HeartHandshake,
+    allowedRoles: ["admin", "cx_asesor"],
     items: [
       { icon: FileText, label: "Reporte de Bailadas", path: "/cms/bailada-reports" },
     ],
@@ -92,6 +97,7 @@ const menuAreas = [
     id: "marketing",
     label: "Marketing",
     icon: Mail,
+    allowedRoles: ["admin"],
     items: [
       { icon: ClipboardCheck, label: "SEO", path: "/cms/seo" },
       { icon: UserCircle, label: "Suscriptores", path: "/cms/subscribers" },
@@ -104,6 +110,7 @@ const menuAreas = [
     id: "admin",
     label: "Admin",
     icon: Shield,
+    allowedRoles: ["admin"],
     items: [
       { icon: Users, label: "Usuarios", path: "/cms/users" },
     ],
@@ -144,8 +151,10 @@ export default function CmsLayout({
     return <DashboardLayoutSkeleton />;
   }
 
-  // Check if user is admin
-  if (user.role !== 'admin') {
+  // Check if user has CMS access (admin or cx_asesor)
+  const hasAccess = user.role === 'admin' || user.role === 'cx_asesor';
+  
+  if (!hasAccess) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center gap-6 p-6 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200">
@@ -154,7 +163,7 @@ export default function CmsLayout({
             <span className="text-xl font-bold text-gray-900">Acceso Denegado</span>
           </div>
           <p className="text-sm text-gray-600 text-center">
-            No tienes permisos de administrador para acceder a este panel.
+            No tienes permisos para acceder a este panel.
           </p>
           <Button
             onClick={() => {
@@ -222,6 +231,11 @@ function CmsLayoutContent({
   }, [expandedAreas]);
 
   const activeMenuItem = allMenuItems.find(item => item.path === location) || allMenuItems.find(item => item.path === '/cms');
+
+  // Filtrar áreas del menú según el rol del usuario
+  const filteredMenuAreas = menuAreas.filter(area => 
+    area.allowedRoles.includes(user?.role || '')
+  );
 
   // Función para navegar y cerrar el menú en móvil
   const handleNavigation = (path: string) => {
@@ -328,7 +342,7 @@ function CmsLayoutContent({
             <div className="mx-4 border-t border-gray-200" />
             
             {/* Categorías del menú */}
-            {menuAreas.map(area => (
+            {filteredMenuAreas.map(area => (
               <Collapsible
                 key={area.id}
                 open={expandedAreas[area.id]}

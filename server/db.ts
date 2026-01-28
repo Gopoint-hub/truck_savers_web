@@ -17,7 +17,8 @@ import {
   roadmapDeliverables, InsertRoadmapDeliverable,
   authTokens, InsertAuthToken,
   auditLogs, InsertAuditLog,
-  courseWaitlist, InsertCourseWaitlistEntry
+  courseWaitlist, InsertCourseWaitlistEntry,
+  bailadaReports, InsertBailadaReport
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -819,4 +820,152 @@ export async function deleteCourseWaitlistEntry(id: number) {
   const db = await getDb();
   if (!db) return;
   await db.delete(courseWaitlist).where(eq(courseWaitlist.id, id));
+}
+
+
+// ============================================
+// BAILADA REPORTS FUNCTIONS
+// ============================================
+
+export async function getAllBailadaReports(filters?: {
+  location?: string;
+  startDate?: Date;
+  endDate?: Date;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const conditions = [];
+  
+  if (filters?.location) {
+    conditions.push(eq(bailadaReports.location, filters.location as any));
+  }
+  if (filters?.startDate) {
+    conditions.push(sql`${bailadaReports.date} >= ${filters.startDate}`);
+  }
+  if (filters?.endDate) {
+    conditions.push(sql`${bailadaReports.date} <= ${filters.endDate}`);
+  }
+  
+  if (conditions.length > 0) {
+    return db.select().from(bailadaReports).where(and(...conditions)).orderBy(desc(bailadaReports.date));
+  }
+  
+  return db.select().from(bailadaReports).orderBy(desc(bailadaReports.date));
+}
+
+export async function getBailadaReportById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(bailadaReports).where(eq(bailadaReports.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createBailadaReport(data: InsertBailadaReport) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(bailadaReports).values(data);
+  return result;
+}
+
+export async function updateBailadaReport(id: number, data: Partial<InsertBailadaReport>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(bailadaReports).set(data).where(eq(bailadaReports.id, id));
+}
+
+export async function deleteBailadaReport(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(bailadaReports).where(eq(bailadaReports.id, id));
+}
+
+export async function getBailadaReportsStats(filters?: {
+  location?: string;
+  startDate?: Date;
+  endDate?: Date;
+}) {
+  const db = await getDb();
+  if (!db) return {
+    totalReports: 0,
+    totalClosures: 0,
+    effectivenessRate: 0,
+    totalQuoted: 0,
+    totalAuthorized: 0,
+    conversionRate: 0,
+  };
+  
+  const conditions = [];
+  
+  if (filters?.location) {
+    conditions.push(eq(bailadaReports.location, filters.location as any));
+  }
+  if (filters?.startDate) {
+    conditions.push(sql`${bailadaReports.date} >= ${filters.startDate}`);
+  }
+  if (filters?.endDate) {
+    conditions.push(sql`${bailadaReports.date} <= ${filters.endDate}`);
+  }
+  
+  let reports;
+  if (conditions.length > 0) {
+    reports = await db.select().from(bailadaReports).where(and(...conditions));
+  } else {
+    reports = await db.select().from(bailadaReports);
+  }
+  
+  const totalReports = reports.length;
+  const totalClosures = reports.filter(r => r.saleClosure === 'si' || r.saleClosure === 'parcialmente').length;
+  const effectivenessRate = totalReports > 0 ? (totalClosures / totalReports) * 100 : 0;
+  const totalQuoted = reports.reduce((sum, r) => sum + (r.quoteAmount || 0), 0);
+  const totalAuthorized = reports.reduce((sum, r) => sum + (r.authorizedAmount || 0), 0);
+  const conversionRate = totalQuoted > 0 ? (totalAuthorized / totalQuoted) * 100 : 0;
+  
+  return {
+    totalReports,
+    totalClosures,
+    effectivenessRate: Math.round(effectivenessRate * 100) / 100,
+    totalQuoted,
+    totalAuthorized,
+    conversionRate: Math.round(conversionRate * 100) / 100,
+  };
+}
+
+// ============================================
+// USER FUNCTIONS - EXTENDED FOR CX ASESOR
+// ============================================
+
+export async function updateUserWithLocation(userId: number, data: { 
+  role?: "user" | "admin" | "cx_asesor"; 
+  userLocation?: "houston" | "dallas" | "monterrey" | null;
+  name?: string;
+  isActive?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set(data).where(eq(users.id, userId));
+}
+
+export async function createUserWithLocation(data: { 
+  email: string; 
+  name?: string; 
+  passwordHash?: string;
+  role: "user" | "admin" | "cx_asesor";
+  userLocation?: "houston" | "dallas" | "monterrey";
+}) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const openId = `local_${data.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  
+  await db.insert(users).values({
+    openId,
+    email: data.email,
+    name: data.name || null,
+    passwordHash: data.passwordHash || null,
+    role: data.role,
+    userLocation: data.userLocation || null,
+    loginMethod: data.passwordHash ? 'local' : 'manual',
+    isActive: true,
+  });
 }
