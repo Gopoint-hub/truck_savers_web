@@ -56,6 +56,9 @@ export default function SelladorLlantas() {
     ],
     ctaText: "Agendar Cita",
     location: "houston",
+    youtubePlaylist: "https://youtu.be/j4_uOY46WDI?si=28p2aEvvkganLOgz",
+    youtubeTitle: "Video de Sellador de Llantas",
+    youtubeDescription: "Conoce cómo funciona nuestro sellador de llantas Salvamorenas y sus beneficios.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

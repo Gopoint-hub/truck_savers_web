@@ -44,6 +44,9 @@ export default function Neumaticos() {
     ],
     ctaText: "Agendar Cita",
     location: "houston",
+    youtubePlaylist: "https://youtu.be/Whzddb82OHA?si=wXJDeN_dvYG_6ftt",
+    youtubeTitle: "Video de Depilada de Llantas",
+    youtubeDescription: "Conoce cómo realizamos la depilada de llantas para extender su vida útil.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

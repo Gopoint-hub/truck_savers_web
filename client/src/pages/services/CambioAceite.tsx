@@ -44,6 +44,9 @@ export default function CambioAceite() {
     ],
     ctaText: "Agendar Cita",
     location: "houston",
+    youtubePlaylist: "https://youtu.be/2C9tZDSqvVg?si=Kp4ueI9M2g9sCTid",
+    youtubeTitle: "Video de Cambio de Aceite",
+    youtubeDescription: "Conoce cómo realizamos el cambio de aceite para camiones y qué incluye nuestro servicio.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

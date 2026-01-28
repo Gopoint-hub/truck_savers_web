@@ -61,6 +61,9 @@ export default function SellosRueda() {
     ],
     ctaText: "Agendar Cita",
     location: "houston",
+    youtubePlaylist: "https://youtu.be/EB4Tr9vxQ8Y?si=uS6eTJrXhgw11G4K",
+    youtubeTitle: "Video de Sellos de Rueda",
+    youtubeDescription: "Conoce la importancia del cambio de sellos de rueda y cómo realizamos este servicio.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

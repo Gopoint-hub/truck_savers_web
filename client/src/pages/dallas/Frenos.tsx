@@ -51,6 +51,9 @@ export default function FrenosDallas() {
     ],
     ctaText: "Agendar Cita",
     location: "dallas",
+    youtubePlaylist: "https://youtu.be/GoF8iZ1JF5Y?si=tTdcBMX04QguxhfV",
+    youtubeTitle: "Video de Frenos",
+    youtubeDescription: "Conoce cómo funciona el sistema de frenos de tu camión y la importancia de su mantenimiento.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

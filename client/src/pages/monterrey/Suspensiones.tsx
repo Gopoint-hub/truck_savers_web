@@ -44,7 +44,7 @@ export default function SuspensionesMonterrey() {
     ],
     ctaText: "Agendar Cita",
     location: "monterrey",
-    youtubePlaylist: "https://youtu.be/reHVeqVXKbE?si=fJBVbN8Ke6bg7eue",
+    youtubePlaylist: "https://www.youtube.com/live/Oz58TvWp9xA?si=0Rw-UeJ1abRabL4w",
     youtubeTitle: "Video de Suspensión",
     youtubeDescription: "Conoce cómo funciona el sistema de suspensión de tu camión y cómo detectamos problemas con nuestro simulador de camino.",
   };

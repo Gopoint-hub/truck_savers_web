@@ -61,6 +61,9 @@ export default function SellosRuedaMonterrey() {
     ],
     ctaText: "Agendar Cita",
     location: "monterrey",
+    youtubePlaylist: "https://youtu.be/EB4Tr9vxQ8Y?si=uS6eTJrXhgw11G4K",
+    youtubeTitle: "Video de Retenes de Rueda",
+    youtubeDescription: "Conoce la importancia del cambio de retenes de rueda y cómo realizamos este servicio.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

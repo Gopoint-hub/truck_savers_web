@@ -51,6 +51,9 @@ export default function DireccionDallas() {
     ],
     ctaText: "Agendar Cita",
     location: "dallas",
+    youtubePlaylist: "https://youtu.be/qXAvnjujDis?si=UTq9yKzdUG39EhoD",
+    youtubeTitle: "Video de Dirección",
+    youtubeDescription: "Conoce cómo funciona el sistema de dirección de tu camión y cómo detectamos problemas.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

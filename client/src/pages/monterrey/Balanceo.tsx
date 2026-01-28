@@ -51,6 +51,9 @@ export default function BalanceoMonterrey() {
     ],
     ctaText: "Agendar Cita",
     location: "monterrey",
+    youtubePlaylist: "https://youtu.be/WnftRhn_CUg?si=ElNHIhFpBkR3DuhW",
+    youtubeTitle: "Video de Balanceo de Llantas",
+    youtubeDescription: "Conoce cómo realizamos el balanceo de llantas para camiones y trailers.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

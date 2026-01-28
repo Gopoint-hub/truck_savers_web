@@ -44,6 +44,9 @@ export default function DepiladaLlantasMonterrey() {
     ],
     ctaText: "Agendar Cita",
     location: "monterrey",
+    youtubePlaylist: "https://youtu.be/OghfpiAxc_8?si=69dAqXOyXHd0gF4-",
+    youtubeTitle: "Video de Depilada de Llantas",
+    youtubeDescription: "Conoce cómo realizamos la depilada de llantas para extender su vida útil.",
   };
 
   return <ServicePageTemplate {...serviceData} />;

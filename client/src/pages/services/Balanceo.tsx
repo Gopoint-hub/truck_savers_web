@@ -51,6 +51,9 @@ export default function Balanceo() {
     ],
     ctaText: "Agendar Cita",
     location: "houston",
+    youtubePlaylist: "https://youtu.be/WnftRhn_CUg?si=ElNHIhFpBkR3DuhW",
+    youtubeTitle: "Video de Balanceo de Llantas",
+    youtubeDescription: "Conoce cómo realizamos el balanceo de llantas para camiones y trailers.",
   };
 
   return <ServicePageTemplate {...serviceData} />;
