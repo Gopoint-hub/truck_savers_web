@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { CircleDot, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCircle, Shield } from 'lucide-react';
+import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Shield, Scale, Scissors } from 'lucide-react';
 
 /**
  * Ahorro en Llantas - Soluciones para Extender la Durabilidad de Neumáticos
@@ -31,6 +31,18 @@ const services = [
     title: 'Sellos de Rueda',
     description: 'Inspección y cambio de baleros/rodamientos de rueda que pueden causar fricción excesiva y resistencia al rodamiento.',
     icon: CircleDot,
+  },
+  {
+    slug: '/houston/balanceo-de-llantas',
+    title: 'Balanceo de Llantas',
+    description: 'El balanceo correcto de tus morenas evita vibraciones y desgaste irregular, extendiendo significativamente la vida útil de tus llantas.',
+    icon: Scale,
+  },
+  {
+    slug: '/houston/reparacion-de-neumaticos',
+    title: 'Depilada de Llantas',
+    description: 'Servicio de depilada profesional que elimina el desgaste irregular y extiende la vida útil de tus llantas, ahorrando en reemplazos prematuros.',
+    icon: Scissors,
   },
 ];
 

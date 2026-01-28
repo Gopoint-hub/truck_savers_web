@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { Fuel, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCircle } from 'lucide-react';
+import { Fuel, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCircle, Zap } from 'lucide-react';
 
 /**
  * Ahorro en Diésel - Soluciones para el Ahorro de Combustible
@@ -31,6 +31,12 @@ const services = [
     title: 'Cambio de Aceite',
     description: 'Incluye marcas famosas de aceite lubricante 100% virgen para mantener el motor en mejor estado y reducir la fricción.',
     icon: Droplet,
+  },
+  {
+    slug: '/houston/go-green-apu',
+    title: 'Instalación de APU',
+    description: 'Ahorra hasta $14,000 al año en combustible y mantenimiento. El APU permite climatizar la cabina sin encender el motor principal, reduciendo drásticamente el consumo de diésel.',
+    icon: Zap,
   },
 ];
 
@@ -106,6 +112,9 @@ export default function AhorroDiesel() {
                 </p>
                 <p>
                   Obviamente, es el costo principal de la operación de una unidad de carga, y es crucial tomar medidas para reducir el consumo de combustible porque estamos muy acostumbrados al consumo excesivo de combustible, a pesar de ser uno de los mayores costos.
+                </p>
+                <p>
+                  Una de las formas más efectivas de ahorrar diésel es la instalación de un APU (Auxiliary Power Unit). Con un APU puedes climatizar tu cabina sin necesidad de encender el motor principal, ahorrando hasta $14,000 al año en combustible y mantenimiento.
                 </p>
               </div>
 
