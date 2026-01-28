@@ -3,7 +3,7 @@ import { MessageCircle, Mail, TrendingUp, Users, MapPin, Cpu, Package, Target } 
 import { Button } from "@/components/ui/button";
 
 export default function Inversionistas() {
-  const whatsappNumber = "+523340478182";
+  const whatsappNumber = "+523346766178";
   const whatsappMessage = encodeURIComponent(
     "Hola, me interesa conocer más sobre las oportunidades de inversión en The Truck Savers."
   );
