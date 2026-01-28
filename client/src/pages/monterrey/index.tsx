@@ -20,7 +20,7 @@ const monterreyServices = [
   { slug: 'balanceo-de-llantas', title: 'Balanceo de Llantas en Monterrey', description: 'Servicio de balanceo profesional para tus morenas. Tecnología de punta llega a Monterrey.' },
   { slug: 'depilada-de-llantas', title: 'Depilada de Llantas en Monterrey', description: 'Reparación profesional de neumáticos para camiones y trailers en Monterrey, N.L.' },
   { slug: 'reparacion-de-cardanes', title: 'Reparación de Cardanes en Monterrey', description: 'Servicio especializado en reparación y balanceo de cardanes para camiones en Monterrey.' },
-  { slug: 'sellos-de-rueda', title: 'Sellos de Rueda en Monterrey', description: 'Cambio profesional de sellos de rueda para proteger los baleros de tu camión en Monterrey.' },
+  { slug: 'sellos-de-rueda', title: 'Retenes de Rueda en Monterrey', description: 'Cambio profesional de retenes de rueda para proteger los baleros de tu camión en Monterrey.' },
   { slug: 'go-green-apu', title: 'Instalación de APU para Camión en Monterrey', description: 'Go Green APU para ahorro de diésel y mayor eficiencia. Ahorra hasta $5,000 al año en combustible.' },
 ];
 
