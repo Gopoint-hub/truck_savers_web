@@ -44,6 +44,9 @@ export default function AlineacionMonterrey() {
     ],
     ctaText: "Agendar Cita",
     location: "monterrey",
+    youtubePlaylist: "https://youtube.com/playlist?list=PLCJ62d3C3v0sKYdYVPDK3JlbiTcEsDf2a&si=D2pJ3p3skuPu-mD-",
+    youtubeTitle: "Videos de Alineación",
+    youtubeDescription: "Mira nuestra lista de reproducción con videos explicativos sobre el servicio de alineación para camiones y cómo mantener tu vehículo en óptimas condiciones.",
   };
 
   return <ServicePageTemplate {...serviceData} />;
