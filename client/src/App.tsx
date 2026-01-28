@@ -21,6 +21,12 @@ import Suspensiones from "./pages/services/Suspensiones";
 import Alineacion from "./pages/services/Alineacion";
 import CambioAceite from "./pages/services/CambioAceite";
 import Neumaticos from "./pages/services/Neumaticos";
+import Frenos from "./pages/services/Frenos";
+import Direccion from "./pages/services/Direccion";
+import Balanceo from "./pages/services/Balanceo";
+import Cardanes from "./pages/services/Cardanes";
+import SistemaEscape from "./pages/services/SistemaEscape";
+import SellosRueda from "./pages/services/SellosRueda";
 
 // Dallas Pages
 import DallasHub from "./pages/dallas/index";
@@ -142,6 +148,12 @@ function Router() {
       <Route path="/houston/alineacion-de-camiones" component={Alineacion} />
       <Route path="/houston/cambio-de-aceite" component={CambioAceite} />
       <Route path="/houston/reparacion-de-neumaticos" component={Neumaticos} />
+      <Route path="/houston/taller-de-frenos" component={Frenos} />
+      <Route path="/houston/direccion" component={Direccion} />
+      <Route path="/houston/balanceo-de-llantas" component={Balanceo} />
+      <Route path="/houston/reparacion-de-cardanes" component={Cardanes} />
+      <Route path="/houston/sistema-de-escape" component={SistemaEscape} />
+      <Route path="/houston/sellos-de-rueda" component={SellosRueda} />
       
       {/* Dallas City Hub */}
       <Route path="/dallas" component={DallasHub} />
