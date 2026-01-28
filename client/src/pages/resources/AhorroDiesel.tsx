@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { Fuel, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCircle, Zap } from 'lucide-react';
+import { Fuel, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCircle, Zap, ShoppingCart } from 'lucide-react';
 
 /**
  * Ahorro en Diésel - Soluciones para el Ahorro de Combustible
@@ -47,6 +47,13 @@ const factors = [
   'Fricción excesiva en componentes',
   'Problemas de suspensión y dirección',
   'Lubricación inadecuada',
+];
+
+const products = [
+  {
+    name: 'Llantasavers',
+    description: 'Tapones con indicador de presión que ayudan a mantener la presión de aire correcta, crucial para el ahorro de combustible.',
+  },
 ];
 
 const youtubeVideos = [
@@ -114,7 +121,7 @@ export default function AhorroDiesel() {
                   Obviamente, es el costo principal de la operación de una unidad de carga, y es crucial tomar medidas para reducir el consumo de combustible porque estamos muy acostumbrados al consumo excesivo de combustible, a pesar de ser uno de los mayores costos.
                 </p>
                 <p>
-                  Una de las formas más efectivas de ahorrar diésel es la instalación de un APU (Auxiliary Power Unit). Con un APU puedes climatizar tu cabina sin necesidad de encender el motor principal, ahorrando hasta $14,000 al año en combustible y mantenimiento.
+                  Además de los servicios de mantenimiento, el uso de productos como los Llantasavers para mantener la presión correcta en las llantas puede tener un impacto significativo en el consumo de combustible. Una de las formas más efectivas de ahorrar diésel es la instalación de un APU (Auxiliary Power Unit). Con un APU puedes climatizar tu cabina sin necesidad de encender el motor principal, ahorrando hasta $14,000 al año en combustible y mantenimiento.
                 </p>
               </div>
 
@@ -165,6 +172,41 @@ export default function AhorroDiesel() {
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Products Section */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                  <ShoppingCart className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Productos Recomendados
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {products.map((product, index) => (
+                  <div
+                    key={index}
+                    className="group bg-green-50 rounded-xl p-6 border border-green-200 hover:border-green-400 hover:shadow-lg transition-all"
+                  >
+                    <h3 className="font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                      {product.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">{product.description}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-8">
+                <a href="https://store.thetrucksavers.com/collections/tire-and-wheel-products" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-[#368A45] font-semibold">
+                    Ver productos en la tienda <ChevronRight className="w-5 h-5 ml-1" />
+                </a>
+            </div>
             </div>
           </div>
         </section>

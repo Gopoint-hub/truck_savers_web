@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Scale, Scissors } from 'lucide-react';
+import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Scale, Scissors, ShoppingCart } from 'lucide-react';
 
 /**
  * Ahorro en Llantas - Soluciones para Extender la Durabilidad de Neumáticos
@@ -53,6 +53,21 @@ const factors = [
   'Presión de aire incorrecta',
   'Distribución inadecuada de carga',
   'Falta de inspección regular',
+];
+
+const products = [
+  {
+    name: 'Vibrasavers',
+    description: 'Amortiguadores de vibraciones para una conducción más suave y confortable.',
+  },
+  {
+    name: 'Salvamorenas',
+    description: 'Sellador y balanceador de llantas que previene ponchaduras y reduce vibraciones.',
+  },
+  {
+    name: 'Llantasavers',
+    description: 'Tapones con indicador de presión que ayudan a mantener la presión de aire correcta, crucial para el ahorro de llantas y combustible.',
+  },
 ];
 
 const youtubeVideos = [
@@ -117,7 +132,7 @@ export default function AhorroLlantas() {
                   Entre los puntos más importantes a considerar para prevenir el desgaste prematuro de los neumáticos se encuentra el mantenimiento adecuado del camión: revisar la presión de aire y la forma en que se distribuye la carga en tu camión. Es importante revisar e inspeccionar tu camión regularmente.
                 </p>
                 <p>
-                  Las deficiencias mecánicas en alineación y balanceo, sin olvidar la suspensión y dirección, son una de las principales razones por las que tus llantas se desgastan. Si estás gastando demasiado en llantas, ya sabes por qué.
+                  Las deficiencias mecánicas en alineación y balanceo, sin olvidar la suspensión y dirección, son una de las principales razones por las que tus llantas se desgastan. Además, mantener la presión de aire correcta es fundamental, y productos como los Llantasavers pueden ayudarte a monitorearla fácilmente. Si estás gastando demasiado en llantas, ya sabes por qué.
                 </p>
               </div>
 
@@ -169,6 +184,41 @@ export default function AhorroLlantas() {
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Products Section */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                  <ShoppingCart className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Productos Recomendados
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {products.map((product, index) => (
+                  <div
+                    key={index}
+                    className="group bg-green-50 rounded-xl p-6 border border-green-200 hover:border-green-400 hover:shadow-lg transition-all"
+                  >
+                    <h3 className="font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                      {product.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">{product.description}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-8">
+                <a href="https://store.thetrucksavers.com/collections/tire-and-wheel-products" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-[#368A45] font-semibold">
+                    Ver productos en la tienda <ChevronRight className="w-5 h-5 ml-1" />
+                </a>
+            </div>
             </div>
           </div>
         </section>

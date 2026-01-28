@@ -1,9 +1,9 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
-import { Fuel, CircleDot, ChevronRight, Wrench, Gauge, Settings, Droplet } from 'lucide-react';
+import { Fuel, CircleDot, ChevronRight, Wrench, Gauge, Settings, Droplet, Wind } from 'lucide-react';
 
 /**
- * Ahorro Hub - Soluciones de Ahorro
+ * Ahorro Hub - Ahorros y Vibraciones
  * URL: /resources/ahorro
  */
 
@@ -11,7 +11,7 @@ const ahorroOptions = [
   {
     slug: 'diesel',
     title: 'Ahorro en Diésel',
-    description: 'La lubricación adecuada de las partes móviles del camión minimiza la fricción entre los componentes, lo que ayuda a reducir el desgaste y prolonga la vida útil de los mecanismos.',
+    description: 'Optimiza el consumo de combustible y reduce costos operativos con nuestros servicios y productos especializados.',
     icon: Fuel,
     color: 'bg-amber-500',
     hoverColor: 'hover:bg-amber-50',
@@ -19,10 +19,18 @@ const ahorroOptions = [
   {
     slug: 'llantas',
     title: 'Ahorro en Llantas',
-    description: 'Entre los puntos más importantes a considerar para prevenir el desgaste prematuro de los neumáticos se encuentra el mantenimiento adecuado del camión.',
+    description: 'Extiende la vida útil de tus neumáticos y previene el desgaste prematuro con el mantenimiento y los productos adecuados.',
     icon: CircleDot,
     color: 'bg-gray-700',
     hoverColor: 'hover:bg-gray-50',
+  },
+  {
+    slug: 'reduccion-vibraciones',
+    title: 'Reducción de Vibraciones',
+    description: 'Mejora el confort, la seguridad y el desempeño de tu vehículo eliminando las vibraciones desde su origen.',
+    icon: Wind,
+    color: 'bg-blue-600',
+    hoverColor: 'hover:bg-blue-50',
   },
 ];
 
@@ -30,10 +38,10 @@ export default function AhorroHub() {
   return (
     <>
       <Helmet>
-        <title>Ahorro en Diésel y Llantas | The Truck Savers</title>
+        <title>Ahorros y Vibraciones | The Truck Savers</title>
         <meta
           name="description"
-          content="Descubre cómo ahorrar en combustible diésel y extender la vida útil de tus llantas con los servicios especializados de The Truck Savers."
+          content="Descubre cómo ahorrar en combustible diésel, extender la vida útil de tus llantas y reducir las vibraciones con los servicios especializados de The Truck Savers."
         />
       </Helmet>
 
@@ -51,13 +59,13 @@ export default function AhorroHub() {
               <span className="mx-2">/</span>
               <Link href="/resources" className="hover:text-white">Recursos</Link>
               <span className="mx-2">/</span>
-              <span className="text-white">Ahorro</span>
+              <span className="text-white">Ahorros y Vibraciones</span>
             </nav>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Soluciones de Ahorro
+              Ahorros y Vibraciones
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl">
-              Optimiza los costos de operación de tu camión con nuestros servicios especializados en ahorro de combustible y durabilidad de llantas.
+              Optimiza los costos de operación, reduce las vibraciones y extiende la vida de tus llantas con nuestras soluciones integrales.
             </p>
           </div>
         </section>
@@ -65,7 +73,7 @@ export default function AhorroHub() {
         {/* Ahorro Options */}
         <section className="py-16">
           <div className="container">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {ahorroOptions.map((option) => (
                 <Link key={option.slug} href={`/resources/ahorro/${option.slug}`}>
                   <div className={`group bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-[#368A45] ${option.hoverColor} hover:shadow-xl transition-all cursor-pointer h-full`}>

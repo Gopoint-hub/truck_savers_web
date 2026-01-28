@@ -60,8 +60,8 @@ const resourceCategories = [
   },
   {
     slug: 'ahorro',
-    title: 'Ahorro',
-    description: 'Tips y estrategias para ahorrar en mantenimiento y combustible',
+    title: 'Ahorros y Vibraciones',
+    description: 'Tips para ahorrar en combustible, llantas y reducir vibraciones',
     icon: Lightbulb,
     count: 3,
   },
