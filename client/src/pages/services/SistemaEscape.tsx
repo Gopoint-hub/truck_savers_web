@@ -2,11 +2,11 @@ import ServicePageTemplate from "@/components/templates/ServicePageTemplate";
 
 export default function SistemaEscape() {
   const serviceData = {
-    title: "Sistema de Escape para Camiones y Trailers",
+    title: "Sistema de Escape para Camiones",
     subtitle: "Mantenimiento y reparación especializada de mofles y escape",
     heroImage: "/images/thetrucksavers-4.webp",
     description:
-      "Nuestro taller se especializa en el mantenimiento, reparación y personalización del sistema de escape de camiones comerciales y trailers. Un sistema de escape en buen estado es fundamental para el rendimiento del motor, la eficiencia del combustible y el cumplimiento de las regulaciones de emisiones. Ofrecemos desde inspecciones hasta reemplazos completos y personalizaciones para mejorar el flujo de gases.",
+      "Nuestro taller se especializa en el mantenimiento, reparación y personalización del sistema de escape de camiones comerciales. Un sistema de escape en buen estado es fundamental para el rendimiento del motor, la eficiencia del combustible y el cumplimiento de las regulaciones de emisiones. Ofrecemos desde inspecciones hasta reemplazos completos y personalizaciones para mejorar el flujo de gases.",
     features: [
       "Inspección inicial del sistema de escape",
       "Reparación de mofles y tubos",
