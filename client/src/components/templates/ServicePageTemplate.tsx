@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, MessageCircle } from "lucide-react";
 import { Link } from "wouter";
 
 interface FAQ {
@@ -151,9 +151,10 @@ export default function ServicePageTemplate({
               </p>
               <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                 <Button
-                  className="w-full bg-white text-green-600 hover:bg-gray-100 font-semibold"
+                  className="w-full bg-white text-green-600 hover:bg-gray-100 font-semibold flex items-center justify-center gap-2"
                   size="lg"
                 >
+                  <MessageCircle size={20} />
                   {ctaText}
                 </Button>
               </a>
