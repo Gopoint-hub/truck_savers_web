@@ -42,7 +42,9 @@ import {
   BarChart3,
   MessageSquare,
   Shield,
-  GraduationCap
+  GraduationCap,
+  HeartHandshake,
+  FileText
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -76,6 +78,14 @@ const menuAreas = [
     icon: CheckSquare,
     items: [
       { icon: CheckSquare, label: "Pendientes", path: "/cms/tasks" },
+    ],
+  },
+  {
+    id: "cx",
+    label: "CX",
+    icon: HeartHandshake,
+    items: [
+      { icon: FileText, label: "Reporte de Bailadas", path: "/cms/bailada-reports" },
     ],
   },
   {
