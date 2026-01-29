@@ -54,7 +54,7 @@ export default function Contacto() {
             <p className="text-gray-700 font-semibold">
               1362 Sheffield Blvd
               <br />
-              Houston, TX 77020
+              Houston, TX 77015
             </p>
             <p className="text-gray-600 mt-2 text-sm">
               Estacionamiento para 50+ vehículos
@@ -147,7 +147,7 @@ export default function Contacto() {
           </h2>
           <div className="bg-gray-300 rounded-lg overflow-hidden h-96 flex items-center justify-center">
             <p className="text-gray-600">
-              Mapa interactivo - 1362 Sheffield Blvd, Houston, TX 77020
+              Mapa interactivo - 1362 Sheffield Blvd, Houston, TX 77015
             </p>
           </div>
         </div>

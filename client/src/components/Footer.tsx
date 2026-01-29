@@ -66,7 +66,7 @@ export default function Footer() {
               </li>
               <li className="text-white/80">
                 📍 1362 Sheffield Blvd<br />
-                Houston, TX 77020
+                Houston, TX 77015
               </li>
             </ul>
           </div>
