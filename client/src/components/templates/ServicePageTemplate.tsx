@@ -12,12 +12,18 @@ interface RelatedService {
   slug: string;
 }
 
+interface MicroSegmentation {
+  title: string;
+  description: string;
+}
+
 interface ServicePageTemplateProps {
   title: string;
   subtitle: string;
   heroImage: string;
   description: string;
   features: string[];
+  microSegmentation?: MicroSegmentation[];
   faqs: FAQ[];
   relatedServices: RelatedService[];
   ctaText?: string;
@@ -52,6 +58,7 @@ export default function ServicePageTemplate({
   heroImage,
   description,
   features,
+  microSegmentation = [],
   faqs,
   relatedServices,
   ctaText = "Agendar Cita",
@@ -102,6 +109,23 @@ export default function ServicePageTemplate({
                 {description}
               </p>
             </section>
+
+            {/* Micro-segmentation */}
+            {microSegmentation.length > 0 && (
+              <section className="mb-12">
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                  Ideal para:
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {microSegmentation.map((segment, idx) => (
+                    <div key={idx} className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">{segment.title}</h3>
+                      <p className="text-gray-600">{segment.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Features */}
             {features.length > 0 && (
