@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, MessageCircle, Phone } from "lucide-react";
+import { ChevronRight, MessageCircle, Phone, DollarSign, CreditCard, Building2 } from "lucide-react";
 import { Link } from "wouter";
 import ApuCalculator from "@/components/ApuCalculator";
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 
 export default function GoGreenApu() {
   // WhatsApp específico para APU
@@ -11,6 +12,9 @@ export default function GoGreenApu() {
     "Hola, me interesa cotizar un Go Green APU. ¿Podrían darme más información?"
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+  // Estado para la galería de imágenes
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const features = [
     "❄️ 26,000 BTU de AC y calefacción sin ralentí",
@@ -66,6 +70,67 @@ export default function GoGreenApu() {
     },
   ];
 
+  // Galería de instalaciones
+  const galleryImages = [
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/syswrXjOyyOhtzob.jpg",
+      alt: "Instalación APU en Freightliner Cascadia blanco - Crete Carrier",
+      caption: "Freightliner Cascadia - Crete Carrier"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/cBJNWgKwucBAKsLU.jpg",
+      alt: "Instalación APU en Kenworth T680 verde - TM Transport",
+      caption: "Kenworth T680 - TM Transport"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/weCPDHqdPMUuJPcM.jpg",
+      alt: "Instalación APU en Freightliner Cascadia blanco - Mercer Transportation",
+      caption: "Freightliner Cascadia - Mercer"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/jBBHbNtKjekyqvDv.jpeg",
+      alt: "Instalación APU Remanufacturado en Peterbilt gris",
+      caption: "Peterbilt - APU Remanufacturado"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/FvusVxHOIftNLGCS.jpg",
+      alt: "Detalle de instalación APU con cubierta de aluminio diamantado",
+      caption: "Detalle de cubierta diamantada"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/zyWPmqQOrSjmjBny.jpeg",
+      alt: "Instalación APU en camión amarillo Altom Transport",
+      caption: "Prostar - Altom Transport"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/cphxZDmVPlCApqgH.jpeg",
+      alt: "Detalle lateral de instalación APU en camión amarillo",
+      caption: "Vista lateral - Altom Transport"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/wjPuZpVrQtGKHzUZ.jpeg",
+      alt: "Vista trasera de instalación APU",
+      caption: "Vista trasera de instalación"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/NYwBxrrmMMOOvxMC.jpg",
+      alt: "Motor Kubota del Go Green APU durante instalación",
+      caption: "Motor Kubota - Durante instalación"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/osEfrLMWfGmLVNlW.jpeg",
+      alt: "Vista interna del motor APU instalado",
+      caption: "Vista interna del motor"
+    },
+  ];
+
+  // Imágenes de producto
+  const productImages = {
+    phoneApp: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/SBpusmDpnXQoQUKi.webp",
+    pdmController: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/FlgWyNdPffiAbVfF.webp",
+    stainlessCover: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/MtJnABOKarAXEvZQ.webp",
+  };
+
   const relatedServices = [
     { title: "Cambio de Aceite", slug: "cambio-de-aceite" },
     { title: "Inspección Mecánica La Bailada", slug: "inspeccion-la-bailada" },
@@ -83,15 +148,18 @@ export default function GoGreenApu() {
       </Helmet>
 
       <div className="min-h-screen bg-white">
-        {/* Hero Section */}
+        {/* Hero Section con nuevo banner */}
         <div className="relative h-auto min-h-[400px] overflow-hidden bg-gray-900">
           <img
-            src="/images/thetrucksavers-4.webp"
-            alt="Go Green APU"
-            className="w-full h-full object-cover opacity-40 absolute inset-0"
+            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/upuvJphqCtsBoXOA.webp"
+            alt="Go Green APU instalado en camión - The Truck Savers"
+            className="w-full h-full object-cover opacity-50 absolute inset-0"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40" />
           <div className="container relative z-10 py-16 md:py-24">
+            <div className="inline-block bg-green-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
+              📍 Houston, TX
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 max-w-3xl">
               Reduce hasta 80% tu Gasto en Diésel
             </h1>
@@ -105,7 +173,7 @@ export default function GoGreenApu() {
                   size="lg"
                 >
                   <MessageCircle className="w-5 h-5 mr-2" />
-                  Escríbenos por WhatsApp
+                  Cotizar APU
                 </Button>
               </a>
               <a href="tel:+17134555572">
@@ -193,6 +261,96 @@ export default function GoGreenApu() {
                 </div>
               </section>
 
+              {/* Product Images Section */}
+              <section>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                  Tecnología y Control
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+                    <img 
+                      src={productImages.phoneApp} 
+                      alt="App móvil y controlador de cabina Go Green APU"
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h4 className="font-bold text-gray-800">App Móvil + Controlador</h4>
+                      <p className="text-sm text-gray-600">Controla tu APU desde tu celular o el panel en cabina</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+                    <img 
+                      src={productImages.pdmController} 
+                      alt="PDM y controlador de cabina Go Green APU"
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h4 className="font-bold text-gray-800">PDM Inteligente</h4>
+                      <p className="text-sm text-gray-600">Sistema de distribución de energía avanzado</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+                    <img 
+                      src={productImages.stainlessCover} 
+                      alt="Cubierta de acero inoxidable Go Green APU"
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h4 className="font-bold text-gray-800">Cubierta Premium</h4>
+                      <p className="text-sm text-gray-600">Acabado en acero inoxidable resistente</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Financing Section */}
+              <section className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl border border-blue-200">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+                  <DollarSign className="w-8 h-8 text-blue-600" />
+                  Opciones de Financiamiento
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Sabemos que la inversión inicial puede ser un reto. Por eso ofrecemos varias opciones de financiamiento para que puedas comenzar a ahorrar desde hoy.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-blue-100 p-2 rounded-full">
+                        <CreditCard className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-800">Pago Directo</h4>
+                    </div>
+                    <p className="text-sm text-gray-600">Reserva con $500 USD y paga el resto en la instalación. Acepta tarjeta, transferencia o efectivo.</p>
+                  </div>
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-green-100 p-2 rounded-full">
+                        <Building2 className="w-5 h-5 text-green-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-800">Financiamiento</h4>
+                    </div>
+                    <p className="text-sm text-gray-600">Trabajamos con financieras especializadas en equipo para camiones. Plazos de 12 a 36 meses.</p>
+                  </div>
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-amber-100 p-2 rounded-full">
+                        <DollarSign className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <h4 className="font-bold text-gray-800">Plan de Pagos</h4>
+                    </div>
+                    <p className="text-sm text-gray-600">Pregunta por nuestros planes de pago personalizados según tu situación.</p>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3">
+                      <MessageCircle className="w-5 h-5 mr-2" />
+                      Preguntar por Financiamiento
+                    </Button>
+                  </a>
+                </div>
+              </section>
+
               {/* Calculator Section */}
               <section id="calculadora">
                 <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
@@ -203,6 +361,63 @@ export default function GoGreenApu() {
                 </p>
                 <ApuCalculator />
               </section>
+
+              {/* Installation Gallery */}
+              <section>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  Galería de Instalaciones
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Mira algunos de los APUs que hemos instalado a nuestros clientes. Cada instalación es realizada por técnicos certificados.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {galleryImages.map((image, idx) => (
+                    <div 
+                      key={idx}
+                      className="relative group cursor-pointer overflow-hidden rounded-lg border border-gray-200 hover:border-green-500 transition-all"
+                      onClick={() => setSelectedImage(image.src)}
+                    >
+                      <img 
+                        src={image.src} 
+                        alt={image.alt}
+                        className="w-full h-32 md:h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-end">
+                        <p className="text-white text-xs p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {image.caption}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-gray-500 text-sm mt-4">
+                  Haz clic en cualquier imagen para verla en tamaño completo
+                </p>
+              </section>
+
+              {/* Image Modal */}
+              {selectedImage && (
+                <div 
+                  className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+                  onClick={() => setSelectedImage(null)}
+                >
+                  <div className="relative max-w-4xl max-h-[90vh]">
+                    <img 
+                      src={selectedImage} 
+                      alt="Instalación de APU ampliada"
+                      className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                    />
+                    <button 
+                      className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition"
+                      onClick={() => setSelectedImage(null)}
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* YouTube Section */}
               <section className="bg-red-50 p-8 rounded-lg border border-red-200">
@@ -222,7 +437,7 @@ export default function GoGreenApu() {
                   className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    <path d="M8 5v14l11-7z"/>
                   </svg>
                   Ver Videos en YouTube
                 </a>
@@ -264,7 +479,7 @@ export default function GoGreenApu() {
                     size="lg"
                   >
                     <MessageCircle size={20} />
-                    Escríbenos por WhatsApp
+                    Cotizar APU
                   </Button>
                 </a>
                 <a href="tel:+17134555572">
@@ -312,6 +527,19 @@ export default function GoGreenApu() {
                 </p>
               </div>
 
+              {/* Financing Quick Box */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200 mb-8">
+                <h3 className="font-bold text-blue-800 mb-2">
+                  💳 Financiamiento Disponible
+                </h3>
+                <p className="text-blue-700 text-sm">
+                  Reserva con solo <strong>$500 USD</strong>
+                </p>
+                <p className="text-blue-600 text-sm mt-1">
+                  Plazos de 12 a 36 meses
+                </p>
+              </div>
+
               {/* Related Services */}
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
                 <h3 className="font-bold text-gray-900 mb-4">
@@ -350,7 +578,7 @@ export default function GoGreenApu() {
                   size="lg"
                 >
                   <MessageCircle className="w-5 h-5 mr-2" />
-                  Escríbenos por WhatsApp
+                  Cotizar APU
                 </Button>
               </a>
               <a href="tel:+17134555572">
