@@ -144,7 +144,7 @@ export default function ReduccionVibraciones() {
               ))}
             </div>
             <div className="text-center mt-8">
-                <a href="https://store.thetrucksavers.com/collections/tire-and-wheel-products" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-[#368A45] font-semibold">
+                <a href="https://store.thetrucksavers.com/collections/tire-and-wheel-products?utm_source=website&utm_medium=cta&utm_campaign=reduccion_vibraciones" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-[#368A45] font-semibold">
                     Ver productos en la tienda <ChevronRight className="w-5 h-5 ml-1" />
                 </a>
             </div>
