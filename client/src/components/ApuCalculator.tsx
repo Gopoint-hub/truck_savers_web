@@ -19,7 +19,7 @@ interface LeadData {
 }
 
 export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
-  const [hoursPerDay, setHoursPerDay] = useState(8);
+  const [hoursPerDay, setHoursPerDay] = useState(10);
   const [dieselPrice, setDieselPrice] = useState(3.70);
   const [showResults, setShowResults] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
