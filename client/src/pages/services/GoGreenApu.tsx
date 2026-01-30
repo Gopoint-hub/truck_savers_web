@@ -434,7 +434,7 @@ export default function GoGreenApu() {
             {/* Right Column - Sidebar */}
             <div className="lg:col-span-1">
               {/* CTA Box */}
-              <div className="sticky top-20 bg-green-600 text-white p-8 rounded-lg shadow-lg mb-8">
+              <div className="lg:sticky lg:top-20 bg-green-600 text-white p-8 rounded-lg shadow-lg mb-8">
                 <h3 className="text-2xl font-bold mb-4">¿Listo para ahorrar?</h3>
                 <p className="text-green-100 mb-6">
                   Contáctanos hoy para una recomendación personalizada.
@@ -502,7 +502,7 @@ export default function GoGreenApu() {
                   Reserva con solo <strong>$500 USD</strong>
                 </p>
                 <p className="text-blue-600 text-sm mt-1">
-                  Plazos de 12 a 36 meses
+                  Plazos de 13 meses a 5 años
                 </p>
               </div>
 
