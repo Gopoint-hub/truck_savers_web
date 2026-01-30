@@ -249,7 +249,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
                 size="lg"
               >
                 <DollarSign className="w-5 h-5 mr-2" />
-                QUIERO UNA COTIZACIÓN PERSONALIZADA
+                COTIZAR AHORA
               </Button>
               <p className="text-center text-gray-500 text-sm">
                 Déjanos tus datos y te contactamos con la mejor opción para ti
