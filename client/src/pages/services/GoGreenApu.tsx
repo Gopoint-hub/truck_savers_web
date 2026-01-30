@@ -287,7 +287,7 @@ export default function GoGreenApu() {
                 <p className="text-gray-600 mb-6">
                   Sabemos que la inversión inicial puede ser un reto. Por eso ofrecemos varias opciones de financiamiento para que puedas comenzar a ahorrar desde hoy.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="bg-blue-100 p-2 rounded-full">
@@ -295,7 +295,7 @@ export default function GoGreenApu() {
                       </div>
                       <h4 className="font-bold text-gray-800">Pago Directo</h4>
                     </div>
-                    <p className="text-sm text-gray-600">Reserva con $500 USD y paga el resto en la instalación. Acepta tarjeta, transferencia o efectivo.</p>
+                    <p className="text-sm text-gray-600">Reserva con $500 USD y paga el resto en la instalación. Acepta tarjeta o transferencia.</p>
                   </div>
                   <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
                     <div className="flex items-center gap-3 mb-3">
@@ -304,16 +304,7 @@ export default function GoGreenApu() {
                       </div>
                       <h4 className="font-bold text-gray-800">Financiamiento</h4>
                     </div>
-                    <p className="text-sm text-gray-600">Trabajamos con financieras especializadas en equipo para camiones. Plazos de 12 a 36 meses.</p>
-                  </div>
-                  <div className="bg-white p-5 rounded-lg shadow-sm border border-blue-100">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="bg-amber-100 p-2 rounded-full">
-                        <DollarSign className="w-5 h-5 text-amber-600" />
-                      </div>
-                      <h4 className="font-bold text-gray-800">Plan de Pagos</h4>
-                    </div>
-                    <p className="text-sm text-gray-600">Pregunta por nuestros planes de pago personalizados según tu situación.</p>
+                    <p className="text-sm text-gray-600">Trabajamos con financieras especializadas en equipo para camiones. Plazos de 13 meses a 5 años.</p>
                   </div>
                 </div>
                 <div className="text-center">
