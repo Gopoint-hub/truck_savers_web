@@ -311,7 +311,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
                 size="lg"
               >
                 <Send className="w-5 h-5 mr-2" />
-                ENVIAR Y RECIBIR COTIZACIÓN
+                ENVIAR
               </Button>
             </form>
           )}
