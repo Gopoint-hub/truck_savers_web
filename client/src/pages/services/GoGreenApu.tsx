@@ -70,8 +70,25 @@ export default function GoGreenApu() {
     },
   ];
 
-  // Galería de instalaciones
+  // Galería de instalaciones (incluye imágenes de producto y de instalaciones)
   const galleryImages = [
+    // Imágenes de producto/tecnología
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/SBpusmDpnXQoQUKi.webp",
+      alt: "App móvil y controlador de cabina Go Green APU",
+      caption: "App Móvil + Controlador de Cabina"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/FlgWyNdPffiAbVfF.webp",
+      alt: "PDM y controlador de cabina Go Green APU",
+      caption: "PDM Inteligente"
+    },
+    {
+      src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/MtJnABOKarAXEvZQ.webp",
+      alt: "Cubierta de acero inoxidable Go Green APU",
+      caption: "Cubierta Premium Acero Inoxidable"
+    },
+    // Instalaciones en camiones
     {
       src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663291837994/syswrXjOyyOhtzob.jpg",
       alt: "Instalación APU en Freightliner Cascadia blanco - Crete Carrier",
@@ -258,48 +275,6 @@ export default function GoGreenApu() {
                       <p className="text-gray-700">{feature}</p>
                     </div>
                   ))}
-                </div>
-              </section>
-
-              {/* Product Images Section */}
-              <section>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                  Tecnología y Control
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-                    <img 
-                      src={productImages.phoneApp} 
-                      alt="App móvil y controlador de cabina Go Green APU"
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h4 className="font-bold text-gray-800">App Móvil + Controlador</h4>
-                      <p className="text-sm text-gray-600">Controla tu APU desde tu celular o el panel en cabina</p>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-                    <img 
-                      src={productImages.pdmController} 
-                      alt="PDM y controlador de cabina Go Green APU"
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h4 className="font-bold text-gray-800">PDM Inteligente</h4>
-                      <p className="text-sm text-gray-600">Sistema de distribución de energía avanzado</p>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-                    <img 
-                      src={productImages.stainlessCover} 
-                      alt="Cubierta de acero inoxidable Go Green APU"
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h4 className="font-bold text-gray-800">Cubierta Premium</h4>
-                      <p className="text-sm text-gray-600">Acabado en acero inoxidable resistente</p>
-                    </div>
-                  </div>
                 </div>
               </section>
 
