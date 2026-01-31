@@ -60,6 +60,7 @@ import GoGreenApuMonterrey from "./pages/monterrey/GoGreenApu";
 // Hidden Pages
 import Inversionistas from "./pages/Inversionistas";
 import Colaboraciones from "./pages/Colaboraciones";
+import RecognizingTrueHeroes from "./pages/RecognizingTrueHeroes";
 
 // Resources Pages
 import ResourcesHub from "./pages/resources/index";
@@ -237,6 +238,7 @@ function Router() {
       {/* Hidden Pages */}
       <Route path="/inversionistas" component={Inversionistas} />
       <Route path="/colaboraciones" component={Colaboraciones} />
+      <Route path="/recognizing-true-heroes-road" component={RecognizingTrueHeroes} />
       
       {/* Legacy Redirects (301) */}
       <Route path="/contacto">

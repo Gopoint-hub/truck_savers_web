@@ -228,6 +228,19 @@ export default function Colaboraciones() {
             </div>
           </div>
         </section>
+
+        {/* El Fierro del Año Link */}
+        <section className="py-8 border-t border-gray-200">
+          <div className="container mx-auto px-4 text-center">
+            <a
+              href="/recognizing-true-heroes-road"
+              className="inline-flex items-center gap-2 text-yellow-600 hover:text-yellow-700 font-semibold transition-colors"
+            >
+              <span className="text-2xl">🏆</span>
+              <span>El Fierro del Año - Sponsorship Opportunities</span>
+            </a>
+          </div>
+        </section>
       </div>
     </>
   );
