@@ -324,13 +324,7 @@ export default function RecognizingTrueHeroes() {
         {/* Footer Note */}
         <section className="py-8 px-4 border-t border-slate-700">
           <div className="max-w-6xl mx-auto text-center">
-            <p className="text-gray-400 text-sm">
-              For more information about El Fierro del Año, visit{' '}
-              <a href="https://thetrucksavers.com/elfierrodelano" className="text-yellow-500 hover:underline">
-                thetrucksavers.com/elfierrodelano
-              </a>
-            </p>
-            <p className="text-gray-500 text-sm mt-2">
+            <p className="text-gray-500 text-sm">
               Contact: info@lostrucksavers.com
             </p>
           </div>
