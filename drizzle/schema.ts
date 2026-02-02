@@ -468,3 +468,41 @@ export const bailadaReports = mysqlTable("bailada_reports", {
 
 export type BailadaReport = typeof bailadaReports.$inferSelect;
 export type InsertBailadaReport = typeof bailadaReports.$inferInsert;
+
+
+// ============================================
+// LEADS LATINOAMÉRICA - TIENDA INTERNACIONAL
+// ============================================
+
+/**
+ * Leads de países de Latinoamérica interesados en productos
+ * Para expansión futura de la tienda a otros países
+ */
+export const latamLeads = mysqlTable("latam_leads", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Nombre completo del interesado */
+  name: varchar("name", { length: 200 }).notNull(),
+  /** Ciudad del interesado */
+  city: varchar("city", { length: 100 }).notNull(),
+  /** País del interesado */
+  country: varchar("country", { length: 100 }).notNull(),
+  /** Número de WhatsApp */
+  whatsapp: varchar("whatsapp", { length: 50 }).notNull(),
+  /** Correo electrónico */
+  email: varchar("email", { length: 320 }).notNull(),
+  /** Productos de interés (JSON array) */
+  products: text("products").notNull(), // ["vibrasavers", "salvamorenas", "llantasavers", "otros"]
+  /** Especificación si seleccionó "otros" */
+  otherProduct: text("otherProduct"),
+  /** Estado del lead */
+  status: mysqlEnum("status", ["nuevo", "contactado", "en_seguimiento", "convertido", "descartado"]).default("nuevo"),
+  /** Notas adicionales */
+  notes: text("notes"),
+  /** Fecha de contacto */
+  contactedAt: timestamp("contactedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type LatamLead = typeof latamLeads.$inferSelect;
+export type InsertLatamLead = typeof latamLeads.$inferInsert;

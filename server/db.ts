@@ -18,7 +18,8 @@ import {
   authTokens, InsertAuthToken,
   auditLogs, InsertAuditLog,
   courseWaitlist, InsertCourseWaitlistEntry,
-  bailadaReports, InsertBailadaReport
+  bailadaReports, InsertBailadaReport,
+  latamLeads, InsertLatamLead
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -968,4 +969,48 @@ export async function createUserWithLocation(data: {
     loginMethod: data.passwordHash ? 'local' : 'manual',
     isActive: true,
   });
+}
+
+
+// ============================================
+// LATAM LEADS FUNCTIONS
+// ============================================
+
+export async function getAllLatamLeads() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(latamLeads).orderBy(desc(latamLeads.createdAt));
+}
+
+export async function getLatamLeadById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(latamLeads).where(eq(latamLeads.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createLatamLead(data: InsertLatamLead) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(latamLeads).values(data);
+  return result;
+}
+
+export async function updateLatamLead(id: number, data: Partial<InsertLatamLead>) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(latamLeads).set(data).where(eq(latamLeads.id, id));
+}
+
+export async function deleteLatamLead(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(latamLeads).where(eq(latamLeads.id, id));
+}
+
+export async function getLatamLeadByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(latamLeads).where(eq(latamLeads.email, email));
+  return results[0] || null;
 }

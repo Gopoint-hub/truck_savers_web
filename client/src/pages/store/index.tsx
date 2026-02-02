@@ -1,11 +1,15 @@
 import { Link } from 'wouter';
-import { ShoppingBag, MapPin, ExternalLink, ChevronRight } from 'lucide-react';
+import { ShoppingBag, MapPin, ExternalLink, ChevronRight, Globe, MessageCircle, Send, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useState } from 'react';
+import { trpc } from '@/lib/trpc';
 
 /**
  * Store Hub Page - SEO Architecture
  * URL: /store/
- * Hub for USA and Mexico stores
+ * Hub for USA, Mexico stores and LATAM interest form
  */
 
 const stores = [
@@ -29,7 +33,56 @@ const stores = [
   },
 ];
 
+const products = [
+  { id: 'vibrasavers', name: 'Vibrasavers', description: 'Reducen vibraciones en las ruedas' },
+  { id: 'salvamorenas', name: 'Salvamorenas', description: 'Protección para llantas' },
+  { id: 'llantasavers', name: 'Llanta Savers', description: 'Tapones con indicador de presión' },
+  { id: 'otros', name: 'Otros', description: 'Especifica el producto que te interesa' },
+];
+
 export default function StoreHub() {
+  const [showLatamForm, setShowLatamForm] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    city: '',
+    country: '',
+    whatsapp: '',
+    email: '',
+    products: [] as string[],
+    otherProduct: '',
+  });
+
+  const createLead = trpc.latamLeads.create.useMutation({
+    onSuccess: () => {
+      setFormSubmitted(true);
+    },
+  });
+
+  const handleProductChange = (productId: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      products: checked 
+        ? [...prev.products, productId]
+        : prev.products.filter(p => p !== productId)
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.products.length === 0) {
+      alert('Por favor selecciona al menos un producto');
+      return;
+    }
+    createLead.mutate(formData);
+  };
+
+  const whatsappNumber = "+528115397393";
+  const whatsappMessage = encodeURIComponent(
+    `Hola, soy de ${formData.country || 'Latinoamérica'} y me interesan los productos de The Truck Savers. ¿Podrían darme más información?`
+  );
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -67,7 +120,8 @@ export default function StoreHub() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* USA and Mexico stores */}
             {stores.map((store) => (
               <a
                 key={store.slug}
@@ -112,7 +166,206 @@ export default function StoreHub() {
                 </div>
               </a>
             ))}
+
+            {/* LATAM Option */}
+            <div 
+              onClick={() => setShowLatamForm(!showLatamForm)}
+              className="group block cursor-pointer"
+            >
+              <div className={`bg-white border-2 rounded-xl p-8 hover:shadow-xl transition-all h-full ${showLatamForm ? 'border-[#368A45] shadow-xl' : 'border-gray-200 hover:border-[#368A45]'}`}>
+                {/* Icon */}
+                <div className="flex items-center justify-between mb-6">
+                  <Globe className="w-12 h-12 text-blue-500" />
+                  <ChevronRight className={`w-6 h-6 text-gray-400 group-hover:text-[#368A45] transition-all ${showLatamForm ? 'rotate-90' : ''}`} />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#368A45] transition-colors">
+                  Resto de Latinoamérica
+                </h3>
+                <p className="text-gray-500 mb-4">¿Eres de otro país?</p>
+
+                {/* Description */}
+                <p className="text-gray-600 mb-6">
+                  Déjanos tus datos de contacto y qué producto te interesa para ver de qué manera podríamos atenderte en el futuro.
+                </p>
+
+                {/* Message */}
+                <p className="text-sm text-blue-600 font-medium">
+                  🚀 Estamos trabajando fuerte por llevar nuestros productos a más países
+                </p>
+              </div>
+            </div>
           </div>
+
+          {/* LATAM Form */}
+          {showLatamForm && (
+            <div className="max-w-2xl mx-auto mt-12">
+              <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-2xl p-8 border border-blue-200">
+                {formSubmitted ? (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">¡Gracias por tu interés!</h3>
+                    <p className="text-gray-600 mb-6">
+                      Hemos recibido tu información. Te contactaremos pronto cuando tengamos disponibilidad en tu país.
+                    </p>
+                    <Button
+                      onClick={() => {
+                        setFormSubmitted(false);
+                        setFormData({
+                          name: '',
+                          city: '',
+                          country: '',
+                          whatsapp: '',
+                          email: '',
+                          products: [],
+                          otherProduct: '',
+                        });
+                      }}
+                      variant="outline"
+                    >
+                      Enviar otra solicitud
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+                      Regístrate para recibir información
+                    </h3>
+                    <p className="text-gray-600 text-center mb-8">
+                      Completa el formulario y te contactaremos cuando podamos atenderte en tu país.
+                    </p>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Personal Info */}
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Nombre completo *</label>
+                          <Input
+                            type="text"
+                            value={formData.name}
+                            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                            placeholder="Tu nombre"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">País *</label>
+                          <Input
+                            type="text"
+                            value={formData.country}
+                            onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
+                            placeholder="Ej: Colombia, Perú, Chile..."
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad *</label>
+                          <Input
+                            type="text"
+                            value={formData.city}
+                            onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                            placeholder="Tu ciudad"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp *</label>
+                          <Input
+                            type="tel"
+                            value={formData.whatsapp}
+                            onChange={(e) => setFormData(prev => ({ ...prev, whatsapp: e.target.value }))}
+                            placeholder="+57 300 123 4567"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico *</label>
+                        <Input
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                          placeholder="tu@email.com"
+                          required
+                        />
+                      </div>
+
+                      {/* Products Selection */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">¿Qué productos te interesan? *</label>
+                        <div className="grid md:grid-cols-2 gap-3">
+                          {products.map((product) => (
+                            <div
+                              key={product.id}
+                              className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                                formData.products.includes(product.id)
+                                  ? 'border-[#368A45] bg-green-50'
+                                  : 'border-gray-200 hover:border-gray-300'
+                              }`}
+                              onClick={() => handleProductChange(product.id, !formData.products.includes(product.id))}
+                            >
+                              <Checkbox
+                                checked={formData.products.includes(product.id)}
+                                onCheckedChange={(checked) => handleProductChange(product.id, checked as boolean)}
+                                className="mt-0.5"
+                              />
+                              <div>
+                                <p className="font-medium text-gray-900">{product.name}</p>
+                                <p className="text-sm text-gray-500">{product.description}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Other Product Specification */}
+                      {formData.products.includes('otros') && (
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Especifica qué otro producto te interesa</label>
+                          <Input
+                            type="text"
+                            value={formData.otherProduct}
+                            onChange={(e) => setFormData(prev => ({ ...prev, otherProduct: e.target.value }))}
+                            placeholder="Describe el producto que buscas..."
+                          />
+                        </div>
+                      )}
+
+                      {/* Submit Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <Button
+                          type="submit"
+                          className="flex-1 bg-[#368A45] hover:bg-[#2d7339]"
+                          disabled={createLead.isPending}
+                        >
+                          <Send className="w-4 h-4 mr-2" />
+                          {createLead.isPending ? 'Enviando...' : 'Enviar solicitud'}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="flex-1 border-green-600 text-green-600 hover:bg-green-50"
+                          asChild
+                        >
+                          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            Contactar por WhatsApp
+                          </a>
+                        </Button>
+                      </div>
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

@@ -1045,6 +1045,52 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ============================================
+  // LATAM LEADS - TIENDA INTERNACIONAL
+  // ============================================
+  latamLeads: router({
+    list: protectedProcedure.query(async () => {
+      return db.getAllLatamLeads();
+    }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(2, "El nombre es requerido"),
+        city: z.string().min(2, "La ciudad es requerida"),
+        country: z.string().min(2, "El país es requerido"),
+        whatsapp: z.string().min(8, "El WhatsApp es requerido"),
+        email: z.string().email("Email inválido"),
+        products: z.array(z.string()).min(1, "Selecciona al menos un producto"),
+        otherProduct: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.createLatamLead({
+          ...input,
+          products: JSON.stringify(input.products),
+        });
+        return { success: true };
+      }),
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["nuevo", "contactado", "en_seguimiento", "convertido", "descartado"]),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        const updateData: any = { status: data.status };
+        if (data.notes !== undefined) updateData.notes = data.notes;
+        if (data.status === 'contactado') updateData.contactedAt = new Date();
+        await db.updateLatamLead(id, updateData);
+        return { success: true };
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteLatamLead(input.id);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
