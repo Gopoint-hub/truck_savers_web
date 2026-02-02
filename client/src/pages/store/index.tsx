@@ -1,8 +1,7 @@
 import { Link } from 'wouter';
-import { ShoppingBag, MapPin, ExternalLink, ChevronRight, Globe, MessageCircle, Send, CheckCircle } from 'lucide-react';
+import { ShoppingBag, MapPin, ExternalLink, ChevronRight, Globe, MessageCircle, Send, CheckCircle, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
 import { trpc } from '@/lib/trpc';
 
@@ -326,31 +325,41 @@ export default function StoreHub() {
                         />
                       </div>
 
-                      {/* Products Selection */}
+                      {/* Products Selection - Using native checkboxes */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-3">¿Qué productos te interesan? *</label>
                         <div className="grid md:grid-cols-2 gap-3">
-                          {products.map((product) => (
-                            <div
-                              key={product.id}
-                              className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                                formData.products.includes(product.id)
-                                  ? 'border-[#368A45] bg-green-50'
-                                  : 'border-gray-200 hover:border-gray-300'
-                              }`}
-                              onClick={() => handleProductChange(product.id, !formData.products.includes(product.id))}
-                            >
-                              <Checkbox
-                                checked={formData.products.includes(product.id)}
-                                onCheckedChange={(checked) => handleProductChange(product.id, checked as boolean)}
-                                className="mt-0.5"
-                              />
-                              <div>
-                                <p className="font-medium text-gray-900">{product.name}</p>
-                                <p className="text-sm text-gray-500">{product.description}</p>
-                              </div>
-                            </div>
-                          ))}
+                          {products.map((product) => {
+                            const isSelected = formData.products.includes(product.id);
+                            return (
+                              <label
+                                key={product.id}
+                                className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                                  isSelected
+                                    ? 'border-[#368A45] bg-green-50'
+                                    : 'border-gray-200 hover:border-gray-300'
+                                }`}
+                              >
+                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5 transition-all ${
+                                  isSelected 
+                                    ? 'bg-[#368A45] border-[#368A45]' 
+                                    : 'border-gray-300 bg-white'
+                                }`}>
+                                  {isSelected && <Check className="w-3 h-3 text-white" />}
+                                </div>
+                                <input
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={(e) => handleProductChange(product.id, e.target.checked)}
+                                  className="sr-only"
+                                />
+                                <div>
+                                  <p className="font-medium text-gray-900">{product.name}</p>
+                                  <p className="text-sm text-gray-500">{product.description}</p>
+                                </div>
+                              </label>
+                            );
+                          })}
                         </div>
                       </div>
 
@@ -381,12 +390,10 @@ export default function StoreHub() {
                           type="button"
                           variant="outline"
                           className="flex-1 border-green-600 text-green-600 hover:bg-green-50"
-                          asChild
+                          onClick={() => window.open(whatsappUrl, '_blank')}
                         >
-                          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                            <MessageCircle className="w-4 h-4 mr-2" />
-                            Contactar por WhatsApp
-                          </a>
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Contactar por WhatsApp
                         </Button>
                       </div>
                     </form>
@@ -401,53 +408,37 @@ export default function StoreHub() {
       {/* Info Section */}
       <section className="py-16 bg-gray-50">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              ¿Por qué comprar en The Truck Savers?
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              ¿Por qué comprar con The Truck Savers?
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-              <div className="text-center">
+            <p className="text-lg text-gray-600 mb-8">
+              Somos especialistas en productos para camiones con más de 10 años de experiencia en la industria.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-white p-6 rounded-xl shadow-sm">
+                <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-6 h-6 text-[#368A45]" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2">Productos Originales</h3>
+                <p className="text-gray-600 text-sm">Todos nuestros productos son originales y de alta calidad.</p>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm">
                 <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <ShoppingBag className="w-6 h-6 text-[#368A45]" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Productos Originales</h3>
-                <p className="text-gray-600 text-sm">
-                  Solo vendemos productos de marcas reconocidas con garantía de fábrica.
-                </p>
+                <h3 className="font-bold text-gray-900 mb-2">Envío Seguro</h3>
+                <p className="text-gray-600 text-sm">Enviamos a todo el país con seguimiento en tiempo real.</p>
               </div>
-              <div className="text-center">
+              <div className="bg-white p-6 rounded-xl shadow-sm">
                 <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-6 h-6 text-[#368A45]" />
+                  <MessageCircle className="w-6 h-6 text-[#368A45]" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Envío a Todo el País</h3>
-                <p className="text-gray-600 text-sm">
-                  Realizamos envíos a cualquier parte de USA y México con seguimiento.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-[#368A45]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-[#368A45]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Compra Segura</h3>
-                <p className="text-gray-600 text-sm">
-                  Pagos seguros con tarjeta de crédito, débito o transferencia bancaria.
-                </p>
+                <h3 className="font-bold text-gray-900 mb-2">Soporte Experto</h3>
+                <p className="text-gray-600 text-sm">Nuestro equipo está disponible para ayudarte con cualquier duda.</p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Breadcrumb */}
-      <section className="py-8 bg-white border-t">
-        <div className="container">
-          <nav className="text-sm text-gray-600">
-            <Link href="/" className="hover:text-[#368A45]">Inicio</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Tienda</span>
-          </nav>
         </div>
       </section>
     </div>
