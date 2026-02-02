@@ -40,6 +40,29 @@ const products = [
   { id: 'otros', name: 'Otros', description: 'Especifica el producto que te interesa' },
 ];
 
+const latamCountries = [
+  { code: 'AR', name: 'Argentina', flag: '🇦🇷' },
+  { code: 'BO', name: 'Bolivia', flag: '🇧🇴' },
+  { code: 'BR', name: 'Brasil', flag: '🇧🇷' },
+  { code: 'CL', name: 'Chile', flag: '🇨🇱' },
+  { code: 'CO', name: 'Colombia', flag: '🇨🇴' },
+  { code: 'CR', name: 'Costa Rica', flag: '🇨🇷' },
+  { code: 'CU', name: 'Cuba', flag: '🇨🇺' },
+  { code: 'DO', name: 'República Dominicana', flag: '🇩🇴' },
+  { code: 'EC', name: 'Ecuador', flag: '🇪🇨' },
+  { code: 'SV', name: 'El Salvador', flag: '🇸🇻' },
+  { code: 'GT', name: 'Guatemala', flag: '🇬🇹' },
+  { code: 'HN', name: 'Honduras', flag: '🇭🇳' },
+  { code: 'NI', name: 'Nicaragua', flag: '🇳🇮' },
+  { code: 'PA', name: 'Panamá', flag: '🇵🇦' },
+  { code: 'PY', name: 'Paraguay', flag: '🇵🇾' },
+  { code: 'PE', name: 'Perú', flag: '🇵🇪' },
+  { code: 'PR', name: 'Puerto Rico', flag: '🇵🇷' },
+  { code: 'UY', name: 'Uruguay', flag: '🇺🇾' },
+  { code: 'VE', name: 'Venezuela', flag: '🇻🇪' },
+  { code: 'OTHER', name: 'Otro país', flag: '🌎' },
+];
+
 export default function StoreHub() {
   const [showLatamForm, setShowLatamForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -253,13 +276,19 @@ export default function StoreHub() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">País *</label>
-                          <Input
-                            type="text"
+                          <select
                             value={formData.country}
                             onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
-                            placeholder="Ej: Colombia, Perú, Chile..."
                             required
-                          />
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          >
+                            <option value="">Selecciona tu país</option>
+                            {latamCountries.map((country) => (
+                              <option key={country.code} value={country.name}>
+                                {country.flag} {country.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
 
