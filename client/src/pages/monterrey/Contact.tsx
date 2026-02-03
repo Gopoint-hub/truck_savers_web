@@ -64,7 +64,7 @@ export default function MonterreyContact() {
                     <p className="text-gray-600">66052, Ciudad General Escobedo, N.L.</p>
                     <p className="text-gray-600">México</p>
                     <a 
-                      href="https://maps.google.com/?q=Libramiento+Noreste+KM+33.5+Nueva+Castilla+Escobedo+Nuevo+Leon+Mexico"
+                      href="https://maps.app.goo.gl/Emnc7po57YPoaB7C6?g_st=aw"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#368A45] hover:underline text-sm mt-2 inline-block"
