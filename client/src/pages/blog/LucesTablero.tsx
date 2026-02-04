@@ -1,135 +1,89 @@
-import BlogArticleTemplate from '@/components/templates/BlogArticleTemplate';
+import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
+import SEO, { createBlogPostSchema } from "@/components/SEO";
+import { Link } from "wouter";
 
 export default function LucesTableroArticle() {
   const articleData = {
-    title: "Luces del tablero: ¿Qué te está diciendo tu troca?",
-    subtitle: "Guía completa sobre el significado de las luces de advertencia en tu camión. Aprende a identificar problemas antes de que se conviertan en costosas reparaciones.",
+    title: "Luces del Tablero: ¿Qué Te Está Diciendo Tu Troca?",
+    subtitle: "Una luz en el tablero no es para ignorarla. Aprende el significado de las luces más comunes y cuándo debes visitar un taller de reparación de camiones comerciales.",
     heroImage: "/images/significado-luces-tablero-camion-2.jpg",
-    category: "Mantenimiento",
+    category: "Mecánica",
     date: "30 de diciembre, 2025",
-    readTime: "7 min",
+    readTime: "6 min",
     relatedArticles: [
-      {
-        slug: "go-green-apu-ahorro-diesel",
-        title: "Go Green APU: ¿Por qué te ahorra tanto diésel?",
-        image: "/images/go-green-apu-ahorro-diesel-camiones-2.jpg",
-      },
-      {
-        slug: "sistema-enfriamiento",
-        title: "¡Que no se caliente! Cuida el sistema de enfriamiento",
-        image: "/images/mecanico-mantenimiento-sistema-enfriamiento-camiones-diesel.jpg",
-      },
+        {
+            slug: "diferencial-transmision",
+            title: "Diferencial o transmisión: ¡No te confundas!",
+            image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
+        },
+        {
+            slug: "sistema-enfriamiento",
+            title: "¡Que no se caliente! Cuida el sistema de enfriamiento",
+            image: "/images/mecanico-mantenimiento-sistema-enfriamiento-camiones-diesel.jpg",
+        },
     ],
     content: (
       <>
         <p>
-          Las luces del tablero de tu camión son como un sistema de comunicación entre tu vehículo 
-          y tú. Cuando se enciende una luz, tu troca te está diciendo algo importante. Ignorar 
-          estas señales puede resultar en <strong>reparaciones costosas</strong> o incluso en 
-          situaciones peligrosas en la carretera.
+            Las luces del tablero son la forma en que tu camión se comunica contigo. Ignorarlas puede llevar a problemas mecánicos graves y costosos. En nuestro <strong>taller de reparación de camiones comerciales</strong>, vemos las consecuencias de no hacer caso a estas advertencias.
         </p>
 
-        <h2>Luces Rojas: ¡Detente inmediatamente!</h2>
+        <h2>Luces Rojas: Detente de Inmediato</h2>
         <p>
-          Las luces rojas indican problemas críticos que requieren atención inmediata. Si ves 
-          alguna de estas luces, <strong>detén tu camión de manera segura lo antes posible</strong>.
-        </p>
-
-        <h3>🔴 Luz de temperatura del motor</h3>
-        <p>
-          Indica que el motor está sobrecalentado. Continuar manejando puede causar daños graves 
-          al motor. Detente, apaga el motor y espera a que se enfríe. Revisa el nivel de 
-          refrigerante y busca fugas.
-        </p>
-
-        <h3>🔴 Luz de presión de aceite</h3>
-        <p>
-          La presión de aceite es demasiado baja. Sin lubricación adecuada, el motor puede 
-          sufrir daños catastróficos en minutos. Detente inmediatamente y verifica el nivel 
-          de aceite.
-        </p>
-
-        <h3>🔴 Luz de frenos</h3>
-        <p>
-          Puede indicar que el freno de mano está activado, bajo nivel de líquido de frenos, 
-          o un problema en el sistema de frenos. Verifica el freno de mano primero; si no es 
-          eso, no continúes manejando.
-        </p>
-
-        <h2>Luces Amarillas/Naranjas: Precaución</h2>
-        <p>
-          Las luces amarillas o naranjas indican problemas que necesitan atención pronto, pero 
-          no son emergencias inmediatas. Sin embargo, no las ignores por mucho tiempo.
-        </p>
-
-        <h3>🟡 Check Engine (Motor)</h3>
-        <p>
-          Esta luz puede indicar desde un problema menor (como la tapa del tanque de combustible 
-          suelta) hasta problemas serios en el motor. Es importante hacer un diagnóstico con 
-          escáner para identificar el código de error específico.
-        </p>
-
-        <h3>🟡 Luz de ABS</h3>
-        <p>
-          El sistema de frenos antibloqueo tiene un problema. Los frenos regulares seguirán 
-          funcionando, pero el ABS no. Programa una revisión pronto.
-        </p>
-
-        <h3>🟡 Luz de batería</h3>
-        <p>
-          El sistema de carga no está funcionando correctamente. Puede ser el alternador, 
-          la batería o las conexiones. Tu camión puede quedarse sin energía si no lo atiendes.
-        </p>
-
-        <h3>🟡 Luz de filtro de partículas (DPF)</h3>
-        <p>
-          El filtro de partículas diésel necesita regeneración. Si la ignoras, puede causar 
-          problemas de rendimiento y costosas reparaciones.
-        </p>
-
-        <h2>Luces Verdes/Azules: Informativas</h2>
-        <p>
-          Estas luces simplemente te informan que ciertos sistemas están activos. No indican 
-          problemas.
+            Una luz roja significa un problema grave que requiere atención inmediata. Detén el camión en un lugar seguro y apaga el motor.
         </p>
         <ul>
-          <li><strong>Luz verde de direccionales:</strong> Las direccionales están activas</li>
-          <li><strong>Luz azul de luces altas:</strong> Las luces altas están encendidas</li>
-          <li><strong>Luz verde de cruise control:</strong> El control de crucero está activo</li>
+            <li><strong>Luz de presión de aceite:</strong> Indica una pérdida de presión de aceite. Continuar manejando puede destruir el motor.</li>
+            <li><strong>Luz de temperatura del motor:</strong> El motor se está sobrecalentando. Puede ser por falta de refrigerante o un problema en el sistema de enfriamiento.</li>
+            <li><strong>Luz de freno:</strong> Puede indicar un problema en el sistema de frenos o que el freno de estacionamiento está puesto.</li>
         </ul>
 
-        <h2>¿Qué hacer cuando se enciende una luz?</h2>
-        <ol>
-          <li><strong>No entres en pánico:</strong> Evalúa la situación con calma</li>
-          <li><strong>Identifica el color:</strong> Rojo = urgente, Amarillo = pronto, Verde = informativo</li>
-          <li><strong>Consulta el manual:</strong> Cada camión puede tener variaciones</li>
-          <li><strong>Actúa según la urgencia:</strong> Detente si es rojo, programa revisión si es amarillo</li>
-          <li><strong>Busca ayuda profesional:</strong> Un diagnóstico con escáner puede identificar el problema exacto</li>
-        </ol>
-
-        <h2>Diagnóstico profesional en The Truck Savers</h2>
+        <h2>Luces Amarillas o Naranjas: Precaución</h2>
         <p>
-          En <strong>The Truck Savers</strong> contamos con equipos de diagnóstico de última 
-          generación que pueden leer los códigos de error de tu camión y determinar exactamente 
-          qué está causando que se encienda esa luz. Nuestros técnicos certificados pueden 
-          explicarte el problema en términos simples y darte opciones de reparación.
+            Una luz amarilla indica un problema que necesita ser revisado pronto, pero que no requiere que te detengas de inmediato.
         </p>
+        <ul>
+            <li><strong>Check Engine:</strong> La más famosa. Puede ser desde un tapón de gasolina flojo hasta un problema serio en el motor o emisiones. Necesitas un diagnóstico en un <strong>taller de reparación de camiones comerciales</strong>.</li>
+            <li><strong>Luz de ABS:</strong> Indica un problema en el sistema de frenos antibloqueo. Los frenos normales seguirán funcionando, pero sin la asistencia del ABS.</li>
+            <li><strong>Luz de DPF (Filtro de Partículas Diésel):</strong> Indica que el filtro necesita una regeneración.</li>
+        </ul>
 
         <blockquote>
-          "Una luz de advertencia ignorada hoy puede convertirse en una reparación de miles 
-          de dólares mañana. No esperes a que el problema empeore."
+            "No dejes que una pequeña luz amarilla se convierta en una gran factura roja. Un diagnóstico a tiempo es clave." — <Link href="/houston">Visita The Truck Savers</Link>.
         </blockquote>
 
-        <h2>Conclusión</h2>
+        <h2>¿Qué Hacer Cuando se Enciende una Luz?</h2>
         <p>
-          Las luces del tablero son tu primera línea de defensa contra problemas mecánicos 
-          costosos. Aprende a reconocerlas, respétalas y actúa rápidamente cuando se enciendan. 
-          Si tienes dudas sobre alguna luz en tu tablero, <strong>contáctanos</strong> y 
-          nuestro equipo te ayudará a identificar y resolver el problema.
+            No entres en pánico. Si es roja, detente. Si es amarilla, agenda una cita en un <strong>taller de reparación de camiones comerciales</strong> lo antes posible. En The Truck Savers, contamos con escáneres de diagnóstico para todas las marcas de camiones y podemos identificar el problema exacto.
+        </p>
+
+        <p>
+            Cuidar tu camión es cuidar tu negocio. No ignores las señales que te da. Para un diagnóstico profesional, confía en los expertos de Houston y Dallas.
         </p>
       </>
     ),
   };
 
-  return <BlogArticleTemplate {...articleData} />;
+  const seoData = {
+    title: "Significado de las Luces del Tablero de un Camión | Taller de Reparación",
+    description: "¿Se encendió una luz en tu tablero? Aprende qué significa y cuándo visitar un taller de reparación de camiones comerciales. Diagnóstico profesional para todas las marcas.",
+    keywords: "taller de reparacion de camiones comerciales, luces del tablero, check engine, diagnostico de camiones",
+    canonical: "/blog/significado-luces-tablero",
+    ogImage: `https://thetrucksavers.com${articleData.heroImage}`,
+    structuredData: createBlogPostSchema({
+      title: articleData.title,
+      description: articleData.subtitle,
+      url: `https://thetrucksavers.com/blog/significado-luces-tablero`,
+      image: `https://thetrucksavers.com${articleData.heroImage}`,
+      datePublished: "2025-12-30",
+      author: "The Truck Savers",
+    }),
+  };
+
+  return (
+    <>
+      <SEO {...seoData} />
+      <BlogArticleTemplate {...articleData} />
+    </>
+  );
 }

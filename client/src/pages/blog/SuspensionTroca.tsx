@@ -1,159 +1,97 @@
-import BlogArticleTemplate from '@/components/templates/BlogArticleTemplate';
+'''import BlogArticleTemplate from '@/components/templates/BlogArticleTemplate';
+import SEO, { createBlogPostSchema } from '@/components/SEO';
+import { Link } from 'wouter';
 
 export default function SuspensionTrocaArticle() {
   const articleData = {
-    title: "Suspensión de tu troca: El secreto pa' un ride suave",
-    subtitle: "Todo lo que necesitas saber sobre la suspensión de tu camión. Aprende a identificar problemas y mantener tu ride cómodo y seguro.",
+    title: "Suspensión de tu Troca: El Secreto para un Ride Suave y Ahorro en Llantas",
+    subtitle: "Una buena suspensión no solo da comodidad, también previene el desgaste irregular de llantas. Conoce los componentes clave y cuándo visitar un taller de suspensiones y alineaciones.",
     heroImage: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
     category: "Mantenimiento",
     date: "15 de enero, 2026",
     readTime: "7 min",
     relatedArticles: [
-      {
-        slug: "diferencial-transmision",
-        title: "Diferencial o transmisión: ¡No te confundas!",
-        image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
-      },
-      {
-        slug: "inspeccion-carga-diaria",
-        title: "Inspección de carga diaria: Guía del trokero",
-        image: "/images/mecanico-inspeccion-carga-diario-guia-trokero.jpg",
-      },
+        {
+            slug: "desgaste-prematuro-llantas",
+            title: "Desgaste Prematuro de Llantas: Causas y Soluciones",
+            image: "/images/desgaste-prematuro-llantas-camion.jpg",
+        },
+        {
+            slug: "diferencial-transmision",
+            title: "Diferencial o transmisión: ¡No te confundas!",
+            image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
+        },
     ],
     content: (
       <>
         <p>
-          Si pasas horas en la carretera, sabes lo importante que es tener un 
-          <strong> ride suave</strong>. La suspensión de tu camión no solo afecta tu 
-          comodidad - también impacta la seguridad, el desgaste de llantas y hasta 
-          el consumo de combustible. En este artículo te explicamos todo lo que 
-          necesitas saber.
+            La suspensión de un camión es mucho más que comodidad. Es un sistema complejo que protege al chasis, al operador y a la carga. Pero, sobre todo, es un factor clave para prevenir el <strong>desgaste irregular de llantas</strong>. En nuestro <strong>taller de suspensiones y alineaciones</strong>, vemos a diario cómo una suspensión descuidada destruye llantas costosas.
         </p>
 
-        <h2>¿Qué hace la suspensión?</h2>
+        <h2>¿Por Qué es Tan Importante la Suspensión?</h2>
         <p>
-          El sistema de suspensión tiene varias funciones críticas:
+            Una suspensión en buen estado absorbe las imperfecciones del camino, mantiene las llantas en contacto con el suelo y asegura que la geometría del vehículo sea la correcta. Cuando falla, empiezan los problemas:
         </p>
         <ul>
-          <li><strong>Absorber impactos:</strong> Baches, topes y irregularidades del camino</li>
-          <li><strong>Mantener contacto:</strong> Las llantas siempre pegadas al pavimento</li>
-          <li><strong>Soportar carga:</strong> Distribuir el peso de manera uniforme</li>
-          <li><strong>Estabilidad:</strong> Mantener el control en curvas y frenadas</li>
-          <li><strong>Proteger la carga:</strong> Evitar daños por vibración excesiva</li>
+            <li><strong>Vibraciones excesivas:</strong> que dañan componentes y causan fatiga al operador.</li>
+            <li><strong>Desgaste prematuro de llantas:</strong> en forma de "copas", "escalones" o desgaste en los bordes.</li>
+            <li><strong>Inestabilidad en la conducción:</strong> lo que compromete la seguridad.</li>
         </ul>
 
-        <h2>Tipos de suspensión en camiones</h2>
-
-        <h3>Suspensión de muelles (leaf springs)</h3>
+        <h2>Componentes Clave que Revisamos en Nuestro Taller de Suspensiones</h2>
         <p>
-          La más común en camiones de carga. Consiste en hojas de acero apiladas que 
-          se flexionan para absorber impactos. Es robusta y económica de reparar.
-        </p>
-
-        <h3>Suspensión neumática (air ride)</h3>
-        <p>
-          Utiliza bolsas de aire en lugar de muelles. Ofrece un ride más suave y 
-          permite ajustar la altura del camión. Es más costosa pero ideal para 
-          cargas delicadas.
-        </p>
-
-        <h3>Suspensión de torsión</h3>
-        <p>
-          Menos común en camiones pesados, pero se encuentra en algunos modelos. 
-          Usa barras de torsión que se tuercen para absorber impactos.
-        </p>
-
-        <h2>Señales de problemas en la suspensión</h2>
-        <p>
-          Presta atención a estas señales de advertencia:
+            Nuestro <strong>taller de reparación de camiones comerciales</strong> se enfoca en un diagnóstico completo:
         </p>
         <ul>
-          <li><strong>Ride áspero:</strong> Sientes cada bache más de lo normal</li>
-          <li><strong>Camión inclinado:</strong> Un lado más bajo que el otro</li>
-          <li><strong>Rebote excesivo:</strong> El camión sigue rebotando después de un bache</li>
-          <li><strong>Ruidos:</strong> Golpes, rechinidos o crujidos al pasar baches</li>
-          <li><strong>Desgaste irregular de llantas:</strong> Especialmente en los bordes</li>
-          <li><strong>Dificultad para controlar:</strong> El camión se siente inestable</li>
-          <li><strong>Nariz que se hunde al frenar:</strong> La parte delantera baja mucho</li>
-        </ul>
-
-        <h2>Componentes que se desgastan</h2>
-
-        <h3>Amortiguadores</h3>
-        <p>
-          Controlan el rebote de la suspensión. Duran entre 50,000 y 100,000 millas 
-          dependiendo de las condiciones. Cuando fallan, el camión rebota excesivamente.
-        </p>
-
-        <h3>Muelles</h3>
-        <p>
-          Las hojas de los muelles pueden romperse o perder su curvatura con el tiempo. 
-          Una hoja rota puede causar que el camión se incline hacia un lado.
-        </p>
-
-        <h3>Bujes y bushings</h3>
-        <p>
-          Son las piezas de goma que conectan los componentes. Se deterioran con el 
-          tiempo y causan ruidos y vibración.
-        </p>
-
-        <h3>Bolsas de aire (air bags)</h3>
-        <p>
-          En suspensiones neumáticas, las bolsas pueden desarrollar fugas o reventarse. 
-          Revisa regularmente si hay pérdida de altura.
-        </p>
-
-        <h2>Mantenimiento preventivo</h2>
-        <p>
-          Para mantener tu suspensión en óptimas condiciones:
-        </p>
-        <ul>
-          <li><strong>Inspección visual:</strong> Revisa muelles, amortiguadores y conexiones regularmente</li>
-          <li><strong>Lubricación:</strong> Engrasa los puntos de pivote según el manual</li>
-          <li><strong>Revisa la presión de aire:</strong> En suspensiones neumáticas, mantén la presión correcta</li>
-          <li><strong>Alineación:</strong> Una mala alineación acelera el desgaste de la suspensión</li>
-          <li><strong>No sobrecargues:</strong> El exceso de peso daña la suspensión prematuramente</li>
-        </ul>
-
-        <h2>¿Cuándo reemplazar componentes?</h2>
-        <p>
-          Aquí hay algunas guías generales:
-        </p>
-        <ul>
-          <li><strong>Amortiguadores:</strong> Cada 50,000-100,000 millas o cuando muestren fugas</li>
-          <li><strong>Muelles:</strong> Cuando se rompen o pierden altura</li>
-          <li><strong>Bujes:</strong> Cuando muestren grietas o desgaste visible</li>
-          <li><strong>Bolsas de aire:</strong> Cuando tengan fugas o grietas</li>
-        </ul>
-
-        <h2>Servicio de suspensión en The Truck Savers</h2>
-        <p>
-          En <strong>The Truck Savers</strong> somos especialistas en suspensiones de 
-          camiones. Nuestro taller cuenta con:
-        </p>
-        <ul>
-          <li>Técnicos certificados en suspensiones</li>
-          <li>Equipo de diagnóstico especializado</li>
-          <li>Amplio inventario de refacciones</li>
-          <li>Garantía de 1 año en trabajos realizados</li>
+            <li><strong>Muelles (Springs):</strong> Revisamos que no estén rotos, vencidos o flojos.</li>
+            <li><strong>Amortiguadores (Shock Absorbers):</strong> Verificamos que no tengan fugas y que controlen el rebote correctamente.</li>
+            <li><strong>Bujes y Baleros:</strong> Componentes pequeños pero críticos que, si están gastados, causan un juego excesivo y <strong>desgaste irregular de llantas</strong>.</li>
+            <li><strong>Brazos de control y barras de torsión:</strong> Esenciales para mantener la alineación correcta.</li>
         </ul>
 
         <blockquote>
-          "Una buena suspensión no es un lujo - es una necesidad. Tu espalda, tu carga 
-          y tus llantas te lo agradecerán."
+            "No esperes a que tus llantas se destruyan. Una revisión a tiempo en un <strong>taller de suspensiones y alineaciones</strong> es la mejor inversión para el <strong>ahorro en llantas</strong>." — <Link href="/houston/suspensiones">Agenda tu diagnóstico con nosotros</Link>.
         </blockquote>
 
-        <h2>Conclusión</h2>
+        <h2>¿Cuándo Visitar un Taller de Suspensiones y Alineaciones?</h2>
         <p>
-          La suspensión es uno de los sistemas más importantes de tu camión. Un 
-          mantenimiento adecuado no solo mejora tu comodidad, sino que también 
-          protege tu carga y reduce el desgaste de otros componentes. Si notas 
-          cualquier síntoma de problemas, <strong>contáctanos</strong> y nuestro 
-          equipo te ayudará a mantener tu ride suave y seguro.
+            Si notas alguno de estos síntomas, es hora de visitarnos:
+        </p>
+        <ul>
+            <li>El camión se inclina hacia un lado.</li>
+            <li>Sientes cada bache de forma exagerada.</li>
+            <li>El volante vibra a ciertas velocidades.</li>
+            <li>Observas un desgaste desigual en tus llantas.</li>
+        </ul>
+
+        <p>
+            En The Truck Savers, no solo reparamos, diagnosticamos. Usamos la mejor tecnología para encontrar la causa raíz del problema y asegurar que tu inversión en llantas y suspensión dure lo que tiene que durar. Visita nuestro <strong>taller de reparación de camiones comerciales</strong> en Houston o Dallas.
         </p>
       </>
     ),
   };
 
-  return <BlogArticleTemplate {...articleData} />;
+  const seoData = {
+    title: "Taller de Suspensiones y Alineaciones para Camiones | Ahorro en Llantas",
+    description: "Evita el desgaste irregular de llantas con un buen mantenimiento de la suspensión. Visita nuestro taller de suspensiones y alineaciones para un diagnóstico profesional.",
+    keywords: "taller de suspensiones y alineaciones, desgaste irregular de llantas, ahorro en llantas, taller de reparacion de camiones comerciales",
+    canonical: "/blog/suspension-troca",
+    ogImage: `https://thetrucksavers.com${articleData.heroImage}`,
+    structuredData: createBlogPostSchema({
+      title: articleData.title,
+      description: articleData.subtitle,
+      url: `https://thetrucksavers.com/blog/suspension-troca`,
+      image: `https://thetrucksavers.com${articleData.heroImage}`,
+      datePublished: "2026-01-15",
+      author: "The Truck Savers",
+    }),
+  };
+
+  return (
+    <>
+      <SEO {...seoData} />
+      <BlogArticleTemplate {...articleData} />
+    </>
+  );
 }
+'''

@@ -1,159 +1,94 @@
-import BlogArticleTemplate from '@/components/templates/BlogArticleTemplate';
+import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
+import SEO, { createBlogPostSchema } from "@/components/SEO";
+import { Link } from "wouter";
 
 export default function TorqueWrapArticle() {
   const articleData = {
-    title: "No dejes que el torque te haga wrap",
-    subtitle: "Entiende qué es el torque, cómo afecta tu camión y qué hacer para evitar daños costosos en el tren motriz.",
-    heroImage: "/images/no-dejes-que-el-torque-te-haga-wrap.jpg",
+    title: "Torque Wrap: El Enemigo Silencioso de tu Suspensión",
+    subtitle: "¿Sientes un tirón brusco al acelerar? Podrías tener torque wrap. Aprende qué es, por qué es peligroso y cómo nuestro taller de suspensiones y alineaciones puede solucionarlo.",
+    heroImage: "/images/torque-wrap-suspension-camiones.jpg",
     category: "Mecánica",
     date: "15 de enero, 2026",
     readTime: "5 min",
     relatedArticles: [
-      {
-        slug: "diferencial-transmision",
-        title: "Diferencial o transmisión: ¡No te confundas!",
-        image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
-      },
-      {
-        slug: "suspension-troca",
-        title: "Suspensión de tu troca: El secreto pa' un ride suave",
-        image: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
-      },
+        {
+            slug: "suspension-troca",
+            title: "Suspensión de tu Troca: El Secreto para un Ride Suave",
+            image: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
+        },
+        {
+            slug: "desgaste-prematuro-llantas",
+            title: "Desgaste Prematuro de Llantas: Causas y Soluciones",
+            image: "/images/desgaste-prematuro-llantas-camion.jpg",
+        },
     ],
     content: (
       <>
         <p>
-          El <strong>torque</strong> es la fuerza de giro que produce el motor de tu camión. 
-          Es lo que te permite mover cargas pesadas y subir pendientes. Pero si no lo 
-          entiendes y controlas correctamente, puede causarte problemas serios - y 
-          costosos.
+            El "torque wrap" o "axle wrap" es un problema de suspensión que muchos transportistas ignoran, pero que puede causar daños serios y comprometer la seguridad. En nuestro <strong>taller de suspensiones y alineaciones</strong>, lo identificamos y corregimos para evitar problemas mayores.
         </p>
 
-        <h2>¿Qué es el torque?</h2>
+        <h2>¿Qué es el Torque Wrap?</h2>
         <p>
-          En términos simples, el torque es la fuerza de rotación. Mientras que los 
-          caballos de fuerza (HP) miden qué tan rápido puedes hacer trabajo, el torque 
-          mide cuánta fuerza puedes aplicar. Por eso los camiones diésel tienen tanto 
-          torque - necesitan mover cargas pesadas.
-        </p>
-        <p>
-          Un motor diésel típico de camión puede producir entre <strong>1,200 y 2,050 
-          lb-ft de torque</strong>. Esa es una cantidad enorme de fuerza que pasa por 
-          la transmisión, el eje de transmisión y el diferencial.
+            El torque wrap es la torsión del eje trasero al acelerar bruscamente. El torque del motor intenta girar el eje completo, haciendo que los muelles (leaf springs) se deformen en forma de "S". Esto provoca un tirón violento y una pérdida momentánea de tracción.
         </p>
 
-        <h2>¿Qué es el "wrap" o torsión?</h2>
-        <p>
-          Cuando aplicas demasiado torque de golpe, los componentes del tren motriz 
-          se tuercen. Esto se conoce como "wrap" o torsión. Los muelles del eje 
-          trasero se deforman, el eje de transmisión se tuerce, y eventualmente 
-          algo se rompe.
-        </p>
-        <p>
-          Los síntomas de wrap incluyen:
-        </p>
+        <h2>¿Por Qué es Peligroso?</h2>
         <ul>
-          <li><strong>Vibración al acelerar:</strong> Especialmente desde parado</li>
-          <li><strong>Ruidos de golpeteo:</strong> Al soltar el acelerador</li>
-          <li><strong>Desgaste irregular de llantas:</strong> Por la torsión del eje</li>
-          <li><strong>Muelles deformados:</strong> Pierden su forma original</li>
+            <li><strong>Pérdida de control:</strong> El tirón puede hacer que el camión se desvíe inesperadamente.</li>
+            <li><strong>Daño a la suspensión:</strong> Causa un estrés extremo en los muelles, bujes y amortiguadores.</li>
+            <li><strong>Desgaste de componentes:</strong> Puede dañar el cardán, las crucetas y el diferencial.</li>
+            <li><strong>Desgaste irregular de llantas:</strong> La pérdida de tracción y la geometría incorrecta destruyen las llantas.</li>
         </ul>
 
-        <h2>Causas comunes del wrap</h2>
-
-        <h3>1. Arrancar con mucha carga</h3>
-        <p>
-          Soltar el clutch de golpe con el camión cargado es la forma más rápida de 
-          dañar el tren motriz. El torque instantáneo puede torcer los muelles y 
-          dañar el diferencial.
-        </p>
-
-        <h3>2. Cambios bruscos</h3>
-        <p>
-          Meter cambios sin sincronizar correctamente las RPM causa picos de torque 
-          que estresan los componentes.
-        </p>
-
-        <h3>3. Sobrecarga</h3>
-        <p>
-          Cargar más peso del permitido aumenta el estrés en todo el tren motriz. 
-          El motor tiene que producir más torque para mover la carga.
-        </p>
-
-        <h3>4. Componentes desgastados</h3>
-        <p>
-          Bujes, crucetas y acoplamientos desgastados no absorben los picos de 
-          torque correctamente, transfiriendo el estrés a otros componentes.
-        </p>
-
-        <h2>Cómo prevenir el wrap</h2>
-
-        <h3>Técnica de manejo</h3>
+        <h2>Causas Comunes del Torque Wrap</h2>
         <ul>
-          <li><strong>Arranca suave:</strong> Suelta el clutch gradualmente, especialmente con carga</li>
-          <li><strong>Sincroniza los cambios:</strong> Iguala las RPM antes de meter el cambio</li>
-          <li><strong>Usa el freno de motor:</strong> No dependas solo del freno de servicio</li>
-          <li><strong>Anticipa:</strong> Reduce velocidad antes de las pendientes</li>
-        </ul>
-
-        <h3>Mantenimiento preventivo</h3>
-        <ul>
-          <li><strong>Revisa los muelles:</strong> Busca hojas rotas o deformadas</li>
-          <li><strong>Inspecciona las crucetas:</strong> Deben girar libremente sin juego</li>
-          <li><strong>Verifica los bujes:</strong> Reemplaza los que estén desgastados</li>
-          <li><strong>Alinea el tren motriz:</strong> Una mala alineación aumenta el estrés</li>
-        </ul>
-
-        <h2>Componentes que sufren por el wrap</h2>
-        <p>
-          El exceso de torque daña principalmente:
-        </p>
-        <ul>
-          <li><strong>Muelles del eje:</strong> Se deforman o rompen</li>
-          <li><strong>Crucetas del cardan:</strong> Se desgastan prematuramente</li>
-          <li><strong>Diferencial:</strong> Los piñones sufren estrés excesivo</li>
-          <li><strong>Clutch:</strong> Se quema o desgasta rápidamente</li>
-          <li><strong>Transmisión:</strong> Los sincronizadores se dañan</li>
-        </ul>
-
-        <h2>Costos de reparación</h2>
-        <p>
-          Ignorar el problema del wrap puede resultar en reparaciones costosas:
-        </p>
-        <ul>
-          <li><strong>Reemplazo de muelles:</strong> $800 - $2,000 por eje</li>
-          <li><strong>Reparación de diferencial:</strong> $2,000 - $5,000</li>
-          <li><strong>Rebuild de transmisión:</strong> $4,000 - $10,000</li>
-          <li><strong>Reemplazo de clutch:</strong> $1,500 - $3,500</li>
-        </ul>
-
-        <h2>Diagnóstico en The Truck Savers</h2>
-        <p>
-          En <strong>The Truck Savers</strong> podemos diagnosticar problemas de 
-          torsión en el tren motriz. Nuestra inspección "La Bailada" incluye:
-        </p>
-        <ul>
-          <li>Inspección visual de muelles y componentes</li>
-          <li>Prueba en simulador de carretera</li>
-          <li>Verificación de alineación del tren motriz</li>
-          <li>Diagnóstico de ruidos y vibraciones</li>
+            <li><strong>Muelles débiles o vencidos:</strong> Han perdido su capacidad de resistir la torsión.</li>
+            <li><strong>Bloques de elevación (Lifting Blocks):</strong> Aumentan la palanca sobre el eje, empeorando el problema.</li>
+            <li><strong>Aceleraciones bruscas:</strong> Especialmente con cargas pesadas.</li>
         </ul>
 
         <blockquote>
-          "El torque es tu amigo cuando lo controlas, y tu enemigo cuando te controla a ti."
+            "Si sientes que tu camión ‘brinca’ o se sacude al acelerar, no lo ignores. Podrías tener torque wrap." — <Link href="/houston/suspensiones">Visita nuestro taller de suspensiones y alineaciones</Link>.
         </blockquote>
 
-        <h2>Conclusión</h2>
+        <h2>Soluciones al Torque Wrap</h2>
         <p>
-          Entender el torque y cómo afecta tu camión es fundamental para evitar 
-          reparaciones costosas. Una buena técnica de manejo y mantenimiento 
-          preventivo pueden ahorrarte miles de dólares. Si sospechas que tu camión 
-          tiene problemas de torsión, <strong>contáctanos</strong> para una 
-          inspección profesional.
+            En nuestro <strong>taller de reparación de camiones comerciales</strong>, ofrecemos varias soluciones:
+        </p>
+        <ul>
+            <li><strong>Barras de tracción (Traction Bars):</strong> La solución más efectiva. Son barras que conectan el eje con el chasis, previniendo la rotación del eje.</li>
+            <li><strong>Reemplazo de muelles:</strong> Si los muelles están vencidos, reemplazarlos por unos nuevos y más fuertes puede solucionar el problema.</li>
+            <li><strong>Modificación de la suspensión:</strong> En algunos casos, se pueden hacer ajustes para mejorar la geometría.</li>
+        </ul>
+
+        <p>
+            No dejes que el torque wrap comprometa tu seguridad y te cueste dinero en reparaciones. Si sospechas que tu camión tiene este problema, visítanos en Houston o Dallas para un diagnóstico profesional.
         </p>
       </>
     ),
   };
 
-  return <BlogArticleTemplate {...articleData} />;
+  const seoData = {
+    title: "Solución al Torque Wrap en Camiones | Taller de Suspensiones",
+    description: "¿Tu camión brinca al acelerar? Podrías tener torque wrap. Aprende a solucionarlo en nuestro taller de suspensiones y alineaciones y evita el desgaste irregular de llantas.",
+    keywords: "taller de suspensiones y alineaciones, torque wrap, axle wrap, desgaste irregular de llantas, taller de reparacion de camiones comerciales",
+    canonical: "/blog/torque-wrap",
+    ogImage: `https://thetrucksavers.com${articleData.heroImage}`,
+    structuredData: createBlogPostSchema({
+      title: articleData.title,
+      description: articleData.subtitle,
+      url: `https://thetrucksavers.com/blog/torque-wrap`,
+      image: `https://thetrucksavers.com${articleData.heroImage}`,
+      datePublished: "2026-01-15",
+      author: "The Truck Savers",
+    }),
+  };
+
+  return (
+    <>
+      <SEO {...seoData} />
+      <BlogArticleTemplate {...articleData} />
+    </>
+  );
 }

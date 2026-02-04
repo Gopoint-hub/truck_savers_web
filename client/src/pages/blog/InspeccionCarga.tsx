@@ -1,154 +1,91 @@
-import BlogArticleTemplate from '@/components/templates/BlogArticleTemplate';
+import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
+import SEO, { createBlogPostSchema } from "@/components/SEO";
+import { Link } from "wouter";
 
 export default function InspeccionCargaArticle() {
   const articleData = {
-    title: "Inspección de carga diaria: Guía del trokero",
-    subtitle: "Todo lo que necesitas saber sobre la inspección de carga diaria para cumplir con las regulaciones DOT y mantener la seguridad en la carretera.",
+    title: "Inspección de Carga Diario: Guía Esencial del Trokero",
+    subtitle: "Una inspección de carga pre-viaje no es burocracia, es tu primera línea de defensa. Aprende qué revisar para garantizar tu seguridad y la de tu carga.",
     heroImage: "/images/mecanico-inspeccion-carga-diario-guia-trokero.jpg",
     category: "Seguridad",
     date: "30 de diciembre, 2025",
-    readTime: "8 min",
+    readTime: "5 min",
     relatedArticles: [
-      {
-        slug: "significado-luces-tablero",
-        title: "Luces del tablero: ¿Qué te está diciendo tu troca?",
-        image: "/images/significado-luces-tablero-camion-2.jpg",
-      },
-      {
-        slug: "sistema-enfriamiento",
-        title: "¡Que no se caliente! Cuida el sistema de enfriamiento",
-        image: "/images/mecanico-mantenimiento-sistema-enfriamiento-camiones-diesel.jpg",
-      },
+        {
+            slug: "suspension-troca",
+            title: "Suspensión de tu Troca: El Secreto para un Ride Suave",
+            image: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
+        },
+        {
+            slug: "desgaste-prematuro-llantas",
+            title: "Desgaste Prematuro de Llantas: Causas y Soluciones",
+            image: "/images/desgaste-prematuro-llantas-camion.jpg",
+        },
     ],
     content: (
       <>
         <p>
-          La inspección de carga diaria no es solo un requisito legal - es tu primera línea 
-          de defensa contra accidentes, multas y problemas en la carretera. Como trokero, 
-          realizar una inspección completa antes de cada viaje puede ser la diferencia entre 
-          un día productivo y un día de problemas.
+            La inspección diaria de tu camión y carga es más que una rutina, es una parte crítica de tu trabajo. En nuestro <strong>taller de reparación de camiones comerciales</strong>, hemos visto cómo una inspección omitida puede llevar a accidentes graves y costosas multas del DOT.
         </p>
 
-        <h2>¿Por qué es importante la inspección diaria?</h2>
+        <h2>¿Por Qué es Tan Importante la Inspección?</h2>
         <p>
-          Las regulaciones del DOT (Department of Transportation) requieren que los conductores 
-          comerciales realicen una inspección pre-viaje antes de operar el vehículo. Pero más 
-          allá de las regulaciones, hay razones prácticas:
+            Una inspección pre-viaje te ayuda a identificar problemas potenciales antes de que se conviertan en emergencias en la carretera. Esto incluye:
         </p>
         <ul>
-          <li><strong>Seguridad:</strong> Detectar problemas antes de que causen accidentes</li>
-          <li><strong>Ahorro:</strong> Identificar problemas pequeños antes de que se vuelvan costosos</li>
-          <li><strong>Cumplimiento:</strong> Evitar multas y violaciones del DOT</li>
-          <li><strong>Eficiencia:</strong> Reducir tiempo perdido por descomposturas en ruta</li>
+            <li><strong>Seguridad:</strong> Asegurar que tu camión y tu carga están en condiciones seguras para operar.</li>
+            <li><strong>Cumplimiento:</strong> Evitar multas y sanciones del DOT.</li>
+            <li><strong>Prevención:</strong> Detectar problemas mecánicos a tiempo, como el <strong>desgaste irregular de llantas</strong> o problemas de suspensión.</li>
         </ul>
 
-        <h2>Lista de verificación pre-viaje</h2>
+        <h2>Checklist Básico de Inspección</h2>
         <p>
-          Una inspección completa debe cubrir estas áreas:
-        </p>
-
-        <h3>1. Documentos y equipo de seguridad</h3>
-        <ul>
-          <li>Licencia de conducir comercial (CDL) vigente</li>
-          <li>Registro del vehículo</li>
-          <li>Prueba de seguro</li>
-          <li>Permisos necesarios</li>
-          <li>Triángulos reflectantes</li>
-          <li>Extintor de incendios</li>
-          <li>Botiquín de primeros auxilios</li>
-        </ul>
-
-        <h3>2. Exterior del vehículo</h3>
-        <ul>
-          <li><strong>Luces:</strong> Todas funcionando (delanteras, traseras, direccionales, frenos)</li>
-          <li><strong>Llantas:</strong> Presión adecuada, profundidad de banda, sin daños</li>
-          <li><strong>Espejos:</strong> Limpios y bien ajustados</li>
-          <li><strong>Parabrisas:</strong> Sin grietas que obstruyan la visión</li>
-          <li><strong>Limpiadores:</strong> Funcionando correctamente</li>
-          <li><strong>Tanques de combustible:</strong> Tapas seguras, sin fugas</li>
-        </ul>
-
-        <h3>3. Bajo el capó</h3>
-        <ul>
-          <li><strong>Nivel de aceite:</strong> Entre las marcas de mínimo y máximo</li>
-          <li><strong>Refrigerante:</strong> Nivel adecuado</li>
-          <li><strong>Líquido de dirección:</strong> Nivel correcto</li>
-          <li><strong>Bandas y mangueras:</strong> Sin grietas ni desgaste</li>
-          <li><strong>Batería:</strong> Conexiones limpias y seguras</li>
-        </ul>
-
-        <h3>4. Sistema de frenos</h3>
-        <ul>
-          <li><strong>Presión de aire:</strong> Debe alcanzar 100-120 psi</li>
-          <li><strong>Prueba de fuga:</strong> No más de 3 psi de pérdida por minuto</li>
-          <li><strong>Freno de estacionamiento:</strong> Funcionando correctamente</li>
-          <li><strong>Indicadores de desgaste:</strong> Verificar pastillas y tambores</li>
-        </ul>
-
-        <h3>5. Acoplamiento (si aplica)</h3>
-        <ul>
-          <li><strong>Quinta rueda:</strong> Enganchada y asegurada</li>
-          <li><strong>Patas del trailer:</strong> Completamente levantadas</li>
-          <li><strong>Conexiones eléctricas:</strong> Bien conectadas</li>
-          <li><strong>Líneas de aire:</strong> Sin fugas, bien conectadas</li>
-        </ul>
-
-        <h3>6. Carga</h3>
-        <ul>
-          <li><strong>Peso:</strong> Dentro de los límites legales</li>
-          <li><strong>Distribución:</strong> Balanceada correctamente</li>
-          <li><strong>Aseguramiento:</strong> Cadenas, correas o cables en buen estado</li>
-          <li><strong>Puertas:</strong> Cerradas y aseguradas</li>
-        </ul>
-
-        <h2>Inspección post-viaje</h2>
-        <p>
-          Al final de cada día, también debes realizar una inspección post-viaje y reportar 
-          cualquier defecto encontrado. Esto incluye:
+            Aunque cada carga es diferente, aquí hay una guía general de lo que debes revisar:
         </p>
         <ul>
-          <li>Problemas de frenos</li>
-          <li>Problemas de dirección</li>
-          <li>Luces que no funcionan</li>
-          <li>Llantas dañadas</li>
-          <li>Cualquier otro defecto que afecte la seguridad</li>
+            <li><strong>Llantas y Ruedas:</strong> Presión de aire, desgaste (busca signos de <strong>desgaste irregular de llantas</strong>), y apriete de tuercas.</li>
+            <li><strong>Frenos:</strong> Revisa mangueras, cámaras de aire y el ajuste de los frenos.</li>
+            <li><strong>Luces:</strong> Todas las luces deben funcionar correctamente.</li>
+            <li><strong>Enganche (Quinta Rueda):</strong> Asegúrate de que esté bien enganchada y asegurada.</li>
+            <li><strong>Aseguramiento de la Carga:</strong> Verifica que la carga esté bien distribuida y asegurada con cadenas o cinchos.</li>
         </ul>
-
-        <h2>Consecuencias de no inspeccionar</h2>
-        <p>
-          Ignorar la inspección diaria puede resultar en:
-        </p>
-        <ul>
-          <li><strong>Multas del DOT:</strong> Desde $100 hasta $16,000 por violación</li>
-          <li><strong>Puntos en tu CSA score:</strong> Afecta tu empleabilidad</li>
-          <li><strong>Fuera de servicio:</strong> El oficial puede prohibirte continuar</li>
-          <li><strong>Accidentes:</strong> Responsabilidad legal y personal</li>
-          <li><strong>Pérdida de empleo:</strong> Muchas compañías tienen políticas estrictas</li>
-        </ul>
-
-        <h2>Nuestra inspección "La Bailada"</h2>
-        <p>
-          En <strong>The Truck Savers</strong> ofrecemos nuestra famosa inspección 
-          <strong> "La Bailada"</strong> - una inspección mecánica completa de más de 100 puntos 
-          que va más allá de la inspección básica. Nuestro simulador de carretera detecta 
-          problemas que no se ven a simple vista.
-        </p>
 
         <blockquote>
-          "La inspección diaria no es una pérdida de tiempo - es una inversión en tu seguridad, 
-          tu licencia y tu sustento. 15 minutos pueden ahorrarte horas de problemas."
+            "Una inspección de 5 minutos puede ahorrarte 5 horas en el costado de la carretera. No te la saltes." — The Truck Savers
         </blockquote>
 
-        <h2>Conclusión</h2>
+        <h2>La Importancia de un Taller de Confianza</h2>
         <p>
-          La inspección de carga diaria es una responsabilidad que todo trokero profesional 
-          debe tomar en serio. No solo es la ley, es sentido común. Si necesitas ayuda para 
-          mantener tu camión en condiciones óptimas, <strong>contáctanos</strong>. Nuestro 
-          equipo está listo para ayudarte a mantener tu troca segura y en cumplimiento.
+            Si durante tu inspección encuentras un problema, necesitas un <strong>taller de reparación de camiones comerciales</strong> en el que puedas confiar. En The Truck Savers, ofrecemos servicios completos de mantenimiento y reparación, desde problemas de llantas y suspensión hasta reparaciones mayores de motor.
+        </p>
+
+        <p>
+            No esperes a tener un problema en la carretera. <Link href="/houston">Visítanos en Houston o Dallas</Link> para un chequeo completo.
         </p>
       </>
     ),
   };
 
-  return <BlogArticleTemplate {...articleData} />;
+  const seoData = {
+    title: "Guía de Inspección de Carga para Camiones | Taller de Reparación",
+    description: "Aprende a realizar una inspección de carga diaria para garantizar tu seguridad. Somos tu taller de reparación de camiones comerciales de confianza para cualquier problema.",
+    keywords: "taller de reparacion de camiones comerciales, inspeccion de carga, desgaste irregular de llantas, seguridad en carretera",
+    canonical: "/blog/inspeccion-carga-diaria",
+    ogImage: `https://thetrucksavers.com${articleData.heroImage}`,
+    structuredData: createBlogPostSchema({
+      title: articleData.title,
+      description: articleData.subtitle,
+      url: `https://thetrucksavers.com/blog/inspeccion-carga-diaria`,
+      image: `https://thetrucksavers.com${articleData.heroImage}`,
+      datePublished: "2025-12-30",
+      author: "The Truck Savers",
+    }),
+  };
+
+  return (
+    <>
+      <SEO {...seoData} />
+      <BlogArticleTemplate {...articleData} />
+    </>
+  );
 }
