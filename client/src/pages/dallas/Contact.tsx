@@ -31,7 +31,7 @@ export default function DallasContact() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${CMS_API}/contact`, {
+      const response = await fetch(`${CMS_API}/contact/dallas`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

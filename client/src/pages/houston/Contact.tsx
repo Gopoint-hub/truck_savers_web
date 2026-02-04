@@ -31,7 +31,7 @@ export default function HoustonContact() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${CMS_API}/contact`, {
+      const response = await fetch(`${CMS_API}/contact/houston`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
