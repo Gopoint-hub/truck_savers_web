@@ -16,6 +16,17 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    id: "9",
+    title: "Diésel Estable, Fletes Mejorando: ¿Gastar o Reinvertir?",
+    excerpt:
+      "El diésel se estabiliza y los fletes mejoran. ¿Es momento de gastar o de reinvertir en tu camión? Descubre por qué usar este respiro para mejorar tu eficiencia es la mejor decisión financiera.",
+    date: "4 de febrero, 2026",
+    dateSort: "2026-02-04",
+    category: "Ahorro",
+    image: "/images/diesel-reinversion-oportunidad.jpg",
+    slug: "diesel-reinversion-oportunidad",
+  },
+  {
     id: "8",
     title: "Desgaste Prematuro de Llantas: Causas, Mitos y Soluciones",
     excerpt:
