@@ -56,7 +56,7 @@ export default function DieselReinversionArticle() {
 
         <h2>Piensa Como Empresario, No Solo Como Operador</h2>
         <p>
-          Tu camión es un activo productivo. En <strong>The Truck Savers</strong>, te ayudamos a tomar las decisiones más inteligentes para tu negocio. Visítanos en Houston o Dallas.
+          Tu camión es un activo productivo. En <strong>The Truck Savers</strong>, te ayudamos a tomar las decisiones más inteligentes para tu negocio. Visítanos en Houston, Dallas o Monterrey.
         </p>
 
         <p>

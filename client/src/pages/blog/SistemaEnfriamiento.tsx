@@ -70,7 +70,7 @@ export default function SistemaEnfriamientoArticle() {
         </ul>
 
         <p>
-            No te arriesgues a un sobrecalentamiento. Un motor nuevo cuesta decenas de miles de dólares. Una visita a nuestro <strong>taller de reparación de camiones comerciales</strong> en Houston o Dallas es mucho más barata.
+            No te arriesgues a un sobrecalentamiento. Un motor nuevo cuesta decenas de miles de dólares. Una visita a nuestro <strong>taller de reparación de camiones comerciales</strong> en Houston, Dallas o Monterrey es mucho más barata.
         </p>
       </>
     ),

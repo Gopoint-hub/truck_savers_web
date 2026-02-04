@@ -60,7 +60,7 @@ export default function InspeccionCargaArticle() {
         </p>
 
         <p>
-            No esperes a tener un problema en la carretera. <Link href="/houston">Visítanos en Houston o Dallas</Link> para un chequeo completo.
+            No esperes a tener un problema en la carretera. <Link href="/houston">Visítanos en Houston, Dallas o Monterrey</Link> para un chequeo completo.
         </p>
       </>
     ),

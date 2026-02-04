@@ -72,7 +72,7 @@ export default function DesgasteLlantasArticle() {
         </p>
 
         <blockquote>
-          Si buscas una alineación profesional que resuelva el desgaste de raíz, <Link href="/houston/alineacion-de-camiones">visítanos en nuestros talleres de Houston y Dallas</Link>. Somos el <strong>taller de suspensiones y alineaciones</strong> de confianza para cientos de transportistas.
+          Si buscas una alineación profesional que resuelva el desgaste de raíz, <Link href="/houston/alineacion-de-camiones">visítanos en nuestros talleres de Houston, Dallas y Monterrey</Link>. Somos el <strong>taller de suspensiones y alineaciones</strong> de confianza para cientos de transportistas.
         </blockquote>
 
         <h2>2. Balanceo: El Gran Olvidado que Causa Grandes Problemas</h2>
@@ -96,7 +96,7 @@ export default function DesgasteLlantasArticle() {
         </p>
 
         <p>
-          ¡No dejes que los mitos sigan desgastando tu cartera! <strong>Contáctanos hoy mismo</strong> y descubre por qué somos el <strong>taller de reparación de camiones comerciales</strong> de confianza para cientos de transportistas en Texas.
+          ¡No dejes que los mitos sigan desgastando tu cartera! <strong>Contáctanos hoy mismo</strong> y descubre por qué somos el <strong>taller de reparación de camiones comerciales</strong> de confianza para cientos de transportistas en Texas y México.
         </p>
 
         <blockquote>

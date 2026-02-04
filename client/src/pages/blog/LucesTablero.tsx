@@ -58,7 +58,7 @@ export default function LucesTableroArticle() {
         </p>
 
         <p>
-            Cuidar tu camión es cuidar tu negocio. No ignores las señales que te da. Para un diagnóstico profesional, confía en los expertos de Houston y Dallas.
+            Cuidar tu camión es cuidar tu negocio. No ignores las señales que te da. Para un diagnóstico profesional, confía en los expertos de Houston, Dallas y Monterrey.
         </p>
       </>
     ),

@@ -59,7 +59,7 @@ export default function GoGreenApuArticle() {
 
         <h2>¿Dónde Instalar tu APU para Camión?</h2>
         <p>
-          En <strong>The Truck Savers</strong>, somos distribuidores e instaladores autorizados de <strong>Go Green APU</strong>. Nuestro <strong>taller de reparación de camiones comerciales</strong> cuenta con técnicos certificados para una instalación profesional y garantizada en Houston y Dallas.
+          En <strong>The Truck Savers</strong>, somos distribuidores e instaladores autorizados de <strong>Go Green APU</strong>. Nuestro <strong>taller de reparación de camiones comerciales</strong> cuenta con técnicos certificados para una instalación profesional y garantizada en Houston, Dallas y Monterrey.
         </p>
 
         <blockquote>

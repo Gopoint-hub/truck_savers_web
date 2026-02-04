@@ -65,7 +65,7 @@ export default function DiferencialTransmisionArticle() {
         </ul>
 
         <p>
-            Un diagnóstico incorrecto puede llevar a reparaciones innecesarias. Confía en los expertos. Visítanos en Houston o Dallas para cualquier problema con tu tren motriz.
+            Un diagnóstico incorrecto puede llevar a reparaciones innecesarias. Confía en los expertos. Visítanos en Houston, Dallas o Monterrey para cualquier problema con tu tren motriz.
         </p>
       </>
     ),

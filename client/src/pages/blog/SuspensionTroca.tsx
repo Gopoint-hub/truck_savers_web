@@ -65,7 +65,7 @@ export default function SuspensionTrocaArticle() {
         </ul>
 
         <p>
-            En The Truck Savers, no solo reparamos, diagnosticamos. Usamos la mejor tecnología para encontrar la causa raíz del problema y asegurar que tu inversión en llantas y suspensión dure lo que tiene que durar. Visita nuestro <strong>taller de reparación de camiones comerciales</strong> en Houston o Dallas.
+            En The Truck Savers, no solo reparamos, diagnosticamos. Usamos la mejor tecnología para encontrar la causa raíz del problema y asegurar que tu inversión en llantas y suspensión dure lo que tiene que durar. Visita nuestro <strong>taller de reparación de camiones comerciales</strong> en Houston, Dallas o Monterrey.
         </p>
       </>
     ),

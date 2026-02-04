@@ -63,7 +63,7 @@ export default function TorqueWrapArticle() {
         </ul>
 
         <p>
-            No dejes que el torque wrap comprometa tu seguridad y te cueste dinero en reparaciones. Si sospechas que tu camión tiene este problema, visítanos en Houston o Dallas para un diagnóstico profesional.
+            No dejes que el torque wrap comprometa tu seguridad y te cueste dinero en reparaciones. Si sospechas que tu camión tiene este problema, visítanos en Houston, Dallas o Monterrey para un diagnóstico profesional.
         </p>
       </>
     ),
