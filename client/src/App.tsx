@@ -80,6 +80,7 @@ import InspeccionCargaArticle from "./pages/blog/InspeccionCarga";
 import DiferencialTransmisionArticle from "./pages/blog/DiferencialTransmision";
 import SuspensionTrocaArticle from "./pages/blog/SuspensionTroca";
 import TorqueWrapArticle from "./pages/blog/TorqueWrap";
+import DesgasteLlantasArticle from "./pages/blog/DesgasteLlantas";
 
 // Store Pages
 import StoreHub from "./pages/store/index";
@@ -174,6 +175,7 @@ function Router() {
       <Route path="/blog/diferencial-transmision" component={DiferencialTransmisionArticle} />
       <Route path="/blog/suspension-troca" component={SuspensionTrocaArticle} />
       <Route path="/blog/torque-wrap" component={TorqueWrapArticle} />
+      <Route path="/blog/desgaste-prematuro-llantas" component={DesgasteLlantasArticle} />
       
       {/* Store */}
       <Route path="/store" component={StoreHub} />

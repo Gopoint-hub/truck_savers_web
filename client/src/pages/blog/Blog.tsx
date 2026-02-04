@@ -14,6 +14,16 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    id: "8",
+    title: "Desgaste Prematuro de Llantas: Causas, Mitos y Soluciones",
+    excerpt:
+      "¿Cansado del desgaste prematuro de llantas? Descubre las 3 causas principales (alineación, balanceo, presión), los mitos que te cuestan dinero y las soluciones reales.",
+    date: "4 de febrero, 2026",
+    category: "Llantas",
+    image: "/images/desgaste-prematuro-llantas-camion.jpg",
+    slug: "desgaste-prematuro-llantas",
+  },
+  {
     id: "1",
     title: "Go Green APU: ¿Por qué te ahorra tanto diésel?",
     excerpt:
