@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { GraduationCap, Monitor, Users, ChevronRight, CheckCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
+
+const CMS_API = import.meta.env.VITE_CMS_API_URL;
 
 /**
  * Cursos Page - Página intermedia para cursos
@@ -15,19 +17,10 @@ export default function Cursos() {
   const [phone, setPhone] = useState('');
   const [ciudad, setCiudad] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const registerMutation = trpc.courseWaitlist.register.useMutation({
-    onSuccess: () => {
-      setSubmitted(true);
-      setError('');
-    },
-    onError: (err) => {
-      setError(err.message || 'Ocurrió un error al registrarte. Intenta de nuevo.');
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
@@ -36,12 +29,35 @@ export default function Cursos() {
       return;
     }
 
-    registerMutation.mutate({
-      name: nombre.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      city: ciudad.trim(),
-    });
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${CMS_API}/course-waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: nombre.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          city: ciudad.trim(),
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitted(true);
+        toast.success('¡Te has registrado exitosamente!');
+      } else {
+        setError(result.error || 'Ocurrió un error al registrarte. Intenta de nuevo.');
+        toast.error(result.error || 'Error al registrarte');
+      }
+    } catch (err) {
+      setError('Error de conexión. Intenta de nuevo.');
+      toast.error('Error de conexión');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isFormValid = nombre.trim() !== '' && email.trim() !== '' && phone.trim() !== '' && ciudad.trim() !== '';
@@ -172,7 +188,7 @@ export default function Cursos() {
                           onChange={(e) => setNombre(e.target.value)}
                           placeholder="Ej: Juan Pérez"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                          disabled={registerMutation.isPending}
+                          disabled={loading}
                         />
                       </div>
                       <div>
@@ -186,7 +202,7 @@ export default function Cursos() {
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Ej: juan@email.com"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                          disabled={registerMutation.isPending}
+                          disabled={loading}
                         />
                       </div>
                       <div>
@@ -200,7 +216,7 @@ export default function Cursos() {
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="Ej: +1 713 455 5572"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                          disabled={registerMutation.isPending}
+                          disabled={loading}
                         />
                       </div>
                       <div>
@@ -214,7 +230,7 @@ export default function Cursos() {
                           onChange={(e) => setCiudad(e.target.value)}
                           placeholder="Ej: Houston, TX"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#368A45] focus:border-[#368A45] outline-none transition-all"
-                          disabled={registerMutation.isPending}
+                          disabled={loading}
                         />
                       </div>
 
@@ -226,14 +242,14 @@ export default function Cursos() {
 
                       <Button 
                         type="submit"
-                        disabled={!isFormValid || registerMutation.isPending}
+                        disabled={!isFormValid || loading}
                         className={`w-full py-6 text-lg ${
-                          isFormValid && !registerMutation.isPending
+                          isFormValid && !loading
                             ? 'bg-[#368A45] hover:bg-[#2D6E39] text-white' 
                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                         }`}
                       >
-                        {registerMutation.isPending ? (
+                        {loading ? (
                           <>
                             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                             Registrando...

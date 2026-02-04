@@ -1,9 +1,11 @@
 import { Link } from 'wouter';
-import { ShoppingBag, MapPin, ExternalLink, ChevronRight, Globe, MessageCircle, Send, CheckCircle, Check } from 'lucide-react';
+import { ShoppingBag, MapPin, ExternalLink, ChevronRight, Globe, MessageCircle, Send, CheckCircle, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
+
+const CMS_API = import.meta.env.VITE_CMS_API_URL;
 
 /**
  * Store Hub Page - SEO Architecture
@@ -65,6 +67,7 @@ const latamCountries = [
 export default function StoreHub() {
   const [showLatamForm, setShowLatamForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     city: '',
@@ -73,12 +76,6 @@ export default function StoreHub() {
     email: '',
     products: [] as string[],
     otherProduct: '',
-  });
-
-  const createLead = trpc.latamLeads.create.useMutation({
-    onSuccess: () => {
-      setFormSubmitted(true);
-    },
   });
 
   const handleProductChange = (productId: string, checked: boolean) => {
@@ -93,10 +90,40 @@ export default function StoreHub() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.products.length === 0) {
-      alert('Por favor selecciona al menos un producto');
+      toast.error('Por favor selecciona al menos un producto');
       return;
     }
-    createLead.mutate(formData);
+    
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${CMS_API}/store-inquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          country: formData.country,
+          city: formData.city,
+          whatsapp: formData.whatsapp,
+          email: formData.email,
+          products: formData.products,
+          otherProduct: formData.otherProduct
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setFormSubmitted(true);
+        toast.success('¡Solicitud enviada correctamente!');
+      } else {
+        toast.error(result.error || 'Error al enviar la solicitud');
+      }
+    } catch (error) {
+      toast.error('Error de conexión. Intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const whatsappNumber = "+528115397393";
@@ -381,10 +408,19 @@ export default function StoreHub() {
                         <Button
                           type="submit"
                           className="flex-1 bg-[#368A45] hover:bg-[#2d7339]"
-                          disabled={createLead.isPending}
+                          disabled={loading}
                         >
-                          <Send className="w-4 h-4 mr-2" />
-                          {createLead.isPending ? 'Enviando...' : 'Enviar solicitud'}
+                          {loading ? (
+                            <>
+                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                              Enviando...
+                            </>
+                          ) : (
+                            <>
+                              <Send className="w-4 h-4 mr-2" />
+                              Enviar solicitud
+                            </>
+                          )}
                         </Button>
                         <Button
                           type="button"

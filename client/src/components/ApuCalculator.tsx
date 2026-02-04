@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, DollarSign, Fuel, Clock, Send, CheckCircle } from "lucide-react";
+import { Calculator, DollarSign, Fuel, Clock, Send, CheckCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
+const CMS_API = import.meta.env.VITE_CMS_API_URL;
 
 interface ApuCalculatorProps {
   onLeadSubmit?: (data: LeadData) => void;
@@ -24,6 +27,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
   const [showResults, setShowResults] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   // Lead form state
   const [name, setName] = useState("");
@@ -54,8 +58,9 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
     setShowLeadForm(true);
   };
 
-  const handleSubmitLead = (e: React.FormEvent) => {
+  const handleSubmitLead = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     
     const leadData: LeadData = {
       name,
@@ -67,12 +72,48 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
       annualSavings: totalAnnualSavings,
     };
 
-    // Enviar datos al backend (si existe el callback)
+    // Enviar datos al callback (si existe)
     if (onLeadSubmit) {
       onLeadSubmit(leadData);
     }
 
-    // También podemos enviar por WhatsApp
+    // Enviar datos al CMS
+    try {
+      const response = await fetch(`${CMS_API}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          source: 'apu-calculator',
+          data: {
+            hoursPerDay,
+            dieselPrice,
+            dailySavings: dailySavingsDollars,
+            weeklySavings,
+            monthlySavings,
+            annualDieselSavings,
+            totalAnnualSavings,
+            oilChangeSavings,
+            engineWearSavings,
+            roadServiceSavings,
+          }
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success('¡Datos enviados correctamente!');
+      } else {
+        console.error('Error al enviar lead al CMS:', result.error);
+      }
+    } catch (err) {
+      console.error('Error de conexión al CMS:', err);
+    }
+
+    // Enviar por WhatsApp
     const whatsappMessage = encodeURIComponent(
       `Hola, me interesa cotizar un Go Green APU.\n\n` +
       `Nombre: ${name}\n` +
@@ -88,6 +129,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
     window.open(`https://wa.me/17134555572?text=${whatsappMessage}`, '_blank');
     
     setLeadSubmitted(true);
+    setLoading(false);
   };
 
   return (
@@ -328,6 +370,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Tu nombre"
                   className="border-green-300 focus:border-green-500"
+                  disabled={loading}
                 />
               </div>
               <div className="space-y-2">
@@ -342,6 +385,7 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 (___) ___-____"
                   className="border-green-300 focus:border-green-500"
+                  disabled={loading}
                 />
               </div>
               <div className="space-y-2">
@@ -356,15 +400,26 @@ export default function ApuCalculator({ onLeadSubmit }: ApuCalculatorProps) {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
                   className="border-green-300 focus:border-green-500"
+                  disabled={loading}
                 />
               </div>
               <Button
                 type="submit"
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 text-lg"
                 size="lg"
+                disabled={loading}
               >
-                <Send className="w-5 h-5 mr-2" />
-                ENVIAR
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    ENVIAR
+                  </>
+                )}
               </Button>
             </form>
           )}

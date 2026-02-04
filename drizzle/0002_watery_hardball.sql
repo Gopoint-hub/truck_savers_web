@@ -1,1 +1,0 @@
-ALTER TABLE `tasks` MODIFY COLUMN `status` enum('pendiente','en_progreso','esperando_respuesta','completada') DEFAULT 'pendiente';

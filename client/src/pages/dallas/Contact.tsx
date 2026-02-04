@@ -1,6 +1,12 @@
 import { Link } from 'wouter';
-import { Phone, MapPin, Clock, Mail, MessageCircle, Car } from 'lucide-react';
+import { Phone, MapPin, Clock, Mail, MessageCircle, Car, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
+import { toast } from 'sonner';
+
+const CMS_API = import.meta.env.VITE_CMS_API_URL;
 
 /**
  * Dallas Contact Page - SEO Local Architecture
@@ -11,6 +17,43 @@ import { Button } from '@/components/ui/button';
 export default function DallasContact() {
   const whatsappNumber = "17134555572";
   const whatsappMessage = encodeURIComponent("Hola, me gustaría agendar una cita en Dallas");
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${CMS_API}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          source: 'dallas-contact'
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success('¡Mensaje enviado! Te contactaremos pronto.');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        toast.error(result.error || 'Error al enviar el mensaje');
+      }
+    } catch (error) {
+      toast.error('Error de conexión. Intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -138,32 +181,96 @@ export default function DallasContact() {
               </div>
             </div>
 
-            {/* Map */}
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-8">
-                Ubicación
-              </h2>
-              <div className="bg-gray-100 rounded-lg overflow-hidden h-[400px]">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3354.5!2d-96.87!3d32.82!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s4739%20Lucky%20Ln%2C%20Dallas%2C%20TX%2075247!5e0!3m2!1sen!2sus!4v1234567890"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="The Truck Savers Dallas Location"
-                />
+            {/* Contact Form & Map */}
+            <div className="space-y-8">
+              {/* Contact Form */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Envíanos un Mensaje
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Input
+                      placeholder="Nombre completo *"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input
+                      type="email"
+                      placeholder="Correo electrónico *"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                    <Input
+                      type="tel"
+                      placeholder="Teléfono *"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  <Textarea
+                    placeholder="¿En qué podemos ayudarte? *"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                    rows={4}
+                  />
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Enviar Mensaje
+                      </>
+                    )}
+                  </Button>
+                </form>
               </div>
 
-              {/* Parking Info */}
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg flex items-start gap-3">
-                <Car className="w-5 h-5 text-[#368A45] mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-gray-900">Estacionamiento Disponible</h4>
-                  <p className="text-gray-600 text-sm">
-                    Contamos con estacionamiento para más de 50 vehículos, incluyendo camiones y trailers de todos los tamaños.
-                  </p>
+              {/* Map */}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Ubicación
+                </h2>
+                <div className="bg-gray-100 rounded-lg overflow-hidden h-[300px]">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3354.5!2d-96.87!3d32.82!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s4739%20Lucky%20Ln%2C%20Dallas%2C%20TX%2075247!5e0!3m2!1sen!2sus!4v1234567890"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="The Truck Savers Dallas Location"
+                  />
+                </div>
+
+                {/* Parking Info */}
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg flex items-start gap-3">
+                  <Car className="w-5 h-5 text-[#368A45] mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Estacionamiento Disponible</h4>
+                    <p className="text-gray-600 text-sm">
+                      Contamos con estacionamiento para más de 50 vehículos, incluyendo camiones y trailers de todos los tamaños.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

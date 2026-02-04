@@ -84,22 +84,6 @@ import TorqueWrapArticle from "./pages/blog/TorqueWrap";
 // Store Pages
 import StoreHub from "./pages/store/index";
 
-// CMS Pages
-import CmsLayout from "./pages/cms/CmsLayout";
-import CmsLogin from "./pages/cms/Login";
-import CmsDashboard from "./pages/cms/Dashboard";
-import CmsTasks from "./pages/cms/Tasks";
-import CmsObjectives from "./pages/cms/Objectives";
-import CmsSubscribers from "./pages/cms/Subscribers";
-import CmsNewsletters from "./pages/cms/Newsletters";
-import CmsUsers from "./pages/cms/Users";
-import CmsRoadmap from "./pages/cms/Roadmap";
-import CmsSeoChecklist from "./pages/cms/SeoChecklist";
-import CmsSetPassword from "./pages/cms/SetPassword";
-import CmsChangePassword from "./pages/cms/ChangePassword";
-import CmsCourseWaitlist from "./pages/cms/CourseWaitlist";
-import CmsBailadaReports from "./pages/cms/BailadaReports";
-
 // Scroll to top on route change
 function ScrollToTop() {
   const [location] = useLocation();
@@ -122,47 +106,7 @@ function Redirect({ to }: { to: string }) {
   return null;
 }
 
-// CMS Router - separate from main site
-function CmsRouter() {
-  return (
-    <Switch>
-      {/* Auth pages without layout */}
-      <Route path="/cms/login" component={CmsLogin} />
-      <Route path="/cms/set-password" component={CmsSetPassword} />
-      <Route path="/cms/reset-password" component={CmsSetPassword} />
-      
-      {/* Protected pages with layout */}
-      <Route>
-        <CmsLayout>
-          <Switch>
-            <Route path="/cms" component={CmsDashboard} />
-            <Route path="/cms/dashboard" component={CmsDashboard} />
-            <Route path="/cms/tasks" component={CmsTasks} />
-            <Route path="/cms/objectives" component={CmsObjectives} />
-            <Route path="/cms/subscribers" component={CmsSubscribers} />
-            <Route path="/cms/newsletters" component={CmsNewsletters} />
-            <Route path="/cms/users" component={CmsUsers} />
-            <Route path="/cms/roadmap" component={CmsRoadmap} />
-            <Route path="/cms/seo" component={CmsSeoChecklist} />
-            <Route path="/cms/course-waitlist" component={CmsCourseWaitlist} />
-            <Route path="/cms/bailada-reports" component={CmsBailadaReports} />
-            <Route path="/cms/change-password" component={CmsChangePassword} />
-            <Route component={CmsDashboard} />
-          </Switch>
-        </CmsLayout>
-      </Route>
-    </Switch>
-  );
-}
-
 function Router() {
-  const [location] = useLocation();
-  
-  // Check if we're in CMS routes
-  if (location.startsWith('/cms')) {
-    return <CmsRouter />;
-  }
-  
   return (
     <Switch>
       {/* Home */}
@@ -274,6 +218,20 @@ function Router() {
         {(params) => <Redirect to={`/houston/${params.slug}`} />}
       </Route>
       
+      {/* CMS redirect - now external */}
+      <Route path="/cms">
+        {() => {
+          window.location.href = 'https://cms.thetrucksavers.com';
+          return null;
+        }}
+      </Route>
+      <Route path="/cms/:rest*">
+        {() => {
+          window.location.href = 'https://cms.thetrucksavers.com';
+          return null;
+        }}
+      </Route>
+      
       {/* 404 */}
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
@@ -282,20 +240,17 @@ function Router() {
 }
 
 function App() {
-  const [location] = useLocation();
-  const isCms = location.startsWith('/cms');
-  
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <ScrollToTop />
-          {!isCms && <Header />}
+          <Header />
           <main>
             <Router />
           </main>
-          {!isCms && <Footer />}
+          <Footer />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
