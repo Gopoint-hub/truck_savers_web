@@ -1,4 +1,4 @@
-'''import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
+import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
 import SEO, { createBlogPostSchema } from "@/components/SEO";
 import { Link } from "wouter";
 
@@ -99,4 +99,3 @@ export default function SistemaEnfriamientoArticle() {
     </>
   );
 }
-'''
