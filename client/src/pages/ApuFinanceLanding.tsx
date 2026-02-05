@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { CheckCircle, Clock, FileText, Package } from 'lucide-react';
+import { trpc } from '@/utils/trpc';
 
 export default function ApuFinanceLanding() {
   const [formData, setFormData] = useState({
@@ -51,6 +52,45 @@ export default function ApuFinanceLanding() {
     'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
 
+  const createApplication = trpc.apuFinancing.create.useMutation({
+    onSuccess: () => {
+      setSubmitStatus('success');
+      setFormData({
+        legalBusinessName: '',
+        dba: '',
+        federalTaxId: '',
+        yearsInBusiness: '',
+        businessAddress: '',
+        businessCity: '',
+        businessState: '',
+        businessZip: '',
+        sameAddress: 'si',
+        contactFirstName: '',
+        contactLastName: '',
+        contactEmail: '',
+        contactPhone: '',
+        guarantorFirstName: '',
+        guarantorLastName: '',
+        guarantorEmail: '',
+        guarantorSSN: '',
+        guarantorCity: '',
+        guarantorState: '',
+        guarantorZip: '',
+        guarantorAddress: '',
+        noGuarantor: false,
+        equipmentVendor: 'The Truck Savers',
+        equipmentType: '',
+        equipmentCost: ''
+      });
+      setIsSubmitting(false);
+    },
+    onError: (error) => {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+    },
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
@@ -62,59 +102,18 @@ export default function ApuFinanceLanding() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    try {
-      const response = await fetch('/api/apu-finance-applications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    const submissionData = {
+      ...formData,
+      yearsInBusiness: parseInt(formData.yearsInBusiness) || 0,
+      equipmentCost: parseFloat(formData.equipmentCost) || 0,
+    };
 
-      if (response.ok) {
-        setSubmitStatus('success');
-        // Reset form
-        setFormData({
-          legalBusinessName: '',
-          dba: '',
-          federalTaxId: '',
-          yearsInBusiness: '',
-          businessAddress: '',
-          businessCity: '',
-          businessState: '',
-          businessZip: '',
-          sameAddress: 'si',
-          contactFirstName: '',
-          contactLastName: '',
-          contactEmail: '',
-          contactPhone: '',
-          guarantorFirstName: '',
-          guarantorLastName: '',
-          guarantorEmail: '',
-          guarantorSSN: '',
-          guarantorCity: '',
-          guarantorState: '',
-          guarantorZip: '',
-          guarantorAddress: '',
-          noGuarantor: false,
-          equipmentVendor: 'The Truck Savers',
-          equipmentType: '',
-          equipmentCost: ''
-        });
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    createApplication.mutate(submissionData);
   };
 
   return (
