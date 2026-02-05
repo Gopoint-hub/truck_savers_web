@@ -635,7 +635,7 @@ export default function ApuFinanceLanding() {
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">6 Month finance terms</span>
+                  <span className="text-gray-700">12 Month finance terms</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
