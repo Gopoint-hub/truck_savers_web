@@ -446,7 +446,16 @@ export default function ApuFinanceLanding() {
               {submitStatus === 'error' && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                   {Object.keys(fieldErrors).length > 0 
-                    ? 'Por favor, corrija los errores en el formulario.' 
+                    ? (
+                      <div>
+                        <p className="font-semibold mb-2">Please complete the following fields:</p>
+                        <ul className="list-disc list-inside text-sm space-y-1">
+                          {Object.values(fieldErrors).map((err, i) => (
+                            <li key={i}>{err}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
                     : serverError 
                       ? `Error del servidor: ${serverError}` 
                       : 'Hubo un error al enviar la aplicación. Por favor intente nuevamente.'}
