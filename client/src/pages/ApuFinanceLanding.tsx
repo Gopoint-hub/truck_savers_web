@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { CheckCircle, Clock, FileText, Package } from 'lucide-react';
 
-
 export default function ApuFinanceLanding() {
   const [formData, setFormData] = useState({
     // Business Information
@@ -14,15 +13,16 @@ export default function ApuFinanceLanding() {
     businessCity: '',
     businessState: '',
     businessZip: '',
-    sameAddress: 'si',
+    sameShippingAddress: true,
     
     // Contact Information
-    contactFirstName: '',
-    contactLastName: '',
-    contactEmail: '',
-    contactPhone: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
     
     // Guarantor Information
+    hasGuarantor: false,
     guarantorFirstName: '',
     guarantorLastName: '',
     guarantorEmail: '',
@@ -31,10 +31,9 @@ export default function ApuFinanceLanding() {
     guarantorState: '',
     guarantorZip: '',
     guarantorAddress: '',
-    noGuarantor: false,
     
     // Equipment Information
-    equipmentVendor: 'The Truck Savers',
+    equipmentVendorName: 'Go Green APU',
     equipmentType: '',
     equipmentCost: ''
   });
@@ -51,8 +50,6 @@ export default function ApuFinanceLanding() {
     'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah',
     'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
-
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -71,19 +68,45 @@ export default function ApuFinanceLanding() {
     setSubmitStatus('idle');
 
     try {
+      // Preparar datos exactamente como espera el backend
+      const submissionData = {
+        legalBusinessName: formData.legalBusinessName,
+        dba: formData.dba || null,
+        federalTaxId: formData.federalTaxId || null,
+        yearsInBusiness: parseInt(formData.yearsInBusiness) || 0,
+        businessAddress: formData.businessAddress,
+        businessCity: formData.businessCity,
+        businessState: formData.businessState,
+        businessZip: formData.businessZip,
+        sameShippingAddress: formData.sameShippingAddress,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        hasGuarantor: formData.hasGuarantor,
+        guarantorFirstName: formData.hasGuarantor ? formData.guarantorFirstName : null,
+        guarantorLastName: formData.hasGuarantor ? formData.guarantorLastName : null,
+        guarantorEmail: formData.hasGuarantor ? formData.guarantorEmail : null,
+        guarantorSSN: formData.hasGuarantor ? formData.guarantorSSN : null,
+        guarantorCity: formData.hasGuarantor ? formData.guarantorCity : null,
+        guarantorState: formData.hasGuarantor ? formData.guarantorState : null,
+        guarantorZip: formData.hasGuarantor ? formData.guarantorZip : null,
+        guarantorAddress: formData.hasGuarantor ? formData.guarantorAddress : null,
+        equipmentVendorName: formData.equipmentVendorName,
+        equipmentType: formData.equipmentType,
+        equipmentCost: formData.equipmentCost.toString()
+      };
+
       const response = await fetch('https://cms.thetrucksavers.com/api/public/apu-finance-applications', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          yearsInBusiness: parseInt(formData.yearsInBusiness) || 0,
-          equipmentCost: parseFloat(formData.equipmentCost) || 0,
-        }),
+        body: JSON.stringify(submissionData),
       });
 
       if (response.ok) {
+        const result = await response.json();
         setSubmitStatus('success');
         // Reset form
         setFormData({
@@ -95,11 +118,12 @@ export default function ApuFinanceLanding() {
           businessCity: '',
           businessState: '',
           businessZip: '',
-          sameAddress: 'si',
-          contactFirstName: '',
-          contactLastName: '',
-          contactEmail: '',
-          contactPhone: '',
+          sameShippingAddress: true,
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          hasGuarantor: false,
           guarantorFirstName: '',
           guarantorLastName: '',
           guarantorEmail: '',
@@ -108,8 +132,7 @@ export default function ApuFinanceLanding() {
           guarantorState: '',
           guarantorZip: '',
           guarantorAddress: '',
-          noGuarantor: false,
-          equipmentVendor: 'The Truck Savers',
+          equipmentVendorName: 'Go Green APU',
           equipmentType: '',
           equipmentCost: ''
         });
@@ -179,7 +202,7 @@ export default function ApuFinanceLanding() {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      DBA - Optional
+                      DBA
                     </label>
                     <input
                       type="text"
@@ -192,7 +215,7 @@ export default function ApuFinanceLanding() {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Federal Tax ID Number - Optional
+                      Federal Tax ID
                     </label>
                     <input
                       type="text"
@@ -286,21 +309,21 @@ export default function ApuFinanceLanding() {
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="radio"
-                          name="sameAddress"
-                          value="si"
-                          checked={formData.sameAddress === 'si'}
-                          onChange={handleChange}
+                          name="sameShippingAddress"
+                          value="true"
+                          checked={formData.sameShippingAddress === true}
+                          onChange={() => setFormData(prev => ({ ...prev, sameShippingAddress: true }))}
                           className="w-4 h-4 text-green-600 focus:ring-green-600"
                         />
-                        <span className="ml-2 text-gray-700">Sí</span>
+                        <span className="ml-2 text-gray-700">Yes</span>
                       </label>
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="radio"
-                          name="sameAddress"
-                          value="no"
-                          checked={formData.sameAddress === 'no'}
-                          onChange={handleChange}
+                          name="sameShippingAddress"
+                          value="false"
+                          checked={formData.sameShippingAddress === false}
+                          onChange={() => setFormData(prev => ({ ...prev, sameShippingAddress: false }))}
                           className="w-4 h-4 text-green-600 focus:ring-green-600"
                         />
                         <span className="ml-2 text-gray-700">No</span>
@@ -323,8 +346,8 @@ export default function ApuFinanceLanding() {
                     </label>
                     <input
                       type="text"
-                      name="contactFirstName"
-                      value={formData.contactFirstName}
+                      name="firstName"
+                      value={formData.firstName}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
@@ -337,8 +360,8 @@ export default function ApuFinanceLanding() {
                     </label>
                     <input
                       type="text"
-                      name="contactLastName"
-                      value={formData.contactLastName}
+                      name="lastName"
+                      value={formData.lastName}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
@@ -351,8 +374,8 @@ export default function ApuFinanceLanding() {
                     </label>
                     <input
                       type="email"
-                      name="contactEmail"
-                      value={formData.contactEmail}
+                      name="email"
+                      value={formData.email}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
@@ -365,8 +388,8 @@ export default function ApuFinanceLanding() {
                     </label>
                     <input
                       type="tel"
-                      name="contactPhone"
-                      value={formData.contactPhone}
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleChange}
                       required
                       placeholder="+1 (201) 555-0123"
@@ -386,16 +409,16 @@ export default function ApuFinanceLanding() {
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
-                      name="noGuarantor"
-                      checked={formData.noGuarantor}
+                      name="hasGuarantor"
+                      checked={formData.hasGuarantor}
                       onChange={handleChange}
                       className="w-4 h-4 text-green-600 focus:ring-green-600 rounded"
                     />
-                    <span className="ml-2 text-gray-700 font-semibold">No Guarantor</span>
+                    <span className="ml-2 text-gray-700 font-semibold">I have a Guarantor</span>
                   </label>
                 </div>
 
-                {!formData.noGuarantor && (
+                {formData.hasGuarantor && (
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -521,8 +544,8 @@ export default function ApuFinanceLanding() {
                     </label>
                     <input
                       type="text"
-                      name="equipmentVendor"
-                      value={formData.equipmentVendor}
+                      name="equipmentVendorName"
+                      value={formData.equipmentVendorName}
                       onChange={handleChange}
                       required
                       readOnly
@@ -540,7 +563,7 @@ export default function ApuFinanceLanding() {
                       value={formData.equipmentType}
                       onChange={handleChange}
                       required
-                      placeholder="e.g., Go Green APU"
+                      placeholder="e.g., APU"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     />
                   </div>
