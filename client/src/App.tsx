@@ -82,6 +82,7 @@ import SuspensionTrocaArticle from "./pages/blog/SuspensionTroca";
 import TorqueWrapArticle from "./pages/blog/TorqueWrap";
 import DesgasteLlantasArticle from "./pages/blog/DesgasteLlantas";
 import DieselReinversionArticle from "./pages/blog/DieselReinversion";
+import ElTrokeroHeroeArticle from "./pages/blog/ElTrokeroHeroe";
 import ApuFinanceLanding from "./pages/ApuFinanceLanding";
 
 // Store Pages
@@ -179,6 +180,7 @@ function Router() {
       <Route path="/blog/torque-wrap" component={TorqueWrapArticle} />
       <Route path="/blog/desgaste-prematuro-llantas" component={DesgasteLlantasArticle} />
       <Route path="/blog/diesel-reinversion-oportunidad" component={DieselReinversionArticle} />
+      <Route path="/blog/el-trokero-heroe" component={ElTrokeroHeroeArticle} />
       
       {/* APU Finance Landing */}
       <Route path="/apu-finance" component={ApuFinanceLanding} />

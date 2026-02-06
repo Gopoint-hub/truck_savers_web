@@ -16,6 +16,18 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
+    id: "10",
+    title: "El activo del que nadie habla en la industria del transporte: el trokero",
+    excerpt:
+      "Descubre por qué el trokero es el activo más valioso de la industria del transporte. Analizamos sus desafíos, la importancia de su bienestar y cómo The Truck Savers apoya su salud integral. Escucha nuestro podcast 'Reparando Trokeros'.",
+    date: "5 de febrero, 2026",
+    dateSort: "2026-02-05",
+    category: "Héroes",
+    image: "/images/blog_el_trokero_heroe.png",
+    slug: "el-trokero-heroe",
+  },
+
+  {
     id: "9",
     title: "Diésel Estable, Fletes Mejorando: ¿Gastar o Reinvertir?",
     excerpt:
@@ -45,18 +57,18 @@ const blogPosts: BlogPost[] = [
     date: "15 de enero, 2026",
     dateSort: "2026-01-15",
     category: "Mecánica",
-    image: "/images/diferencial-o-transmisin-no-te-confundas.jpg",
+    image: "/images/diferencial-o-transmision-no-te-confundas.jpg",
     slug: "diferencial-transmision",
   },
   {
     id: "6",
-    title: "Suspensión de tu troca: El secreto pa' un ride suave",
+    title: "Suspensión de tu troca: El secreto pa\' un ride suave",
     excerpt:
       "Todo lo que necesitas saber sobre la suspensión de tu camión. Aprende a identificar problemas y mantener tu ride cómodo y seguro.",
     date: "15 de enero, 2026",
     dateSort: "2026-01-15",
     category: "Mantenimiento",
-    image: "/images/suspensin-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
+    image: "/images/suspension-de-tu-troca-el-secreto-pa-un-ride-suave.jpg",
     slug: "suspension-troca",
   },
   {
@@ -123,6 +135,11 @@ const sortedPosts = [...blogPosts].sort((a, b) =>
 
 // Obtener categorías únicas
 const categories = [...new Set(blogPosts.map(post => post.category))];
+
+// Asegurarse de que 'Héroes' esté siempre presente y al inicio si es la categoría destacada
+if (!categories.includes('Héroes')) {
+  categories.unshift('Héroes');
+}
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -272,19 +289,16 @@ export default function Blog() {
                     <div className="p-6 flex flex-col flex-grow">
                       <div className="flex items-center gap-2 text-gray-500 text-sm mb-3">
                         <Calendar className="w-4 h-4" />
-                        <span>{post.date}</span>
+                        {post.date}
                       </div>
-
                       <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#368A45] transition-colors line-clamp-2">
                         {post.title}
                       </h3>
-
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
+                      <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-3">
                         {post.excerpt}
                       </p>
-
-                      <div className="flex items-center gap-2 text-[#368A45] font-medium text-sm">
-                        Leer más
+                      <div className="flex items-center gap-2 text-[#368A45] font-semibold text-sm">
+                        Leer artículo
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -293,38 +307,8 @@ export default function Blog() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-500">No hay más artículos en esta categoría.</p>
-            </div>
+            <p className="text-center text-gray-600 text-lg">No hay artículos en esta categoría.</p>
           )}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-[#368A45]">
-        <div className="container text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            ¿Tienes preguntas sobre tu camión?
-          </h2>
-          <p className="text-white/90 mb-8 max-w-xl mx-auto">
-            Nuestros expertos están listos para ayudarte. Agenda tu inspección gratuita "La Bailada".
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/">
-              <Button size="lg" className="bg-white text-[#368A45] hover:bg-gray-100 w-full sm:w-auto">
-                Ver Ubicaciones
-              </Button>
-            </Link>
-            <a
-              href="https://wa.me/17134555566?text=Hola,%20tengo%20una%20pregunta%20sobre%20mi%20camión"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#368A45] w-full sm:w-auto">
-                Preguntar por WhatsApp
-              </Button>
-            </a>
-          </div>
         </div>
       </section>
     </div>

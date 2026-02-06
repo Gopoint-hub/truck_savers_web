@@ -10,6 +10,15 @@ import { Button } from '@/components/ui/button';
 
 const blogPosts = [
   {
+    slug: 'el-trokero-heroe',
+    title: 'El activo del que nadie habla en la industria del transporte: el trokero',
+    excerpt: 'Descubre por qué el trokero es el activo más valioso de la industria del transporte. Analizamos sus desafíos y la importancia de su bienestar.',
+    image: '/images/blog_el_trokero_heroe.png',
+    date: '5 Feb 2026',
+    category: 'Héroes',
+  },
+
+  {
     slug: 'diesel-reinversion-oportunidad',
     title: 'Diésel Estable, Fletes Mejorando: ¿Gastar o Reinvertir?',
     excerpt: 'El diésel se estabiliza y los fletes mejoran. Descubre por qué usar este respiro para mejorar tu eficiencia es la mejor decisión.',
@@ -49,7 +58,7 @@ const resourceCategories = [
     title: 'Blog',
     description: 'Artículos y consejos para el mantenimiento de tu camión',
     icon: BookOpen,
-    count: 9,
+    count: 10,
   },
   {
     slug: 'podcasts',
