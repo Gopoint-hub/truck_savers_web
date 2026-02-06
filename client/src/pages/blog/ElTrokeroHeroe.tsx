@@ -1,5 +1,8 @@
 import BlogArticleTemplate from "@/components/templates/BlogArticleTemplate";
-import blogImage from "/public/images/blog_el_trokero_heroe.png";
+import SEO, { createBlogPostSchema } from '@/components/SEO';
+import { Link } from 'wouter';
+
+const blogImage = '/images/blog_el_trokero_heroe.png';
 
 export default function ElTrokeroHeroe() {
   const articleContent = `
