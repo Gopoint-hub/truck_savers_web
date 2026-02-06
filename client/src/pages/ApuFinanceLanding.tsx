@@ -71,50 +71,50 @@ export default function ApuFinanceLanding() {
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
 
-    if (!formData.legalBusinessName.trim()) errors.legalBusinessName = 'Legal Business Name es requerido';
+    if (!formData.legalBusinessName.trim()) errors.legalBusinessName = 'Legal Business Name is required';
     if (!formData.yearsInBusiness) {
-      errors.yearsInBusiness = 'Years in Business es requerido';
+      errors.yearsInBusiness = 'Years in Business is required';
     } else if (isNaN(parseInt(formData.yearsInBusiness)) || parseInt(formData.yearsInBusiness) < 0) {
-      errors.yearsInBusiness = 'Debe ser un número válido (0 o superior)';
+      errors.yearsInBusiness = 'Must be a valid number (0 or above)';
     }
-    if (!formData.businessAddress.trim()) errors.businessAddress = 'Address es requerido';
-    if (!formData.businessCity.trim()) errors.businessCity = 'City es requerido';
-    if (!formData.businessState) errors.businessState = 'State/Province es requerido';
-    if (!formData.businessZip.trim()) errors.businessZip = 'Zip es requerido';
+    if (!formData.businessAddress.trim()) errors.businessAddress = 'Address is required';
+    if (!formData.businessCity.trim()) errors.businessCity = 'City is required';
+    if (!formData.businessState) errors.businessState = 'State/Province is required';
+    if (!formData.businessZip.trim()) errors.businessZip = 'Zip is required';
 
-    if (!formData.firstName.trim()) errors.firstName = 'First Name es requerido';
-    if (!formData.lastName.trim()) errors.lastName = 'Last Name es requerido';
+    if (!formData.firstName.trim()) errors.firstName = 'First Name is required';
+    if (!formData.lastName.trim()) errors.lastName = 'Last Name is required';
     if (!formData.email.trim()) {
-      errors.email = 'Email es requerido';
+      errors.email = 'Email is required';
     } else if (!isValidEmail(formData.email)) {
-      errors.email = 'Email no es válido';
+      errors.email = 'Please enter a valid email address';
     }
     if (!formData.phone.trim()) {
-      errors.phone = 'Phone es requerido';
+      errors.phone = 'Phone is required';
     } else if (formData.phone.replace(/\D/g, '').length < 10) {
-      errors.phone = 'Teléfono debe tener al menos 10 dígitos';
+      errors.phone = 'Phone must have at least 10 digits';
     }
 
     if (formData.hasGuarantor) {
-      if (!formData.guarantorFirstName.trim()) errors.guarantorFirstName = 'Guarantor First Name es requerido';
-      if (!formData.guarantorLastName.trim()) errors.guarantorLastName = 'Guarantor Last Name es requerido';
+      if (!formData.guarantorFirstName.trim()) errors.guarantorFirstName = 'Guarantor First Name is required';
+      if (!formData.guarantorLastName.trim()) errors.guarantorLastName = 'Guarantor Last Name is required';
       if (!formData.guarantorEmail.trim()) {
-        errors.guarantorEmail = 'Guarantor Email es requerido';
+        errors.guarantorEmail = 'Guarantor Email is required';
       } else if (!isValidEmail(formData.guarantorEmail)) {
-        errors.guarantorEmail = 'Guarantor Email no es válido';
+        errors.guarantorEmail = 'Please enter a valid guarantor email';
       }
-      if (!formData.guarantorSSN.trim()) errors.guarantorSSN = 'Guarantor SSN es requerido';
-      if (!formData.guarantorCity.trim()) errors.guarantorCity = 'Guarantor City es requerido';
-      if (!formData.guarantorState) errors.guarantorState = 'Guarantor State es requerido';
-      if (!formData.guarantorZip.trim()) errors.guarantorZip = 'Guarantor Zip es requerido';
-      if (!formData.guarantorAddress.trim()) errors.guarantorAddress = 'Guarantor Address es requerido';
+      if (!formData.guarantorSSN.trim()) errors.guarantorSSN = 'Guarantor SSN is required';
+      if (!formData.guarantorCity.trim()) errors.guarantorCity = 'Guarantor City is required';
+      if (!formData.guarantorState) errors.guarantorState = 'Guarantor State is required';
+      if (!formData.guarantorZip.trim()) errors.guarantorZip = 'Guarantor Zip is required';
+      if (!formData.guarantorAddress.trim()) errors.guarantorAddress = 'Guarantor Address is required';
     }
 
-    if (!formData.equipmentType.trim()) errors.equipmentType = 'Equipment Type es requerido';
+    if (!formData.equipmentType.trim()) errors.equipmentType = 'Equipment Type is required';
     if (!formData.equipmentCost) {
-      errors.equipmentCost = 'Equipment Cost es requerido';
+      errors.equipmentCost = 'Equipment Cost is required';
     } else if (isNaN(parseFloat(formData.equipmentCost)) || parseFloat(formData.equipmentCost) <= 0) {
-      errors.equipmentCost = 'Equipment Cost debe ser un número mayor a 0';
+      errors.equipmentCost = 'Equipment Cost must be a number greater than 0';
     }
 
     setFieldErrors(errors);
@@ -230,13 +230,13 @@ export default function ApuFinanceLanding() {
         setFieldErrors({});
       } else {
         setSubmitStatus('error');
-        setServerError(result.error || 'Error desconocido del servidor');
+        setServerError(result.error || 'Unknown server error');
         console.error('Error del servidor:', result.error);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
-      setServerError('No se pudo conectar con el servidor. Intente nuevamente.');
+      setServerError('Could not connect to the server. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -440,7 +440,7 @@ export default function ApuFinanceLanding() {
               </div>
 
               {submitStatus === 'success' && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">¡Aplicación enviada exitosamente! Nos pondremos en contacto pronto.</div>
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">Application submitted successfully! We will contact you soon.</div>
               )}
 
               {submitStatus === 'error' && (
@@ -457,8 +457,8 @@ export default function ApuFinanceLanding() {
                       </div>
                     )
                     : serverError 
-                      ? `Error del servidor: ${serverError}` 
-                      : 'Hubo un error al enviar la aplicación. Por favor intente nuevamente.'}
+                      ? `Server error: ${serverError}` 
+                      : 'There was an error submitting your application. Please try again.'}
                 </div>
               )}
 
