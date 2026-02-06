@@ -184,7 +184,6 @@ function Router() {
       
       {/* APU Finance Landing */}
       <Route path="/apu-finance" component={ApuFinanceLanding} />
-      <Route path="/financiamiento-apu" component={ApuFinanceLanding} />
       
       {/* Store */}
       <Route path="/store" component={StoreHub} />
