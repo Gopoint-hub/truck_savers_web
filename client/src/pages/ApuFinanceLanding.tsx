@@ -71,7 +71,7 @@ export default function ApuFinanceLanding() {
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('/api/apu-finance-applications', {
+      const response = await fetch('/api/public/apu-finance-applications', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
