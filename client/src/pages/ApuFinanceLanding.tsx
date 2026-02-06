@@ -41,6 +41,7 @@ export default function ApuFinanceLanding() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState<string>('');
 
   const usStates = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
@@ -140,6 +141,7 @@ export default function ApuFinanceLanding() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitStatus('idle');
+    setServerError('');
 
     if (!validateForm()) {
       setSubmitStatus('error');
@@ -149,10 +151,9 @@ export default function ApuFinanceLanding() {
     setIsSubmitting(true);
 
     try {
-      const submissionData = {
+      // Construir solo los campos obligatorios
+      const submissionData: Record<string, unknown> = {
         legalBusinessName: formData.legalBusinessName.trim(),
-        dba: formData.dba.trim() || null,
-        federalTaxId: formData.federalTaxId.trim() || null,
         yearsInBusiness: parseInt(formData.yearsInBusiness, 10),
         businessAddress: formData.businessAddress.trim(),
         businessCity: formData.businessCity.trim(),
@@ -163,19 +164,29 @@ export default function ApuFinanceLanding() {
         lastName: formData.lastName.trim(),
         email: formData.email.trim(),
         phone: formatPhoneNumber(formData.phone),
-        hasGuarantor: formData.hasGuarantor,
-        guarantorFirstName: formData.hasGuarantor ? formData.guarantorFirstName.trim() : null,
-        guarantorLastName: formData.hasGuarantor ? formData.guarantorLastName.trim() : null,
-        guarantorEmail: formData.hasGuarantor ? formData.guarantorEmail.trim() : null,
-        guarantorSSN: formData.hasGuarantor ? formData.guarantorSSN.trim() : null,
-        guarantorCity: formData.hasGuarantor ? formData.guarantorCity.trim() : null,
-        guarantorState: formData.hasGuarantor ? formData.guarantorState : null,
-        guarantorZip: formData.hasGuarantor ? formData.guarantorZip.trim() : null,
-        guarantorAddress: formData.hasGuarantor ? formData.guarantorAddress.trim() : null,
-        equipmentVendorName: formData.equipmentVendorName,
+        equipmentVendorName: formData.equipmentVendorName.trim(),
         equipmentType: formData.equipmentType.trim(),
-        equipmentCost: formData.equipmentCost.toString().trim()
+        equipmentCost: formData.equipmentCost.toString().trim(),
       };
+
+      // Agregar campos opcionales SOLO si tienen valor (no enviar null ni vacíos)
+      if (formData.dba.trim()) submissionData.dba = formData.dba.trim();
+      if (formData.federalTaxId.trim()) submissionData.federalTaxId = formData.federalTaxId.trim();
+
+      // Agregar campos de guarantor SOLO si el usuario marcó que tiene uno
+      if (formData.hasGuarantor) {
+        submissionData.hasGuarantor = true;
+        if (formData.guarantorFirstName.trim()) submissionData.guarantorFirstName = formData.guarantorFirstName.trim();
+        if (formData.guarantorLastName.trim()) submissionData.guarantorLastName = formData.guarantorLastName.trim();
+        if (formData.guarantorEmail.trim()) submissionData.guarantorEmail = formData.guarantorEmail.trim();
+        if (formData.guarantorSSN.trim()) submissionData.guarantorSSN = formData.guarantorSSN.trim();
+        if (formData.guarantorCity.trim()) submissionData.guarantorCity = formData.guarantorCity.trim();
+        if (formData.guarantorState) submissionData.guarantorState = formData.guarantorState;
+        if (formData.guarantorZip.trim()) submissionData.guarantorZip = formData.guarantorZip.trim();
+        if (formData.guarantorAddress.trim()) submissionData.guarantorAddress = formData.guarantorAddress.trim();
+      }
+
+      console.log('Enviando datos:', JSON.stringify(submissionData, null, 2));
 
       const response = await fetch('https://cms.thetrucksavers.com/api/public/apu-finance-applications', {
         method: 'POST',
@@ -185,49 +196,47 @@ export default function ApuFinanceLanding() {
         body: JSON.stringify(submissionData),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success === true) {
-          setSubmitStatus('success');
-          setFormData({
-            legalBusinessName: '',
-            dba: '',
-            federalTaxId: '',
-            yearsInBusiness: '',
-            businessAddress: '',
-            businessCity: '',
-            businessState: '',
-            businessZip: '',
-            sameShippingAddress: true,
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            hasGuarantor: false,
-            guarantorFirstName: '',
-            guarantorLastName: '',
-            guarantorEmail: '',
-            guarantorSSN: '',
-            guarantorCity: '',
-            guarantorState: '',
-            guarantorZip: '',
-            guarantorAddress: '',
-            equipmentVendorName: 'Go Green APU',
-            equipmentType: '',
-            equipmentCost: ''
-          });
-          setFieldErrors({});
-        } else {
-          setSubmitStatus('error');
-          console.error('Error del servidor:', result.error);
-        }
+      const result = await response.json();
+
+      if (result.success === true) {
+        setSubmitStatus('success');
+        setFormData({
+          legalBusinessName: '',
+          dba: '',
+          federalTaxId: '',
+          yearsInBusiness: '',
+          businessAddress: '',
+          businessCity: '',
+          businessState: '',
+          businessZip: '',
+          sameShippingAddress: true,
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          hasGuarantor: false,
+          guarantorFirstName: '',
+          guarantorLastName: '',
+          guarantorEmail: '',
+          guarantorSSN: '',
+          guarantorCity: '',
+          guarantorState: '',
+          guarantorZip: '',
+          guarantorAddress: '',
+          equipmentVendorName: 'Go Green APU',
+          equipmentType: '',
+          equipmentCost: ''
+        });
+        setFieldErrors({});
       } else {
         setSubmitStatus('error');
-        console.error('Error HTTP:', response.status);
+        setServerError(result.error || 'Error desconocido del servidor');
+        console.error('Error del servidor:', result.error);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
+      setServerError('No se pudo conectar con el servidor. Intente nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
@@ -436,7 +445,11 @@ export default function ApuFinanceLanding() {
 
               {submitStatus === 'error' && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-                  {Object.keys(fieldErrors).length > 0 ? 'Por favor, corrija los errores en el formulario.' : 'Hubo un error al enviar la aplicación. Por favor intente nuevamente.'}
+                  {Object.keys(fieldErrors).length > 0 
+                    ? 'Por favor, corrija los errores en el formulario.' 
+                    : serverError 
+                      ? `Error del servidor: ${serverError}` 
+                      : 'Hubo un error al enviar la aplicación. Por favor intente nuevamente.'}
                 </div>
               )}
 
