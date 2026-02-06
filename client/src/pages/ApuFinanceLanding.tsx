@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { CheckCircle, Clock, FileText, Package } from 'lucide-react';
+import { CheckCircle, Clock, FileText, Package, AlertCircle } from 'lucide-react';
 
 export default function ApuFinanceLanding() {
   const [formData, setFormData] = useState({
@@ -40,6 +40,7 @@ export default function ApuFinanceLanding() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const usStates = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
@@ -51,6 +52,127 @@ export default function ApuFinanceLanding() {
     'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
 
+  // Función para formatear teléfono a formato consistente (solo números y +)
+  const formatPhoneNumber = (phone: string): string => {
+    // Remover espacios, guiones, paréntesis y otros caracteres especiales
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // Si no tiene dígitos, retornar vacío
+    if (!cleaned) return '';
+    
+    // Si tiene 10 dígitos (formato US), agregar +1
+    if (cleaned.length === 10) {
+      return `+1${cleaned}`;
+    }
+    
+    // Si tiene 11 dígitos y comienza con 1, agregar +
+    if (cleaned.length === 11 && cleaned.startsWith('1')) {
+      return `+${cleaned}`;
+    }
+    
+    // Si ya tiene más de 11 dígitos o formato internacional, agregar + si no lo tiene
+    if (cleaned.length > 11) {
+      return `+${cleaned}`;
+    }
+    
+    // Retornar con +1 por defecto
+    return `+1${cleaned}`;
+  };
+
+  // Función para validar email
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Función para validar campos requeridos
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    // Validaciones de Sección 1: Business Information
+    if (!formData.legalBusinessName.trim()) {
+      errors.legalBusinessName = 'Legal Business Name es requerido';
+    }
+    if (!formData.yearsInBusiness) {
+      errors.yearsInBusiness = 'Years in Business es requerido';
+    } else if (isNaN(parseInt(formData.yearsInBusiness)) || parseInt(formData.yearsInBusiness) < 0) {
+      errors.yearsInBusiness = 'Debe ser un número válido (0 o superior)';
+    }
+    if (!formData.businessAddress.trim()) {
+      errors.businessAddress = 'Address es requerido';
+    }
+    if (!formData.businessCity.trim()) {
+      errors.businessCity = 'City es requerido';
+    }
+    if (!formData.businessState) {
+      errors.businessState = 'State/Province es requerido';
+    }
+    if (!formData.businessZip.trim()) {
+      errors.businessZip = 'Zip es requerido';
+    }
+
+    // Validaciones de Sección 2: Contact Information
+    if (!formData.firstName.trim()) {
+      errors.firstName = 'First Name es requerido';
+    }
+    if (!formData.lastName.trim()) {
+      errors.lastName = 'Last Name es requerido';
+    }
+    if (!formData.email.trim()) {
+      errors.email = 'Email es requerido';
+    } else if (!isValidEmail(formData.email)) {
+      errors.email = 'Email no es válido';
+    }
+    if (!formData.phone.trim()) {
+      errors.phone = 'Phone es requerido';
+    } else if (formData.phone.replace(/\D/g, '').length < 10) {
+      errors.phone = 'Teléfono debe tener al menos 10 dígitos';
+    }
+
+    // Validaciones de Sección 3: Guarantor Information (si tiene garante)
+    if (formData.hasGuarantor) {
+      if (!formData.guarantorFirstName.trim()) {
+        errors.guarantorFirstName = 'Guarantor First Name es requerido';
+      }
+      if (!formData.guarantorLastName.trim()) {
+        errors.guarantorLastName = 'Guarantor Last Name es requerido';
+      }
+      if (!formData.guarantorEmail.trim()) {
+        errors.guarantorEmail = 'Guarantor Email es requerido';
+      } else if (!isValidEmail(formData.guarantorEmail)) {
+        errors.guarantorEmail = 'Guarantor Email no es válido';
+      }
+      if (!formData.guarantorSSN.trim()) {
+        errors.guarantorSSN = 'Guarantor SSN es requerido';
+      }
+      if (!formData.guarantorCity.trim()) {
+        errors.guarantorCity = 'Guarantor City es requerido';
+      }
+      if (!formData.guarantorState) {
+        errors.guarantorState = 'Guarantor State es requerido';
+      }
+      if (!formData.guarantorZip.trim()) {
+        errors.guarantorZip = 'Guarantor Zip es requerido';
+      }
+      if (!formData.guarantorAddress.trim()) {
+        errors.guarantorAddress = 'Guarantor Address es requerido';
+      }
+    }
+
+    // Validaciones de Sección 4: Equipment Information
+    if (!formData.equipmentType.trim()) {
+      errors.equipmentType = 'Equipment Type es requerido';
+    }
+    if (!formData.equipmentCost) {
+      errors.equipmentCost = 'Equipment Cost es requerido';
+    } else if (isNaN(parseFloat(formData.equipmentCost)) || parseFloat(formData.equipmentCost) <= 0) {
+      errors.equipmentCost = 'Equipment Cost debe ser un número mayor a 0';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
@@ -60,42 +182,66 @@ export default function ApuFinanceLanding() {
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
+    
+    // Limpiar error del campo cuando el usuario empieza a escribir
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Validar formulario antes de enviar
+    if (!validateForm()) {
+      setSubmitStatus('error');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
+      // Formatear teléfono
+      const formattedPhone = formatPhoneNumber(formData.phone);
+      const formattedGuarantorPhone = formData.hasGuarantor && formData.guarantorEmail 
+        ? formatPhoneNumber(formData.guarantorEmail) 
+        : null;
+
       // Preparar datos exactamente como espera el backend
       const submissionData = {
-        legalBusinessName: formData.legalBusinessName,
-        dba: formData.dba || null,
-        federalTaxId: formData.federalTaxId || null,
-        yearsInBusiness: parseInt(formData.yearsInBusiness) || 0,
-        businessAddress: formData.businessAddress,
-        businessCity: formData.businessCity,
+        legalBusinessName: formData.legalBusinessName.trim(),
+        dba: formData.dba.trim() || null,
+        federalTaxId: formData.federalTaxId.trim() || null,
+        yearsInBusiness: parseInt(formData.yearsInBusiness, 10), // Enviar como número
+        businessAddress: formData.businessAddress.trim(),
+        businessCity: formData.businessCity.trim(),
         businessState: formData.businessState,
-        businessZip: formData.businessZip,
+        businessZip: formData.businessZip.trim(),
         sameShippingAddress: formData.sameShippingAddress,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        email: formData.email.trim(),
+        phone: formattedPhone, // Teléfono formateado
         hasGuarantor: formData.hasGuarantor,
-        guarantorFirstName: formData.hasGuarantor ? formData.guarantorFirstName : null,
-        guarantorLastName: formData.hasGuarantor ? formData.guarantorLastName : null,
-        guarantorEmail: formData.hasGuarantor ? formData.guarantorEmail : null,
-        guarantorSSN: formData.hasGuarantor ? formData.guarantorSSN : null,
-        guarantorCity: formData.hasGuarantor ? formData.guarantorCity : null,
+        guarantorFirstName: formData.hasGuarantor ? formData.guarantorFirstName.trim() : null,
+        guarantorLastName: formData.hasGuarantor ? formData.guarantorLastName.trim() : null,
+        guarantorEmail: formData.hasGuarantor ? formData.guarantorEmail.trim() : null,
+        guarantorSSN: formData.hasGuarantor ? formData.guarantorSSN.trim() : null,
+        guarantorCity: formData.hasGuarantor ? formData.guarantorCity.trim() : null,
         guarantorState: formData.hasGuarantor ? formData.guarantorState : null,
-        guarantorZip: formData.hasGuarantor ? formData.guarantorZip : null,
-        guarantorAddress: formData.hasGuarantor ? formData.guarantorAddress : null,
+        guarantorZip: formData.hasGuarantor ? formData.guarantorZip.trim() : null,
+        guarantorAddress: formData.hasGuarantor ? formData.guarantorAddress.trim() : null,
         equipmentVendorName: formData.equipmentVendorName,
-        equipmentType: formData.equipmentType,
-        equipmentCost: formData.equipmentCost.toString()
+        equipmentType: formData.equipmentType.trim(),
+        equipmentCost: formData.equipmentCost.toString().trim()
       };
+
+      console.log('Enviando datos:', submissionData);
 
       const response = await fetch('https://cms.thetrucksavers.com/api/public/apu-finance-applications', {
         method: 'POST',
@@ -136,6 +282,7 @@ export default function ApuFinanceLanding() {
           equipmentType: '',
           equipmentCost: ''
         });
+        setFieldErrors({});
       } else {
         setSubmitStatus('error');
       }
@@ -145,6 +292,17 @@ export default function ApuFinanceLanding() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Componente para mostrar error en campo
+  const FieldError = ({ fieldName }: { fieldName: string }) => {
+    if (!fieldErrors[fieldName]) return null;
+    return (
+      <div className="flex items-center mt-1 text-sm text-red-600">
+        <AlertCircle className="w-4 h-4 mr-1" />
+        {fieldErrors[fieldName]}
+      </div>
+    );
   };
 
   return (
@@ -195,9 +353,11 @@ export default function ApuFinanceLanding() {
                       name="legalBusinessName"
                       value={formData.legalBusinessName}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.legalBusinessName ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="legalBusinessName" />
                   </div>
 
                   <div>
@@ -235,10 +395,12 @@ export default function ApuFinanceLanding() {
                       name="yearsInBusiness"
                       value={formData.yearsInBusiness}
                       onChange={handleChange}
-                      required
                       min="0"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.yearsInBusiness ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="yearsInBusiness" />
                   </div>
 
                   <div className="md:col-span-2">
@@ -250,9 +412,11 @@ export default function ApuFinanceLanding() {
                       name="businessAddress"
                       value={formData.businessAddress}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.businessAddress ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="businessAddress" />
                   </div>
 
                   <div>
@@ -264,9 +428,11 @@ export default function ApuFinanceLanding() {
                       name="businessCity"
                       value={formData.businessCity}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.businessCity ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="businessCity" />
                   </div>
 
                   <div>
@@ -277,14 +443,16 @@ export default function ApuFinanceLanding() {
                       name="businessState"
                       value={formData.businessState}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.businessState ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     >
                       <option value="">Choose a state</option>
                       {usStates.map(state => (
                         <option key={state} value={state}>{state}</option>
                       ))}
                     </select>
+                    <FieldError fieldName="businessState" />
                   </div>
 
                   <div>
@@ -296,9 +464,11 @@ export default function ApuFinanceLanding() {
                       name="businessZip"
                       value={formData.businessZip}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.businessZip ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="businessZip" />
                   </div>
 
                   <div className="md:col-span-2">
@@ -349,9 +519,11 @@ export default function ApuFinanceLanding() {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.firstName ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="firstName" />
                   </div>
 
                   <div>
@@ -363,9 +535,11 @@ export default function ApuFinanceLanding() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.lastName ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="lastName" />
                   </div>
 
                   <div>
@@ -377,9 +551,11 @@ export default function ApuFinanceLanding() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.email ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="email" />
                   </div>
 
                   <div>
@@ -391,10 +567,12 @@ export default function ApuFinanceLanding() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      required
                       placeholder="+1 (201) 555-0123"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.phone ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="phone" />
                   </div>
                 </div>
               </div>
@@ -422,110 +600,134 @@ export default function ApuFinanceLanding() {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        First Name
+                        First Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorFirstName"
                         value={formData.guarantorFirstName}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorFirstName ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorFirstName" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Last Name
+                        Last Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorLastName"
                         value={formData.guarantorLastName}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorLastName ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorLastName" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Email
+                        Email <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="email"
                         name="guarantorEmail"
                         value={formData.guarantorEmail}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorEmail ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorEmail" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Social Security Number
+                        Social Security Number <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorSSN"
                         value={formData.guarantorSSN}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorSSN ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorSSN" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        City
+                        City <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorCity"
                         value={formData.guarantorCity}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorCity ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorCity" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        State/Province
+                        State/Province <span className="text-red-500">*</span>
                       </label>
                       <select
                         name="guarantorState"
                         value={formData.guarantorState}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorState ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       >
                         <option value="">Choose a state</option>
                         {usStates.map(state => (
                           <option key={state} value={state}>{state}</option>
                         ))}
                       </select>
+                      <FieldError fieldName="guarantorState" />
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Zip
+                        Zip <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorZip"
                         value={formData.guarantorZip}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorZip ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorZip" />
                     </div>
 
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Address
+                        Address <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
                         name="guarantorAddress"
                         value={formData.guarantorAddress}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                          fieldErrors.guarantorAddress ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       />
+                      <FieldError fieldName="guarantorAddress" />
                     </div>
                   </div>
                 )}
@@ -547,7 +749,6 @@ export default function ApuFinanceLanding() {
                       name="equipmentVendorName"
                       value={formData.equipmentVendorName}
                       onChange={handleChange}
-                      required
                       readOnly
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100"
                     />
@@ -562,10 +763,12 @@ export default function ApuFinanceLanding() {
                       name="equipmentType"
                       value={formData.equipmentType}
                       onChange={handleChange}
-                      required
                       placeholder="e.g., APU"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.equipmentType ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="equipmentType" />
                   </div>
 
                   <div>
@@ -577,12 +780,14 @@ export default function ApuFinanceLanding() {
                       name="equipmentCost"
                       value={formData.equipmentCost}
                       onChange={handleChange}
-                      required
                       min="0"
                       step="0.01"
                       placeholder="$"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent ${
+                        fieldErrors.equipmentCost ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    <FieldError fieldName="equipmentCost" />
                   </div>
                 </div>
               </div>
@@ -607,7 +812,9 @@ export default function ApuFinanceLanding() {
 
               {submitStatus === 'error' && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-                  Hubo un error al enviar la aplicación. Por favor intente nuevamente.
+                  {Object.keys(fieldErrors).length > 0 
+                    ? 'Por favor, corrija los errores en el formulario.'
+                    : 'Hubo un error al enviar la aplicación. Por favor intente nuevamente.'}
                 </div>
               )}
 
