@@ -4,8 +4,8 @@ import SEO from '@/components/SEO';
 
 /**
  * Podcasts Page - Resources Section
- * URL: /resources/podcasts
- * Canonical: https://thetrucksavers.com/resources/podcasts
+ * URL: /recursos/podcasts
+ * Canonical: https://thetrucksavers.com/recursos/podcasts
  */
 
 const podcasts = [
@@ -53,7 +53,7 @@ export default function PodcastsPage() {
       <SEO
         title="Podcasts | The Truck Savers"
         description="Escucha nuestros podcasts: Reparando Trokeros y Desde el Taller. Entrevistas, historias y conversaciones sobre la industria del transporte."
-        canonical="https://thetrucksavers.com/resources/podcasts"
+        canonical="https://thetrucksavers.com/recursos/podcasts"
       />
 
       {/* Hero Section */}

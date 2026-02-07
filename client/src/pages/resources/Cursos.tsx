@@ -8,7 +8,7 @@ const CMS_API = import.meta.env.VITE_CMS_API_URL;
 
 /**
  * Cursos Page - Página intermedia para cursos
- * URL: /resources/cursos
+ * URL: /recursos/cursos
  */
 
 export default function Cursos() {
@@ -75,7 +75,7 @@ export default function Cursos() {
           <nav className="text-sm text-gray-400 mb-6">
             <Link href="/" className="hover:text-white">Inicio</Link>
             <span className="mx-2">/</span>
-            <Link href="/resources" className="hover:text-white">Recursos</Link>
+            <Link href="/recursos" className="hover:text-white">Recursos</Link>
             <span className="mx-2">/</span>
             <span className="text-white">Cursos</span>
           </nav>
@@ -283,7 +283,7 @@ export default function Cursos() {
             <p className="text-gray-600 mb-8">
               Con más de 24 años de experiencia en la industria del transporte, nuestros cursos están diseñados para brindarte conocimientos prácticos y actualizados que te ayudarán a mantener tu camión en óptimas condiciones y cumplir con las regulaciones del DOT.
             </p>
-            <Link href="/resources">
+            <Link href="/recursos">
               <Button variant="outline" className="border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white">
                 ← Volver a Recursos
               </Button>

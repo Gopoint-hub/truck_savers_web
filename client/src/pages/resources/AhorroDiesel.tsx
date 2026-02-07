@@ -4,7 +4,7 @@ import { Fuel, Wrench, Gauge, Settings, Droplet, ChevronRight, Youtube, CheckCir
 
 /**
  * Ahorro en Diésel - Soluciones para el Ahorro de Combustible
- * URL: /resources/ahorro/diesel
+ * URL: /recursos/ahorro/diesel
  */
 
 const services = [
@@ -85,9 +85,9 @@ export default function AhorroDiesel() {
             <nav className="text-sm text-amber-200 mb-6">
               <Link href="/" className="hover:text-white">Inicio</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources" className="hover:text-white">Recursos</Link>
+              <Link href="/recursos" className="hover:text-white">Recursos</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources/ahorro" className="hover:text-white">Ahorro</Link>
+              <Link href="/recursos/ahorro" className="hover:text-white">Ahorro</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Diésel</span>
             </nav>

@@ -160,15 +160,41 @@ function Router() {
       <Route path="/monterrey/sellos-de-rueda" component={SellosRuedaMonterrey} />
       <Route path="/monterrey/go-green-apu" component={GoGreenApuMonterrey} />
       
-      {/* Resources */}
-      <Route path="/resources" component={ResourcesHub} />
-      <Route path="/resources/podcasts" component={PodcastsPage} />
-      <Route path="/resources/cursos" component={CursosPage} />
-      <Route path="/resources/blog" component={Blog} />
-      <Route path="/resources/ahorro" component={AhorroHub} />
-      <Route path="/resources/ahorro/diesel" component={AhorroDiesel} />
-      <Route path="/resources/ahorro/llantas" component={AhorroLlantas} />
-      <Route path="/resources/ahorro/reduccion-vibraciones" component={ReduccionVibraciones} />
+      {/* Resources (Recursos) */}
+      <Route path="/recursos" component={ResourcesHub} />
+      <Route path="/recursos/podcasts" component={PodcastsPage} />
+      <Route path="/recursos/cursos" component={CursosPage} />
+      <Route path="/recursos/blog" component={Blog} />
+      <Route path="/recursos/ahorro" component={AhorroHub} />
+      <Route path="/recursos/ahorro/diesel" component={AhorroDiesel} />
+      <Route path="/recursos/ahorro/llantas" component={AhorroLlantas} />
+      <Route path="/recursos/ahorro/reduccion-vibraciones" component={ReduccionVibraciones} />
+      
+      {/* Legacy Redirects: /resources -> /recursos */}
+      <Route path="/resources">
+        <Redirect to="/recursos" />
+      </Route>
+      <Route path="/resources/podcasts">
+        <Redirect to="/recursos/podcasts" />
+      </Route>
+      <Route path="/resources/cursos">
+        <Redirect to="/recursos/cursos" />
+      </Route>
+      <Route path="/resources/blog">
+        <Redirect to="/recursos/blog" />
+      </Route>
+      <Route path="/resources/ahorro">
+        <Redirect to="/recursos/ahorro" />
+      </Route>
+      <Route path="/resources/ahorro/diesel">
+        <Redirect to="/recursos/ahorro/diesel" />
+      </Route>
+      <Route path="/resources/ahorro/llantas">
+        <Redirect to="/recursos/ahorro/llantas" />
+      </Route>
+      <Route path="/resources/ahorro/reduccion-vibraciones">
+        <Redirect to="/recursos/ahorro/reduccion-vibraciones" />
+      </Route>
       
       {/* Blog Articles */}
       <Route path="/blog/go-green-apu-ahorro-diesel" component={GoGreenApuArticle} />

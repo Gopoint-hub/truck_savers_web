@@ -4,7 +4,7 @@ import { CircleDot, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle,
 
 /**
  * Ahorro en Llantas - Soluciones para Extender la Durabilidad de Neumáticos
- * URL: /resources/ahorro/llantas
+ * URL: /recursos/ahorro/llantas
  */
 
 const services = [
@@ -99,9 +99,9 @@ export default function AhorroLlantas() {
             <nav className="text-sm text-gray-400 mb-6">
               <Link href="/" className="hover:text-white">Inicio</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources" className="hover:text-white">Recursos</Link>
+              <Link href="/recursos" className="hover:text-white">Recursos</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources/ahorro" className="hover:text-white">Ahorro</Link>
+              <Link href="/recursos/ahorro" className="hover:text-white">Ahorro</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Llantas</span>
             </nav>

@@ -64,9 +64,9 @@ export default function BlogArticleTemplate({
           <nav className="text-sm text-gray-400 mb-6">
             <Link href="/" className="hover:text-white">Inicio</Link>
             <span className="mx-2">/</span>
-            <Link href="/resources" className="hover:text-white">Recursos</Link>
+            <Link href="/recursos" className="hover:text-white">Recursos</Link>
             <span className="mx-2">/</span>
-            <Link href="/resources/blog" className="hover:text-white">Blog</Link>
+            <Link href="/recursos/blog" className="hover:text-white">Blog</Link>
             <span className="mx-2">/</span>
             <span className="text-white">{title.substring(0, 30)}...</span>
           </nav>
@@ -141,7 +141,7 @@ export default function BlogArticleTemplate({
 
               {/* Back to Blog */}
               <div className="mt-8">
-                <Link href="/resources/blog">
+                <Link href="/recursos/blog">
                   <Button variant="ghost" className="text-gray-600 hover:text-[#368A45]">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Volver al Blog

@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 
 /**
  * Resources Hub - SEO Local Architecture
- * URL: /resources/
- * Canonical: https://thetrucksavers.com/resources/
+ * URL: /recursos/
+ * Canonical: https://thetrucksavers.com/recursos/
  */
 
 const blogPosts = [
@@ -106,7 +106,7 @@ export default function ResourcesHub() {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {resourceCategories.map((category) => (
-              <Link key={category.slug} href={`/resources/${category.slug}`}>
+              <Link key={category.slug} href={`/recursos/${category.slug}`}>
                 <div className="group bg-white rounded-lg p-6 border border-gray-200 hover:border-[#368A45] hover:shadow-lg transition-all cursor-pointer">
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 bg-[#368A45]/10 rounded-lg flex items-center justify-center">
@@ -134,7 +134,7 @@ export default function ResourcesHub() {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               Últimos Artículos
             </h2>
-            <Link href="/resources/blog">
+            <Link href="/recursos/blog">
               <Button variant="outline" className="border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white">
                 Ver todos →
               </Button>
@@ -216,7 +216,7 @@ export default function ResourcesHub() {
         <div className="container">
           <div className="max-w-4xl mx-auto">
             <Link 
-              href="/resources/cursos"
+              href="/recursos/cursos"
               className="block"
             >
               <div className="bg-gradient-to-r from-[#368A45] to-[#2D6E39] rounded-2xl p-8 md:p-12 text-white hover:shadow-2xl transition-all">

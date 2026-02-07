@@ -4,7 +4,7 @@ import { Zap, Wrench, Gauge, Settings, ChevronRight, Youtube, CheckCircle, Wind 
 
 /**
  * Reducción de Vibraciones - Soluciones para el Confort y Seguridad
- * URL: /resources/ahorro/reduccion-vibraciones
+ * URL: /recursos/ahorro/reduccion-vibraciones
  */
 
 const services = [
@@ -70,9 +70,9 @@ export default function ReduccionVibraciones() {
             <nav className="text-sm text-blue-200 mb-6">
               <Link href="/" className="hover:text-white">Inicio</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources" className="hover:text-white">Recursos</Link>
+              <Link href="/recursos" className="hover:text-white">Recursos</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources/ahorro" className="hover:text-white">Ahorros y Vibraciones</Link>
+              <Link href="/recursos/ahorro" className="hover:text-white">Ahorros y Vibraciones</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Reducción de Vibraciones</span>
             </nav>

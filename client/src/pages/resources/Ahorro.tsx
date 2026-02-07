@@ -4,7 +4,7 @@ import { Fuel, CircleDot, ChevronRight, Wrench, Gauge, Settings, Droplet, Wind }
 
 /**
  * Ahorro Hub - Ahorros y Vibraciones
- * URL: /resources/ahorro
+ * URL: /recursos/ahorro
  */
 
 const ahorroOptions = [
@@ -57,7 +57,7 @@ export default function AhorroHub() {
             <nav className="text-sm text-gray-400 mb-6">
               <Link href="/" className="hover:text-white">Inicio</Link>
               <span className="mx-2">/</span>
-              <Link href="/resources" className="hover:text-white">Recursos</Link>
+              <Link href="/recursos" className="hover:text-white">Recursos</Link>
               <span className="mx-2">/</span>
               <span className="text-white">Ahorros y Vibraciones</span>
             </nav>
@@ -75,7 +75,7 @@ export default function AhorroHub() {
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {ahorroOptions.map((option) => (
-                <Link key={option.slug} href={`/resources/ahorro/${option.slug}`}>
+                <Link key={option.slug} href={`/recursos/ahorro/${option.slug}`}>
                   <div className={`group bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-[#368A45] ${option.hoverColor} hover:shadow-xl transition-all cursor-pointer h-full`}>
                     <div className={`w-20 h-20 ${option.color} rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                       <option.icon className="w-10 h-10 text-white" />

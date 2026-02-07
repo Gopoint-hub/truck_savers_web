@@ -167,7 +167,7 @@ export default function Blog() {
           <nav className="text-sm text-gray-400 mb-6">
             <Link href="/" className="hover:text-white">Inicio</Link>
             <span className="mx-2">/</span>
-            <Link href="/resources" className="hover:text-white">Recursos</Link>
+            <Link href="/recursos" className="hover:text-white">Recursos</Link>
             <span className="mx-2">/</span>
             <span className="text-white">Blog</span>
           </nav>

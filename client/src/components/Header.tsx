@@ -132,9 +132,9 @@ export default function Header() {
               )}
             </div>
 
-            <Link href="/resources">
+            <Link href="/recursos">
               <span className={`px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-                location.startsWith('/resources') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
+                location.startsWith('/recursos') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700 hover:text-[#368A45] hover:bg-gray-50'
               }`}>
                 Recursos
               </span>
@@ -196,9 +196,9 @@ export default function Header() {
                 ))}
               </div>
 
-              <Link href="/resources" onClick={() => setIsMenuOpen(false)}>
+              <Link href="/recursos" onClick={() => setIsMenuOpen(false)}>
                 <span className={`block px-4 py-3 rounded-lg font-medium ${
-                  location.startsWith('/resources') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
+                  location.startsWith('/recursos') ? 'text-[#368A45] bg-[#368A45]/10' : 'text-gray-700'
                 }`}>
                   Recursos
                 </span>
