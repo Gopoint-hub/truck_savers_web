@@ -195,7 +195,7 @@ export default function ElTrokeroHeroeArticle() {
               <span className="mx-2">/</span>
                  <Link href="/recursos" className="hover:text-white">Recursos</Link>
             <span className="mx-2">/</span>
-            <Link href="/recursos/blog" className="hover:text-white">Blog</Link>nk>
+            <Link href="/recursos/blog" className="hover:text-white">Blog</Link>
               <span className="mx-2">/</span>
               <span className="text-white">{articleData.title.substring(0, 30)}...</span>
             </nav>
@@ -257,7 +257,7 @@ export default function ElTrokeroHeroeArticle() {
 
                 {/* Back to Blog */}
                 <div className="mt-8">
-                  <Link href="/recursos/blog" className="text-gray-600 hover:text-[#368A45] flex items-center gap-2">>
+                  <Link href="/recursos/blog" className="text-gray-600 hover:text-[#368A45] flex items-center gap-2">
                     ← Volver al Blog
                   </Link>
                 </div>
