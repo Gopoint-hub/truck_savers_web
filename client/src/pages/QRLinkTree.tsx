@@ -67,17 +67,13 @@ export default function QRLinkTree() {
 
   const openAppleMaps = (location: typeof locations[0]) => {
     const query = encodeURIComponent(location.address);
-    window.open(
-      `https://maps.apple.com/?address=${query}&ll=${location.coords.lat},${location.coords.lng}`,
-      '_blank'
-    );
+    const appleMapsUrl = `https://maps.apple.com/?address=${query}&ll=${location.coords.lat},${location.coords.lng}&q=${query}`;
+    window.open(appleMapsUrl, '_blank');
   };
 
   const openWaze = (location: typeof locations[0]) => {
-    window.open(
-      `https://waze.com/ul?ll=${location.coords.lat},${location.coords.lng}&navigate=yes`,
-      '_blank'
-    );
+    const wazeUrl = `https://waze.com/ul?ll=${location.coords.lat},${location.coords.lng}&navigate=yes&q=${encodeURIComponent(location.address)}`;
+    window.open(wazeUrl, '_blank');
   };
 
   return (
