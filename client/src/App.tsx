@@ -84,6 +84,7 @@ import DesgasteLlantasArticle from "./pages/blog/DesgasteLlantas";
 import DieselReinversionArticle from "./pages/blog/DieselReinversion";
 import ElTrokeroHeroeArticle from "./pages/blog/ElTrokeroHeroe";
 import ApuFinanceLanding from "./pages/ApuFinanceLanding";
+import QRLinkTree from "./pages/QRLinkTree";
 
 // Store Pages
 import StoreHub from "./pages/store/index";
@@ -115,6 +116,9 @@ function Router() {
     <Switch>
       {/* Home */}
       <Route path="/" component={Home} />
+      
+      {/* QR Link Tree (Hidden from menu) */}
+      <Route path="/qr" component={QRLinkTree} />
       
       {/* Houston City Hub */}
       <Route path="/houston" component={HoustonHub} />
