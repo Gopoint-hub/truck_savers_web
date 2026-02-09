@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Globe, Facebook, Instagram, Music, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { MapPin, Globe, Facebook, Instagram, Music, Youtube } from 'lucide-react';
 
 export default function QRLinkTree() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
@@ -9,70 +9,60 @@ export default function QRLinkTree() {
     {
       id: 'houston',
       name: 'Houston, TX',
-      address: '1234 Main Street, Houston, TX 77001',
+      address: '1362 Sheffield Blvd Houston Texas 77015',
       phone: '+1 (713) 455-5566',
+      googleMapsUrl: 'https://maps.app.goo.gl/1ZL2V3LsGk7BsGbB8',
       coords: { lat: 29.7604, lng: -95.3698 },
     },
     {
       id: 'dallas',
       name: 'Dallas, TX',
-      address: '5678 Oak Avenue, Dallas, TX 75201',
+      address: '4739 Lucky Ln Dallas Texas 75247',
       phone: '+1 (972) 555-1234',
+      googleMapsUrl: 'https://maps.app.goo.gl/72xyW8vnbQYoCGL79',
       coords: { lat: 32.7767, lng: -96.7970 },
     },
     {
       id: 'monterrey',
       name: 'Monterrey, NL',
-      address: 'Avenida Constitución 2000, Monterrey, NL 64000',
+      address: 'Lib. Noreste KM 33.5-Num 30, Nueva Castilla, 66052 Cdad. Gral. Escobedo, N.L., México',
       phone: '+52 (81) 8888-5566',
+      googleMapsUrl: 'https://maps.app.goo.gl/wvufSn4LwkDyao2U7',
       coords: { lat: 25.6866, lng: -100.3161 },
     },
   ];
 
-  // Redes sociales
+  // Redes sociales (sin X y LinkedIn)
   const socialLinks = [
     {
       name: 'Facebook',
       icon: Facebook,
-      url: 'https://facebook.com/thetrucksavers',
+      url: 'https://www.facebook.com/LosTruckSavers/',
       color: 'bg-blue-600 hover:bg-blue-700',
     },
     {
       name: 'Instagram',
       icon: Instagram,
-      url: 'https://instagram.com/thetrucksavers',
+      url: 'https://www.instagram.com/lostrucksavers',
       color: 'bg-pink-600 hover:bg-pink-700',
     },
     {
       name: 'TikTok',
       icon: Music,
-      url: 'https://tiktok.com/@thetrucksavers',
+      url: 'https://www.tiktok.com/@lostrucksavers',
       color: 'bg-black hover:bg-gray-800',
-    },
-    {
-      name: 'X (Twitter)',
-      icon: Twitter,
-      url: 'https://twitter.com/thetrucksavers',
-      color: 'bg-black hover:bg-gray-800',
-    },
-    {
-      name: 'LinkedIn',
-      icon: Linkedin,
-      url: 'https://linkedin.com/company/thetrucksavers',
-      color: 'bg-blue-700 hover:bg-blue-800',
     },
     {
       name: 'YouTube',
       icon: Youtube,
-      url: 'https://youtube.com/@lostrucksavers',
+      url: 'https://www.youtube.com/@lostrucksavers',
       color: 'bg-red-600 hover:bg-red-700',
     },
   ];
 
   // Funciones para abrir mapas
   const openGoogleMaps = (location: typeof locations[0]) => {
-    const query = encodeURIComponent(location.address);
-    window.open(`https://www.google.com/maps/search/${query}`, '_blank');
+    window.open(location.googleMapsUrl, '_blank');
   };
 
   const openAppleMaps = (location: typeof locations[0]) => {
@@ -169,7 +159,7 @@ export default function QRLinkTree() {
           <h3 className="text-white font-bold text-sm mb-3 text-center">
             Síguenos en Redes Sociales
           </h3>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
