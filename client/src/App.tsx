@@ -216,7 +216,9 @@ function Router() {
       <Route path="/apu-finance" component={ApuFinanceLanding} />
       
       {/* Store */}
-      <Route path="/store" component={StoreHub} />
+      <Route path="/store">
+        <Redirect to="/tienda" />
+      </Route>
       <Route path="/tienda" component={StoreHub} />
       
       {/* Hidden Pages */}
