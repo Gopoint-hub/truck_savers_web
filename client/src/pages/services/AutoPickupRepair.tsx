@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRight, MessageCircle, Calendar, Clock, Phone, Mail, User, Check, ChevronDown, Truck, Wrench, Shield, CircleGauge } from "lucide-react";
+import { ChevronRight, MessageCircle, Calendar, Clock, Phone, Mail, User, Check, ChevronDown, Truck, Wrench, Shield, CircleGauge, Star, Quote } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SEO from "@/components/SEO";
 
@@ -314,6 +314,73 @@ export default function AutoPickupRepair() {
         </div>
       </section>
 
+      {/* Video — El Bailador en Acción */}
+      <section className="py-16 md:py-20 bg-gray-50">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="inline-block bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold mb-4">
+                Video
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Mira El Bailador en Acción
+              </h2>
+              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                Observa cómo nuestro simulador de carretera detecta problemas de suspensión y dirección en tiempo real.
+              </p>
+            </div>
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              {/* Video embed */}
+              <div className="w-full md:w-1/2 flex justify-center">
+                <div className="relative w-full max-w-[360px] aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl bg-black">
+                  <iframe
+                    src="https://www.youtube.com/embed/Ae0Il9d6Mn4"
+                    title="El Bailador - Diagnóstico de Suspensión"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+              </div>
+              {/* Video description */}
+              <div className="w-full md:w-1/2">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Así Trabaja El Bailador
+                </h3>
+                <p className="text-gray-700 text-lg leading-relaxed mb-4">
+                  En este video puedes ver cómo El Bailador simula las condiciones reales del camino. Mientras tu pickup o auto "baila", nuestros técnicos identifican visualmente y por sonido cada componente que necesita atención.
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start gap-3">
+                    <Check size={20} className="text-[#368A45] flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Detecta problemas invisibles en inspección estática</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check size={20} className="text-[#368A45] flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Proceso rápido: 20-30 minutos de diagnóstico</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check size={20} className="text-[#368A45] flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">100% gratuito, sin compromiso</span>
+                  </li>
+                </ul>
+                <a
+                  href="https://youtube.com/shorts/Ae0Il9d6Mn4?feature=share"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Ver Video Completo en YouTube
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ¿Por qué elegirnos? */}
       <section className="py-16 md:py-20 bg-[#1B3A1B] text-white">
         <div className="container">
@@ -527,6 +594,64 @@ export default function AutoPickupRepair() {
                 </div>
               </form>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonios */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <span className="inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-semibold mb-4">
+              Testimonios
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Lo Que Dicen Nuestros Clientes
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              La confianza de nuestros clientes es nuestra mejor carta de presentación.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                name: 'Roberto M.',
+                vehicle: 'Ford F-150 2019',
+                text: 'Llevé mi F-150 porque vibraba mucho a velocidad de carretera. En El Bailador encontraron dos rótulas y un terminal de dirección que ya estaban para cambiar. En otro taller me habían dicho que todo estaba bien. Excelente servicio.',
+                stars: 5,
+              },
+              {
+                name: 'María G.',
+                vehicle: 'Chevrolet Silverado 2020',
+                text: 'Mi Silverado hacía un ruido extraño al pasar por baches. Gracias a La Bailada descubrieron que eran los bujes de las barras estabilizadoras. Me dieron el presupuesto sin compromiso y el precio fue muy justo. Recomendados al 100%.',
+                stars: 5,
+              },
+              {
+                name: 'Carlos T.',
+                vehicle: 'RAM 1500 2018',
+                text: 'Uso mi RAM para remolcar y las morenas se me desgastaban disparejo. Me hicieron La Bailada gratis, encontraron el problema en la dirección y después de la reparación y alineación, las morenas ya van parejas. Muy profesionales.',
+                stars: 5,
+              },
+            ].map((testimonial, idx) => (
+              <div
+                key={idx}
+                className="bg-gray-50 rounded-xl p-8 border border-gray-200 relative"
+              >
+                <Quote size={32} className="text-[#368A45]/15 absolute top-4 right-4" />
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: testimonial.stars }).map((_, i) => (
+                    <Star key={i} size={18} className="fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="text-gray-700 leading-relaxed mb-6 italic">
+                  "{testimonial.text}"
+                </p>
+                <div className="border-t border-gray-200 pt-4">
+                  <p className="font-bold text-gray-900">{testimonial.name}</p>
+                  <p className="text-sm text-gray-500">{testimonial.vehicle}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
