@@ -29,6 +29,7 @@ import SistemaEscape from "./pages/services/SistemaEscape";
 import SellosRueda from "./pages/services/SellosRueda";
 import SelladorLlantas from "./pages/services/SelladorLlantas";
 import GoGreenApu from "./pages/services/GoGreenApu";
+import AutoPickupRepair from "./pages/services/AutoPickupRepair";
 
 // Dallas Pages
 import DallasHub from "./pages/dallas/index";
@@ -136,6 +137,7 @@ function Router() {
       <Route path="/houston/sellos-de-rueda" component={SellosRueda} />
       <Route path="/houston/sellador-de-llantas" component={SelladorLlantas} />
       <Route path="/houston/go-green-apu" component={GoGreenApu} />
+      <Route path="/houston/auto-pickup-repair" component={AutoPickupRepair} />
       
       {/* Dallas City Hub */}
       <Route path="/dallas" component={DallasHub} />
@@ -211,6 +213,12 @@ function Router() {
       <Route path="/blog/desgaste-prematuro-llantas" component={DesgasteLlantasArticle} />
       <Route path="/blog/diesel-reinversion-oportunidad" component={DieselReinversionArticle} />
       <Route path="/blog/el-trokero-heroe" component={ElTrokeroHeroeArticle} />
+      
+      {/* Auto / Pickup Repair */}
+      <Route path="/pickup" component={AutoPickupRepair} />
+      <Route path="/auto">
+        <Redirect to="/pickup" />
+      </Route>
       
       {/* APU Finance Landing */}
       <Route path="/apu-finance" component={ApuFinanceLanding} />
