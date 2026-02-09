@@ -12,6 +12,7 @@ export default function QRLinkTree() {
       address: '1362 Sheffield Blvd Houston Texas 77015',
       phone: '+1 (713) 455-5566',
       googleMapsUrl: 'https://maps.app.goo.gl/1ZL2V3LsGk7BsGbB8',
+      wazeUrl: 'https://ul.waze.com/ul?place=ChIJDQwIhkKjQIYRUY40XwbEpYk&ll=29.76546210%2C-95.20621060&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
       coords: { lat: 29.7604, lng: -95.3698 },
     },
     {
@@ -20,6 +21,7 @@ export default function QRLinkTree() {
       address: '4739 Lucky Ln Dallas Texas 75247',
       phone: '+1 (972) 555-1234',
       googleMapsUrl: 'https://maps.app.goo.gl/72xyW8vnbQYoCGL79',
+      wazeUrl: 'https://ul.waze.com/ul?place=ChIJLSd9jX6cToYRAysmIiswjXc&ll=32.80464530%2C-96.87466970&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
       coords: { lat: 32.7767, lng: -96.7970 },
     },
     {
@@ -28,6 +30,7 @@ export default function QRLinkTree() {
       address: 'Lib. Noreste KM 33.5-Num 30, Nueva Castilla, 66052 Cdad. Gral. Escobedo, N.L., México',
       phone: '+52 (81) 8888-5566',
       googleMapsUrl: 'https://maps.app.goo.gl/wvufSn4LwkDyao2U7',
+      wazeUrl: 'https://ul.waze.com/ul?place=ChIJ_83uPACTYoYRd84ke-k5DWg&ll=25.82503470%2C-100.27241790&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
       coords: { lat: 25.6866, lng: -100.3161 },
     },
   ];
@@ -72,25 +75,13 @@ export default function QRLinkTree() {
   };
 
   const openWaze = (location: typeof locations[0]) => {
-    const wazeUrl = `https://waze.com/ul?ll=${location.coords.lat},${location.coords.lng}&navigate=yes&q=${encodeURIComponent(location.address)}`;
-    window.open(wazeUrl, '_blank');
+    window.open(location.wazeUrl, '_blank');
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#368A45] to-[#2D6E39] py-8 px-4">
       <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 pt-4">
-          <img
-            src="/logo.png"
-            alt="The Truck Savers"
-            className="h-16 mx-auto mb-4"
-          />
-          <h1 className="text-3xl font-bold text-white mb-2">The Truck Savers</h1>
-          <p className="text-white/80 text-sm">
-            Reparación integral de camiones comerciales
-          </p>
-        </div>
+
 
         {/* Ubicaciones Section */}
         <div className="mb-8">
