@@ -180,7 +180,7 @@ export default function BolsaDeJale() {
           </nav>
           <div className="max-w-3xl">
             <span className="inline-block bg-[#D8993D] text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-6 tracking-wide">
-              Para Operadores de Camión
+              Héroes de la Carretera
             </span>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Bolsa de Jale
@@ -192,6 +192,38 @@ export default function BolsaDeJale() {
             <p className="text-lg text-gray-400">
               Regístrate y te conectamos con empresas que valoran a sus operadores.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Two Options: Operators & Mechanics */}
+      <section className="py-8 bg-white border-b">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-[#D8993D]/10 border-2 border-[#D8993D] rounded-xl p-5 text-center">
+                <div className="w-12 h-12 bg-[#D8993D]/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Truck className="w-6 h-6 text-[#D8993D]" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Héroes de la Carretera</h3>
+                <p className="text-sm text-gray-600 mb-3">Operadores de camión buscando jale con empresas que sí cuidan sus unidades</p>
+                <span className="inline-block bg-[#D8993D] text-white text-xs px-3 py-1 rounded-full font-semibold">
+                  Estás aquí
+                </span>
+              </div>
+              <Link href="/recursos/trabaja-con-nosotros">
+                <div className="bg-gray-50 border-2 border-gray-200 hover:border-[#368A45] rounded-xl p-5 text-center cursor-pointer transition-all hover:shadow-md group">
+                  <div className="w-12 h-12 bg-gray-100 group-hover:bg-[#368A45]/10 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
+                    <Briefcase className="w-6 h-6 text-gray-500 group-hover:text-[#368A45] transition-colors" />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">Mecánicos</h3>
+                  <p className="text-sm text-gray-600 mb-3">Quiero trabajar en The Truck Savers como mecánico</p>
+                  <span className="inline-block bg-[#368A45] text-white text-xs px-3 py-1 rounded-full font-semibold">
+                    Ver vacantes →
+                  </span>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -621,16 +653,21 @@ export default function BolsaDeJale() {
         <div className="container">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-600">
-              Explora más contenido para operadores de camión
+              ¿Eres mecánico? También tenemos oportunidades para ti
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3">
+              <Link href="/recursos/trabaja-con-nosotros">
+                <Button variant="outline" className="border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white">
+                  Mecánicos <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              </Link>
               <Link href="/recursos/blog">
                 <Button variant="outline" className="border-gray-300 text-gray-700 hover:border-[#368A45] hover:text-[#368A45]">
                   Blog <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </Link>
               <Link href="/recursos">
-                <Button variant="outline" className="border-[#368A45] text-[#368A45] hover:bg-[#368A45] hover:text-white">
+                <Button variant="outline" className="border-gray-300 text-gray-700 hover:border-[#368A45] hover:text-[#368A45]">
                   ← Volver a Recursos
                 </Button>
               </Link>
