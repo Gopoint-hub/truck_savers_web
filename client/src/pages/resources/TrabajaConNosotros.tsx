@@ -76,6 +76,20 @@ export default function TrabajaConNosotros() {
 
     setLoading(true);
 
+    // Construir mensaje de WhatsApp con los datos del mecánico
+    const expLabel = experienceOptions.find(o => o.value === formData.experiencia)?.label || formData.experiencia;
+    const ubLabel = ubicaciones.find(o => o.value === formData.ubicacion)?.label || formData.ubicacion;
+    const autoWhatsappMsg = [
+      `*Nueva solicitud - Trabaja con Nosotros (Mecánico)*`,
+      `*Nombre:* ${formData.nombre.trim()}`,
+      `*WhatsApp:* ${formData.whatsapp.trim()}`,
+      formData.email.trim() ? `*Email:* ${formData.email.trim()}` : null,
+      `*Ubicación preferida:* ${ubLabel}`,
+      `*Experiencia:* ${expLabel}`,
+      `*¿Por qué quiere trabajar con nosotros?:* ${formData.porQueQuieres.trim()}`,
+      `*¿Por qué debería trabajar con nosotros?:* ${formData.porQueDeberias.trim()}`,
+    ].filter(Boolean).join('\n');
+
     try {
       const response = await fetch(`${CMS_API}/mechanics/register`, {
         method: 'POST',
@@ -97,13 +111,17 @@ export default function TrabajaConNosotros() {
       if (result.success) {
         setSubmitted(true);
         toast.success('¡Solicitud enviada! Te contactaremos pronto.');
+        // Abrir WhatsApp automáticamente con los datos del mecánico
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(autoWhatsappMsg)}`, '_blank');
       } else {
         setError(result.error || 'Ocurrió un error al enviar tu solicitud. Intenta de nuevo.');
         toast.error(result.error || 'Error al enviar solicitud');
       }
     } catch (err) {
-      setError('Error de conexión. Intenta de nuevo.');
-      toast.error('Error de conexión');
+      // Si falla el CMS, igual enviamos por WhatsApp para no perder el lead
+      setSubmitted(true);
+      toast.info('Enviando tus datos por WhatsApp...');
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(autoWhatsappMsg)}`, '_blank');
     } finally {
       setLoading(false);
     }

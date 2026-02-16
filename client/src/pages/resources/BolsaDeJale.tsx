@@ -114,6 +114,21 @@ export default function BolsaDeJale() {
 
     setLoading(true);
 
+    // Construir mensaje de WhatsApp con los datos del operador
+    const expLabel = experienceOptions.find(o => o.value === formData.experiencia)?.label || formData.experiencia;
+    const licLabel = formData.licencia ? (licenseTypes.find(o => o.value === formData.licencia)?.label || formData.licencia) : 'No especificada';
+    const autoWhatsappMsg = [
+      `*Nuevo registro - Bolsa de Jale (Operador)*`,
+      `*Nombre:* ${formData.nombre.trim()}`,
+      `*WhatsApp:* ${formData.whatsapp.trim()}`,
+      formData.email.trim() ? `*Email:* ${formData.email.trim()}` : null,
+      formData.ciudad.trim() ? `*Ciudad:* ${formData.ciudad.trim()}` : null,
+      `*Estado:* ${formData.estado}`,
+      `*Experiencia:* ${expLabel}`,
+      `*Licencia:* ${licLabel}`,
+      formData.mensaje.trim() ? `*Mensaje:* ${formData.mensaje.trim()}` : null,
+    ].filter(Boolean).join('\n');
+
     try {
       const response = await fetch(`${CMS_API}/operators/register`, {
         method: 'POST',
@@ -136,13 +151,17 @@ export default function BolsaDeJale() {
       if (result.success) {
         setSubmitted(true);
         toast.success('¡Registro exitoso! Te contactaremos pronto.');
+        // Abrir WhatsApp automáticamente con los datos del operador
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(autoWhatsappMsg)}`, '_blank');
       } else {
         setError(result.error || 'Ocurrió un error al registrarte. Intenta de nuevo.');
         toast.error(result.error || 'Error al registrarte');
       }
     } catch (err) {
-      setError('Error de conexión. Intenta de nuevo.');
-      toast.error('Error de conexión');
+      // Si falla el CMS, igual enviamos por WhatsApp para no perder el lead
+      setSubmitted(true);
+      toast.info('Enviando tus datos por WhatsApp...');
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(autoWhatsappMsg)}`, '_blank');
     } finally {
       setLoading(false);
     }
