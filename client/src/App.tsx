@@ -178,6 +178,14 @@ function Router() {
       <Route path="/recursos/ahorro/reduccion-vibraciones" component={ReduccionVibraciones} />
       <Route path="/recursos/bolsa-de-jale" component={BolsaDeJale} />
       
+      {/* Short URL Redirects */}
+      <Route path="/jale">
+        <Redirect to="/recursos/bolsa-de-jale" />
+      </Route>
+      <Route path="/cursos">
+        <Redirect to="/recursos/cursos" />
+      </Route>
+
       {/* Legacy Redirects: /resources -> /recursos */}
       <Route path="/resources">
         <Redirect to="/recursos" />

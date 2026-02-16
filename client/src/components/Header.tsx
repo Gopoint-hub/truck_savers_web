@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Menu, X, ChevronDown, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useGeoLocation } from '@/hooks/useGeoLocation';
 
 /**
  * Header Component - SEO Local Architecture
@@ -9,6 +10,7 @@ import { Button } from '@/components/ui/button';
  * - Locations dropdown for city selection
  * - Resources link for blog/podcasts
  * - Fixed dropdown behavior for Safari compatibility
+ * - Geo-detection: Mexico → Monterrey, US → Houston as default contact
  */
 
 const cities = [
@@ -22,9 +24,13 @@ export default function Header() {
   const [isLocationsOpen, setIsLocationsOpen] = useState(false);
   const [location] = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { defaultCity } = useGeoLocation();
 
   // Detect current city from URL
   const currentCity = cities.find(city => location.startsWith(`/${city.slug}`));
+
+  // Determine the fallback city based on geo-detection
+  const fallbackCity = cities.find(city => city.slug === defaultCity) || cities[0];
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -55,6 +61,13 @@ export default function Header() {
   const handleCityClick = () => {
     setIsLocationsOpen(false);
   };
+
+  // Contact link: use current city if on a city page, otherwise use geo-detected default
+  const contactCity = currentCity || fallbackCity;
+  const contactHref = `/${contactCity.slug}/contact`;
+  const contactLabel = currentCity 
+    ? `Contactar ${currentCity.name.split(',')[0]}` 
+    : `Contactar`;
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -149,11 +162,11 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* CTA Button - Shows current city contact or Houston */}
+          {/* CTA Button - Uses geo-detected city or current city */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link href={currentCity ? `/${currentCity.slug}/contact` : '/houston/contact'}>
+            <Link href={contactHref}>
               <Button className="bg-[#368A45] hover:bg-[#2D6E39] text-white">
-                {currentCity ? `Contactar ${currentCity.name.split(',')[0]}` : 'Contactar'}
+                {contactLabel}
               </Button>
             </Link>
           </div>
@@ -214,9 +227,9 @@ export default function Header() {
 
               {/* Mobile Contact CTA */}
               <div className="px-4 pt-4 mt-2 border-t border-gray-200">
-                <Link href={currentCity ? `/${currentCity.slug}/contact` : '/houston/contact'} onClick={() => setIsMenuOpen(false)}>
+                <Link href={contactHref} onClick={() => setIsMenuOpen(false)}>
                   <Button className="w-full bg-[#368A45] hover:bg-[#2D6E39] text-white">
-                    {currentCity ? `Contactar ${currentCity.name.split(',')[0]}` : 'Contactar Houston'}
+                    {currentCity ? `Contactar ${currentCity.name.split(',')[0]}` : `Contactar ${fallbackCity.name.split(',')[0]}`}
                   </Button>
                 </Link>
               </div>
