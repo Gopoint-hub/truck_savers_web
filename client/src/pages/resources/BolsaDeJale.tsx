@@ -65,6 +65,7 @@ const licenseTypes = [
   { value: 'estatal', label: 'Licencia Estatal de Chofer' },
   { value: 'cdl-a', label: 'CDL Clase A (EE.UU.)' },
   { value: 'cdl-b', label: 'CDL Clase B (EE.UU.)' },
+  { value: 'internacional-b1b2', label: 'Internacional con Visa B1/B2' },
   { value: 'otra', label: 'Otra' },
   { value: 'en-tramite', label: 'En trámite' },
 ];
