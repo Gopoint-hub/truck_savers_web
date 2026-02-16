@@ -150,8 +150,8 @@ export default function BolsaDeJale() {
 
   const isFormValid = formData.nombre.trim() !== '' && formData.whatsapp.trim() !== '' && formData.estado !== '' && formData.experiencia !== '';
 
-  const whatsappNumber = "528135414652";
-  const whatsappMessage = encodeURIComponent("Hola, vi la Bolsa de Jale y me interesa registrarme como operador");
+  const whatsappNumber = "528342995255";
+  const whatsappMessage = encodeURIComponent("Licenciada, me interesa el jale en una compa\u00f1\u00eda que s\u00ed le meta mantenimiento al mamal\u00f3n");
 
   return (
     <div className="min-h-screen bg-white">
@@ -601,6 +601,20 @@ export default function BolsaDeJale() {
           </div>
         </div>
       </section>
+
+      {/* Floating WhatsApp Button - Mobile */}
+      <a
+        href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 group"
+        aria-label="Contactar por WhatsApp"
+      >
+        <MessageCircle className="w-8 h-8" />
+        <span className="absolute right-full mr-3 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none hidden md:block">
+          Escríbenos por WhatsApp
+        </span>
+      </a>
 
       {/* Back to Resources */}
       <section className="py-8 bg-gray-50 border-t">
