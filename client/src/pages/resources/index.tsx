@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { BookOpen, Podcast, Lightbulb, ChevronRight, GraduationCap } from 'lucide-react';
+import { BookOpen, Podcast, Lightbulb, ChevronRight, GraduationCap, Truck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
@@ -74,6 +74,13 @@ const resourceCategories = [
     icon: Lightbulb,
     count: 3,
   },
+  {
+    slug: 'bolsa-de-jale',
+    title: 'Bolsa de Jale',
+    description: 'Oportunidades de trabajo para operadores de camión y traileros',
+    icon: Truck,
+    count: 0,
+  },
 ];
 
 export default function ResourcesHub() {
@@ -104,15 +111,19 @@ export default function ResourcesHub() {
       {/* Categories */}
       <section className="py-12 bg-gray-50 border-b">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {resourceCategories.map((category) => (
               <Link key={category.slug} href={`/recursos/${category.slug}`}>
-                <div className="group bg-white rounded-lg p-6 border border-gray-200 hover:border-[#368A45] hover:shadow-lg transition-all cursor-pointer">
+                <div className="group bg-white rounded-lg p-6 border border-gray-200 hover:border-[#368A45] hover:shadow-lg transition-all cursor-pointer h-full">
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 bg-[#368A45]/10 rounded-lg flex items-center justify-center">
                       <category.icon className="w-6 h-6 text-[#368A45]" />
                     </div>
-                    <span className="text-sm text-gray-500">{category.count} artículos</span>
+                    {category.count > 0 ? (
+                      <span className="text-sm text-gray-500">{category.count} artículos</span>
+                    ) : (
+                      <span className="text-xs font-semibold bg-[#D8993D] text-white px-2 py-1 rounded-full">Nuevo</span>
+                    )}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#368A45] transition-colors">
                     {category.title}

@@ -71,6 +71,7 @@ import AhorroHub from "./pages/resources/Ahorro";
 import AhorroDiesel from "./pages/resources/AhorroDiesel";
 import AhorroLlantas from "./pages/resources/AhorroLlantas";
 import ReduccionVibraciones from "./pages/resources/ReduccionVibraciones";
+import BolsaDeJale from "./pages/resources/BolsaDeJale";
 import Blog from "./pages/blog/Blog";
 
 // Blog Articles
@@ -175,6 +176,7 @@ function Router() {
       <Route path="/recursos/ahorro/diesel" component={AhorroDiesel} />
       <Route path="/recursos/ahorro/llantas" component={AhorroLlantas} />
       <Route path="/recursos/ahorro/reduccion-vibraciones" component={ReduccionVibraciones} />
+      <Route path="/recursos/bolsa-de-jale" component={BolsaDeJale} />
       
       {/* Legacy Redirects: /resources -> /recursos */}
       <Route path="/resources">
