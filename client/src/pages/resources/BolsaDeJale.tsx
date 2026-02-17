@@ -134,14 +134,14 @@ export default function BolsaDeJale() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.nombre.trim(),
+          nombre: formData.nombre.trim(),
           whatsapp: formData.whatsapp.trim(),
-          email: formData.email.trim() || null,
-          city: formData.ciudad.trim() || null,
-          state: formData.estado,
-          experience: formData.experiencia,
-          licenseType: formData.licencia || null,
-          message: formData.mensaje.trim() || null,
+          email: formData.email.trim() || '',
+          ciudad: formData.ciudad.trim() || '',
+          estado: formData.estado,
+          experiencia: formData.experiencia,
+          licencia: formData.licencia || '',
+          mensaje: formData.mensaje.trim() || '',
           source: 'bolsa-de-jale',
         })
       });
