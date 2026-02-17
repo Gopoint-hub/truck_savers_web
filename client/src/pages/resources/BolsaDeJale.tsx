@@ -130,7 +130,7 @@ export default function BolsaDeJale() {
     ].filter(Boolean).join('\n');
 
     try {
-      const response = await fetch(`${CMS_API}/operators/register`, {
+      const response = await fetch(`${CMS_API}/public/bolsa-de-jale`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
